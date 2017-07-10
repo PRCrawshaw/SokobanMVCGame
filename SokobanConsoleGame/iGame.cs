@@ -11,7 +11,7 @@ namespace SokobanConsoleGame
     public interface IGame
     {
         bool isFinished();
-        void Load(string newLevel);
+        bool Load(string newLevel);
         bool Move(Direction moveDirection);
         void Restart();
         void Undo();

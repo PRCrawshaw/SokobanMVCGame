@@ -28,11 +28,9 @@ namespace SokobanConsoleGame
         {
             if (checkValidString(compressedLevel))
             {
-                //str = Regex.Replace(compressedLevel, @"\|", "\\n");
                 string str = Regex.Replace(compressedLevel, "-", " ");
                 str = ExpandObjects(str);
                 str = AddTrailingSpaces(str);
-                //str = Regex.Replace(str, @"\|", "\\n");
                 str = str.TrimEnd(new char[] { '\r', '\n' });
                 this.Expanded = str;
             }

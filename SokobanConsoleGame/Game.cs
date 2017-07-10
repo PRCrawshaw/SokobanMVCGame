@@ -9,7 +9,7 @@ namespace SokobanConsoleGame
 {
     public class Game : IGame, iFileable
     {
-        iFiler Filer;
+        Filer Filer;
         private string levelString;
         private Parts[,] LevelGrid;
         private int RowCount;
@@ -17,11 +17,29 @@ namespace SokobanConsoleGame
         public Position PlayerPos;
         public string LevelString{get{return levelString;}set{levelString = value;}}
 
-        public Game(iFiler filer)
+        public Game(Filer filer)
         {
             Filer = filer;
-            LevelString = levelString;
-            setupGrid();
+        }
+        public bool Load(string newLevel)
+        {
+            if (CheckStringValidGameString(newLevel))
+            {
+                LevelString = newLevel;
+                setupGrid();
+                return true;
+            }
+            return false;
+        }
+        public bool CheckStringValidGameString(string newLevel)
+        {
+            if (!Filer.CheckLineLengths(newLevel) ||
+                !Filer.CheckPlayersGoalsBlocks(newLevel) ||
+                !Filer.Converter.checkValidString(newLevel))
+            {
+                return false;
+            }
+            return true;
         }
         private void setupGrid()
         {
@@ -42,36 +60,58 @@ namespace SokobanConsoleGame
                 }
             }
         }
-
         public Parts GetMovable(Position pos)
         {
             Parts part = WhatsAt(pos.Row, pos.Column);
             return part;
         }
+        public Parts WhatsAt(int row, int column)
+        {
+            Parts part = LevelGrid[row, column];
+            return part;
+        }
         public bool isFinished()
         {
-            throw new NotImplementedException();
+            return CheckAllBlocksOnGoals();
         }
-        public void Load(string newLevel)
+        private bool CheckAllBlocksOnGoals()
         {
-            throw new NotImplementedException();
+            // assumes checking done before hand to ensure equal number of blocks and goals
+            // and game correctly changes goals to blocks on goals
+            for (int r=0; r<RowCount; r++)
+            {
+                for (int c=0; c<ColCount; c++)
+                {
+                    if (WhatsAt(r, c) == Parts.Block)
+                        return false;
+                }
+            }
+            return true; 
         }
+
         public bool Move(Direction moveDirection)
         {
+            bool moved = false;
             Position newPos = GetNewPos(moveDirection, PlayerPos);
             Position besideNewPos = GetNewPos(moveDirection, newPos);
-            if (GetMovable(newPos) == Parts.Empty)
+            Parts newPosPart = GetMovable(newPos);
+            if (newPosPart == Parts.Empty)
             {
                 MovePlayer(newPos);
-                if (GetMovable(besideNewPos) != Parts.Wall ||
-                    GetMovable(besideNewPos) != Parts.Block)
+                moved = true;
+            }
+            else if (newPosPart != Parts.Wall)
+            {
+                Parts besideNewPossPart = GetMovable(besideNewPos);
+                if (besideNewPossPart != Parts.Wall &&
+                    besideNewPossPart != Parts.Block)
                 {
                     MovePlayer(newPos);
                     MoveBlock(besideNewPos);
+                    moved = true;
                 }
-                return true;
             }
-            else return false;
+            return moved;
         }
         private void MoveBlock(Position pos)
         {
@@ -91,16 +131,16 @@ namespace SokobanConsoleGame
             switch (moveDirection)
             {
                 case Direction.Down:
-                    posToCheck.Column++;
-                    break;
-                case Direction.Up:
-                    posToCheck.Column--;
-                    break;
-                case Direction.Right:
                     posToCheck.Row++;
                     break;
-                case Direction.Left:
+                case Direction.Up:
                     posToCheck.Row--;
+                    break;
+                case Direction.Right:
+                    posToCheck.Column++;
+                    break;
+                case Direction.Left:
+                    posToCheck.Column--;
                     break;
             }
             return posToCheck;
@@ -116,11 +156,5 @@ namespace SokobanConsoleGame
         }
         public int GetRowCount() { return RowCount; }
         public int GetColumnCount() { return ColCount; }
-
-        public Parts WhatsAt(int row, int column)
-        {
-            Parts part = LevelGrid[row, column];
-            return part;
-        }
     }
 }

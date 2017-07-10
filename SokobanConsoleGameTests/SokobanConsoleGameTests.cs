@@ -14,7 +14,7 @@ namespace SokobanConsoleGame.Tests
     {
         protected iLoader Loader;
         protected iSaver Saver;
-        protected iConverter Converter;
+        protected Converter Converter = new Converter();
         protected iChecker Checker;
         [TestMethod]
         public void TestFil01SaveStringToFile()

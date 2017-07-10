@@ -10,8 +10,8 @@ namespace SokobanConsoleGame
     {
         private int row;
         private int col;
-        public int Column {get{return row; }set{ row = value;}}
-        public int Row{get{return col;}set{ col = value;}}
+        public int Column {get{return col; }set{ col = value;}}
+        public int Row{get{return row;}set{ row = value;}}
 
         public Position(int _row, int _col)
         {

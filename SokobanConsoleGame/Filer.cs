@@ -12,7 +12,7 @@ namespace SokobanConsoleGame
     {
         protected iLoader Loader;
         protected iSaver Saver;
-        protected iConverter Converter;
+        public Converter Converter;
         protected iChecker Checker;
         private int noPlayers;
         private int noGoals;
@@ -20,7 +20,7 @@ namespace SokobanConsoleGame
         public int NoPlayers{get{return noPlayers;} set{noPlayers = value;}}
         public int NoGoals {get{return noGoals;}set{noGoals = value;}}
         public int NoBoxes {get { return noBoxes;}set { noBoxes = value; }}
-        public Filer(iLoader loader, iSaver saver, iConverter converter, iChecker checker) 
+        public Filer(iLoader loader, iSaver saver, Converter converter, iChecker checker) 
         {
             Loader = loader;
             Saver = saver;
@@ -76,33 +76,30 @@ namespace SokobanConsoleGame
         }
         private string convertString(string input, ConversionType type)
         {
-            Converter convert = new SokobanConsoleGame.Converter();
             if (type == ConversionType.expand)
             {
-                convert.Expand(input);
-                input = convert.Expanded;
+                Converter.Expand(input);
+                input = Converter.Expanded;
             }
             else
             {
-                convert.Compress(input);
-                input = convert.Compressed;
+                Converter.Compress(input);
+                input = Converter.Compressed;
             }
             return input;
         }
         public bool PreExpandingCheck(string input)
         {
-            Converter convert = new SokobanConsoleGame.Converter();
-            string temp = convert.ExpandObjects(input);
-            return checkPlayersGoalsBlocks(temp);
+            string temp = Converter.ExpandObjects(input);
+            return CheckPlayersGoalsBlocks(temp);
         }
         public bool PreCompressingCheck(string input)
         {
-            bool check = checkLineLengths(input);
-            if (check) { check = checkPlayersGoalsBlocks(input); }
+            bool check = CheckLineLengths(input);
+            if (check) { check = CheckPlayersGoalsBlocks(input); }
             return check;
         }
-
-        public bool checkLineLengths(string input)
+        public bool CheckLineLengths(string input)
         {
             string[] lines = input.Split('\n');
             int lineLength = lines[0].Length;
@@ -115,20 +112,18 @@ namespace SokobanConsoleGame
             }
             return true;
         }
-
-        private bool checkPlayersGoalsBlocks(string input)
+        public bool CheckPlayersGoalsBlocks(string input)
         {
             bool playerCheck = false;
             bool GoalBlockCheck = false;
             playerCheck = CheckOnePlayer(input);
-            GoalBlockCheck = checkGoalsAgainstPlayers(input);
+            GoalBlockCheck = CheckGoalsAgainstPlayers(input);
             if (playerCheck && GoalBlockCheck)
                 return true;
             else return false;
         }
         private bool CheckOnePlayer(string input)
         {
-
             int count = input.Count(f => f == '@');
             count += input.Count(f => f == '+');
             this.NoPlayers = count;
@@ -136,7 +131,7 @@ namespace SokobanConsoleGame
                 return true;
             else return false;
         }
-        private bool checkGoalsAgainstPlayers(string input)
+        private bool CheckGoalsAgainstPlayers(string input)
         {
             int goalCount = input.Count(f => f == '.');
             goalCount += input.Count(f => f == '*');
