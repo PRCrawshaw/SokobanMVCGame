@@ -9,10 +9,8 @@ namespace SokobanConsoleGame
 {
     public class Converter : iConverter
     {
-        private string compressed;
-        private string expanded;
-        public string Compressed{ get { return compressed;} set { compressed = value;}}
-        public string Expanded{ get{return expanded;}set{expanded = value;}}
+        public string Compressed{ get; set; }
+        public string Expanded{ get; set; }
         public void Compress(string uncompressedLevel)
         {
             if (checkValidString(uncompressedLevel))

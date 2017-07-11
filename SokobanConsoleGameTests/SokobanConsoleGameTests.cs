@@ -17,7 +17,7 @@ namespace SokobanConsoleGame.Tests
         protected Converter Converter = new Converter();
         protected iChecker Checker;
         [TestMethod]
-        public void TestFil01SaveStringToFile()
+        public void TestFile01SaveStringToFile()
         {
 
             string input = "#.@ $##########";
@@ -31,7 +31,7 @@ namespace SokobanConsoleGame.Tests
             Assert.AreEqual(expected, actual, "Did not save to a file");
         }
         [TestMethod]
-        public void TestFil02SaveToExistingFileName()
+        public void TestFile02SaveToExistingFileName()
         {
             string input = "#.@ $##########";
             string fileName = "TestFile02.txt";
@@ -44,7 +44,7 @@ namespace SokobanConsoleGame.Tests
             Assert.AreEqual(expected, actual, "Did not detect existing file");
         }
         [TestMethod]
-        public void TestFil02ReadFromAFile()
+        public void TestFile03ReadFromAFile()
         {
             string input = "#.@ $     \n##########";
             string expected = "#.@ $      \n##########";
@@ -59,9 +59,8 @@ namespace SokobanConsoleGame.Tests
             Assert.AreEqual(expected, actual, "Did not read from a file");
         }
         [TestMethod]
-        public void TestFil03TryToReadNonExistantFile()
+        public void TestFile04TryToReadNonExistantFile()
         {
-
             string expected = "File does not exist";
             string fileName = "Testxxxx.txt";
             Filer filer = new Filer(Loader, Saver, Converter, Checker);
@@ -69,6 +68,21 @@ namespace SokobanConsoleGame.Tests
             string actual = filer.Load(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName);
             // assert 
             Assert.AreEqual(expected, actual, "Did not detect that the file doesn't exist");
+        }
+        [TestMethod]
+        public void TestFile05ReadFromAnExistingFile()
+        {
+            // note TestFile02.txt must be in the debug directory
+            //     ~\SokobanConsoleGame\SokobanConsoleGame\SokobanConsoleGameTests\bin\Debug
+            string expected = "#.@ $      \n##########";
+            string fileName = "TestFile02.txt";
+            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            // act
+            // file is expanded as read
+            string actual = filer.Load(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName);
+            // assert 
+            Assert.AreEqual(expected, actual, 
+                "Did read and expand file in debug directory");
         }
         [TestMethod]
         public void TestFil04CompressBeforeWriteToAFile()

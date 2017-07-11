@@ -14,12 +14,9 @@ namespace SokobanConsoleGame
         protected iSaver Saver;
         public Converter Converter;
         protected iChecker Checker;
-        private int noPlayers;
-        private int noGoals;
-        private int noBoxes;
-        public int NoPlayers{get{return noPlayers;} set{noPlayers = value;}}
-        public int NoGoals {get{return noGoals;}set{noGoals = value;}}
-        public int NoBoxes {get { return noBoxes;}set { noBoxes = value; }}
+        public int NoPlayers{ get; set; }
+        public int NoGoals { get; set; }
+        public int NoBoxes { get; set; }
         public Filer(iLoader loader, iSaver saver, Converter converter, iChecker checker) 
         {
             Loader = loader;
@@ -137,7 +134,7 @@ namespace SokobanConsoleGame
             goalCount += input.Count(f => f == '*');
             int boxCount = input.Count(f => f == '$');
             boxCount += input.Count(f => f == '*');
-            this.noGoals = goalCount;
+            this.NoGoals = goalCount;
             this.NoBoxes = boxCount;
             if (boxCount == goalCount && boxCount > 0)
                 return true;

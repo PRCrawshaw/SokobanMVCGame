@@ -8,15 +8,13 @@ namespace SokobanConsoleGame
 {
     public struct Position
     {
-        private int row;
-        private int col;
-        public int Column {get{return col; }set{ col = value;}}
-        public int Row{get{return row;}set{ row = value;}}
+        public int Column { get; set; }
+        public int Row{ get; set; }
 
         public Position(int _row, int _col)
         {
-            row = _row;
-            col = _col;
+            Row = _row;
+            Column = _col;
         }
     }
 }
