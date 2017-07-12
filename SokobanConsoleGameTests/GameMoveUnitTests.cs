@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SokobanConsoleGame;
+using SokobanGame;
 
-namespace SokobanConsoleGameTest
+namespace SokobanGameTests
 {
     [TestClass]
 	public class GameMoveUnitTests
@@ -16,7 +16,7 @@ namespace SokobanConsoleGameTest
         public void TestLoad01IncorrectGameStringSent()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             bool expected = false;
             // act 
@@ -29,7 +29,7 @@ namespace SokobanConsoleGameTest
         public void TestLoad02ValidGameStringSent()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             bool expected = true;
             // act 
@@ -42,7 +42,7 @@ namespace SokobanConsoleGameTest
         public void TestLoad03InvalidGameStringLinesNotEqualLengths()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             bool expected = false;
             // act 
@@ -55,7 +55,7 @@ namespace SokobanConsoleGameTest
         public void TestLoad04InvalidGameStringUnevenGoalsAndBoxes()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             bool expected = false;
             // act 
@@ -68,7 +68,7 @@ namespace SokobanConsoleGameTest
         public void TestLoad05InvalidGameStringUnevenGoalsBoxesAndBoxesOnGoal()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             bool expected = false;
             // act 
@@ -81,7 +81,7 @@ namespace SokobanConsoleGameTest
         public void TestLoad06InvalidGameStringTooManyPlayers()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             bool expected = false;
             // act 
@@ -94,7 +94,7 @@ namespace SokobanConsoleGameTest
         public void TestLoad07LoadFileWithEvenRowsAndColumns_GetCorrectRowCount()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             int expected = 4;
             // act 
@@ -108,7 +108,7 @@ namespace SokobanConsoleGameTest
         public void TestLoad08LoadFileWithEvenRowsAndColumns_GetCorrectColumnCount()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             int expected = 4;
             // act 
@@ -122,7 +122,7 @@ namespace SokobanConsoleGameTest
         public void TestLoad09LoadFileWithUnevenRowsAndColumns_GetCorrectRowCount()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             int expected = 6;
             // act 
@@ -136,7 +136,7 @@ namespace SokobanConsoleGameTest
         public void TestLoad10LoadFileWithUnevenRowsAndColumns_GetCorrectColumnCount()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             int expected = 7;
             // act 
@@ -150,7 +150,7 @@ namespace SokobanConsoleGameTest
         public void TestGame01PlayerNoLongerThereIfMoved_Up()
         {
             //player starts at row 3 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("####\n# .#\n#@$#\n####");
             // act 
@@ -166,7 +166,7 @@ namespace SokobanConsoleGameTest
         public void TestGame02PlayerWhereExpectedIfMoved_Up()
         {
             // player starts at row 3 column 2 
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("####\n# .#\n#@$#\n####");
             // act
@@ -181,7 +181,7 @@ namespace SokobanConsoleGameTest
         public void TestGame03PlayerNoLongerThereIfMoved_Down()
         {
             //player starts at row 2 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("####\n#@.#\n# $#\n####");
             // act 
@@ -197,7 +197,7 @@ namespace SokobanConsoleGameTest
         public void TestGame04PlayerWhereExpectedIfMoved_Down()
         {
             // player starts at row 2 column 2 
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("####\n#@.#\n# $#\n####");
             // act
@@ -212,7 +212,7 @@ namespace SokobanConsoleGameTest
         public void TestGame05PlayerNoLongerThereIfMoved_Left()
         {
             //player starts at row 2 column 3
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("####\n# @#\n#.$#\n####");
             // act 
@@ -228,7 +228,7 @@ namespace SokobanConsoleGameTest
         public void TestGame06PlayerWhereExpectedIfMoved_Left()
         {
             // player starts at row 2 column 3 
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("####\n# @#\n#.$#\n####");
             // act
@@ -243,7 +243,7 @@ namespace SokobanConsoleGameTest
         public void TestGame07PlayerNoLongerThereIfMoved_Right()
         {
             //player starts at row 2 column 2
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("####\n#@ #\n#.$#\n####");
             // act 
@@ -259,7 +259,7 @@ namespace SokobanConsoleGameTest
         public void TestGame08PlayerWhereExpectedIfMoved_Right()
         {
             // player starts at row 2 column 2 
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("####\n#@ #\n#.$#\n####");
             // act
@@ -275,7 +275,7 @@ namespace SokobanConsoleGameTest
         {
             // player starts at row 4 column 3 
             // block starts at row 3 column 3
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#  .#\n# $ #\n# @ #\n#####");
             // act
@@ -292,7 +292,7 @@ namespace SokobanConsoleGameTest
         {
             // player starts at row 4 column 3 
             // block starts at row 3 column 3
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n# . #\n# $ #\n# @ #\n#####");
             // act
@@ -309,7 +309,7 @@ namespace SokobanConsoleGameTest
         {
             // player starts at row 2 column 3 
             // block starts at row 3 column 3
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n# @ #\n# $ #\n#  .#\n#####");
             // act
@@ -326,7 +326,7 @@ namespace SokobanConsoleGameTest
         {
             // player starts at row 2 column 3 
             // block starts at row 3 column 3
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n# @ #\n# $ #\n# . #\n#####");
             // act
@@ -343,7 +343,7 @@ namespace SokobanConsoleGameTest
         {
             // player starts at row 3 column 4 
             // block starts at row 3 column 3
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n# $@#\n#  .#\n#####");
             // act
@@ -360,7 +360,7 @@ namespace SokobanConsoleGameTest
         {
             // player starts at row 3 column 4 
             // block starts at row 3 column 3
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n#.$@#\n#   #\n#####");
             // act
@@ -377,7 +377,7 @@ namespace SokobanConsoleGameTest
         {
             // player starts at row 3 column 2 
             // block starts at row 3 column 3
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n#@$ #\n#  .#\n#####");
             // act
@@ -394,7 +394,7 @@ namespace SokobanConsoleGameTest
         {
             // player starts at row 3 column 2 
             // block starts at row 3 column 3
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n#@$.#\n#   #\n#####");
             // act
@@ -409,7 +409,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame17PlayerUnableToGoIntoAWall_Up()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n# @ #\n# $ #\n#  .#\n#####");
             // act
@@ -422,7 +422,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame18PlayerUnableToGoIntoAWall_Down()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n# $ #\n# @.#\n#####");
             // act
@@ -435,7 +435,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame19PlayerUnableToGoIntoAWall_Left()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n# $ #\n#@ .#\n#####");
             // act
@@ -448,7 +448,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame20PlayerUnableToGoIntoAWallRight()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#  @#\n# $ #\n#  .#\n#####");
             // act
@@ -461,7 +461,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame21BlockUnableToBePushedIntoAWall_Up()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n# $ #\n# @ #\n#  .#\n#####");
             // act
@@ -474,7 +474,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame22BlockUnableToBePushedIntoAWall_Down()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n# @ #\n# $.#\n#####");
             // act
@@ -487,7 +487,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame23BlockUnableToBePushedIntoAWall_Left()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n#$@ #\n#  .#\n#####");
             // act
@@ -500,7 +500,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame24BlockUnableToBePushedIntoAWall_Right()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n# @$#\n#  .#\n#####");
             // act
@@ -513,7 +513,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame25PushBlockOntoLastGoalCheckIfFinished_Up()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n# . #\n# $ #\n# @ #\n#####");
             // act
@@ -527,7 +527,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame26PushBlockOntoLastGoalCheckIfFinished_Left()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n#.$@#\n#   #\n#####");
             // act
@@ -541,7 +541,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame27PushBlockOntoLastGoalCheckIfFinished_Right()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n#   #\n#@$.#\n#   #\n#####");
             // act
@@ -555,7 +555,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame28PushBlockOntoGoalButNotLastCheckIfFinished_Up()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#####\n# . #\n# $ #\n#$@.#\n#####");
             // act
@@ -569,7 +569,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame29MoveAroundBlockThenPushBlockThroughGapInWall_Right()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#######\n#  #  #\n#    .#\n# $#  #\n# @#  #\n#######");
             // act
@@ -588,7 +588,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame30MovePlayerSixTimesGetCount()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#######\n#  #  #\n#    .#\n# $#  #\n# @#  #\n#######");
             int expected = 6;
@@ -608,7 +608,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame31DontMovePlayerReturnZeroCount()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#######\n#     #\n#    .#\n# $#  #\n# @   #\n#######");
             int expected = 0;
@@ -621,7 +621,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame32MovePlayerGreaterThan10TimesReturn11Count()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
             int expected = 11;
@@ -645,7 +645,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame33MovePlayerThreeTimesThenResetGame()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // player starts at row 5 column 3
             game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
@@ -663,7 +663,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame34MovePlayerThreeTimesThenUndoLastMove()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // player starts at row 5 column 3
             game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
@@ -682,7 +682,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame35MovePlayerThreeTimesThenUndoLastTwoMoves()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // player starts at row 5 column 3
             game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
@@ -702,7 +702,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame36PushBlockTwoTimesThenUndoLastMove()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // block starts at row 4 column 3
             game.Load("#######\n#     #\n#    .#\n# $   #\n# @   #\n#######");
@@ -720,7 +720,7 @@ namespace SokobanConsoleGameTest
         [TestMethod]
         public void TestGame37PushBlockTwoTimesThenUndoLastTwoMoves()
         {
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // block starts at row 4 column 3
             game.Load("#######\n#     #\n#    .#\n# $   #\n# @   #\n#######");

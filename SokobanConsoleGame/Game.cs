@@ -8,9 +8,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SokobanConsoleGame
+namespace SokobanGame
 {
-    public class Game : IGame, iFileable
+    public class Game : iGame, iFileable
     {
         Filer Filer;
         private Parts[,] LevelGrid;

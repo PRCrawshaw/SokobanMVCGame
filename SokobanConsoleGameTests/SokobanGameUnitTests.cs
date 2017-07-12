@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SokobanConsoleGame;
+using SokobanGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,15 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SokobanConsoleGame.Tests
+namespace SokobanGame.Tests
 {
     [TestClass()]
-    public class SokobanConsoleGameTests
+    public class SokobanGameUnitTests
     {
-        protected iLoader Loader;
-        protected iSaver Saver;
         protected Converter Converter = new Converter();
-        protected iChecker Checker;
         [TestMethod]
         public void TestFile01SaveStringToFile()
         {
@@ -23,7 +20,7 @@ namespace SokobanConsoleGame.Tests
             string input = "#.@ $##########";
             string fileName = "TestFile02.txt";
             bool expected = true;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             string temp = filer.Save(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName, input);
             bool actual = File.Exists(fileName);
@@ -36,7 +33,7 @@ namespace SokobanConsoleGame.Tests
             string input = "#.@ $##########";
             string fileName = "TestFile02.txt";
             string expected = "Overwrite existing file?";
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             string actual = filer.Save(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName, input);
             actual = filer.Save(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName, input);
@@ -49,7 +46,7 @@ namespace SokobanConsoleGame.Tests
             string input = "#.@ $     \n##########";
             string expected = "#.@ $      \n##########";
             string fileName = "TestFile02.txt";
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             // write to a file to ensure file exists.
             string temp = filer.Save(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName, input);
@@ -63,7 +60,7 @@ namespace SokobanConsoleGame.Tests
         {
             string expected = "File does not exist";
             string fileName = "Testxxxx.txt";
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             string actual = filer.Load(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName);
             // assert 
@@ -76,7 +73,7 @@ namespace SokobanConsoleGame.Tests
             //     ~\SokobanConsoleGame\SokobanConsoleGame\SokobanConsoleGameTests\bin\Debug
             string expected = "#.@ $      \n##########";
             string fileName = "TestFile02.txt";
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             // file is expanded as read
             string actual = filer.Load(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName);
@@ -85,12 +82,12 @@ namespace SokobanConsoleGame.Tests
                 "Did read and expand file in debug directory");
         }
         [TestMethod]
-        public void TestFil04CompressBeforeWriteToAFile()
+        public void TestFile06CompressBeforeWriteToAFile()
         {
             string input = "###...@@@+++$$$   ***";
             string expected = "3#3.3@3+3$3-3*";
             string fileName = "Test02.txt";
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             string temp = filer.Save(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName, input);
             string actual = filer.LoadDontExpand(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName);
@@ -103,7 +100,7 @@ namespace SokobanConsoleGame.Tests
 
             string input = "#.@ $ ";
             bool expected = true;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             bool actual = filer.PreExpandingCheck(input);
 
@@ -115,7 +112,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.@+$@*";
             bool expected = false;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             bool actual = filer.PreExpandingCheck(input);
             // assert 
@@ -126,7 +123,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.# $ ";
             bool expected = false;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             bool actual = filer.PreExpandingCheck(input);
             // assert 
@@ -138,7 +135,7 @@ namespace SokobanConsoleGame.Tests
 
             string input = "#@.$ ###";
             bool expected = true;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             bool actual = filer.PreCompressingCheck(input);
 
@@ -150,7 +147,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.@+$@*"; 
             bool expected = false;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             bool actual = filer.PreCompressingCheck(input);
             // assert 
@@ -161,7 +158,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.# $ "; 
             bool expected = false;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             bool actual = filer.PreCompressingCheck(input);
             // assert 
@@ -172,7 +169,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.# $ @"; 
             bool expected = true;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             bool actual = filer.PreExpandingCheck(input);
             // assert 
@@ -183,7 +180,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.# $ @";
             bool expected = true;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             bool actual = filer.PreCompressingCheck(input);
             // assert 
@@ -194,7 +191,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.# $ @";
             int expected = 1;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreCompressingCheck(input);
             int actual = filer.NoPlayers;
@@ -206,7 +203,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.# $ @";
             int expected = 1;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreCompressingCheck(input);
             int actual = filer.NoBoxes;
@@ -218,7 +215,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.# $ @";
             int expected = 1;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreCompressingCheck(input);
             int actual = filer.NoGoals;
@@ -230,7 +227,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "3#3.3@3+3$3-3*";
             int expected = 6;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);
             int actual = filer.NoPlayers;
@@ -242,7 +239,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "3#3.3@3+3$3-3*";
             int expected = 6;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);
             int actual = filer.NoBoxes;
@@ -254,7 +251,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "3#3.3@3+3$3-3*";
             int expected = 6;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);
             int actual = filer.NoGoals;
@@ -266,7 +263,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "11#11.11@11+11$11-11*";
             int expected = 22;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);
             int actual = filer.NoPlayers;
@@ -278,7 +275,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "11#11.11@11+11$11-11*"; ;
             int expected = 22;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);
             int actual = filer.NoBoxes;
@@ -290,7 +287,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "11#11.11@11+11$11-11*"; ;
             int expected = 22;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);
             int actual = filer.NoGoals;
@@ -302,7 +299,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.# $ @";
             int expected = 1;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);
             int actual = filer.NoPlayers;
@@ -314,7 +311,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.# $ @";
             int expected = 1;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);
             int actual = filer.NoBoxes;
@@ -326,7 +323,7 @@ namespace SokobanConsoleGame.Tests
         {
             string input = "#.# $ @";
             int expected = 1;
-            Filer filer = new Filer(Loader, Saver, Converter, Checker);
+            Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);
             int actual = filer.NoGoals;

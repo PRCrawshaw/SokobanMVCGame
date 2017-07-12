@@ -5,24 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SokobanConsoleGame
+
+namespace SokobanGame
 {
     public enum ConversionType { expand, compress};
     public class Filer : iFiler, iLoader, iSaver, iChecker     
     {
-        protected iLoader Loader;
-        protected iSaver Saver;
+        //protected iLoader Loader;
+        //protected iSaver Saver;
         public Converter Converter;
-        protected iChecker Checker;
+        //protected iChecker Checker;
         public int NoPlayers{ get; set; }
         public int NoGoals { get; set; }
         public int NoBoxes { get; set; }
-        public Filer(iLoader loader, iSaver saver, Converter converter, iChecker checker) 
+        public Filer(Converter converter) 
         {
-            Loader = loader;
-            Saver = saver;
+            //Loader = loader;
+            //Saver = saver;
             Converter = converter;
-            Checker = checker;
+            //Checker = checker;
         }
         public string Load(string filename)
         {

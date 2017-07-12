@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SokobanConsoleGame;
+using SokobanGame;
 
-namespace SokobanConsoleGameTest
+namespace SokobanGameTests
 {
     [TestClass]
-    public class SokobanFilerUnitTestProject
+    public class SokobanFilerUnitTests
     {
         [TestMethod]
         public void TestStr01FilerEmptyStringCompression()
@@ -68,7 +68,7 @@ namespace SokobanConsoleGameTest
             Assert.AreEqual(expected, actual, "Did not leave singles alone");
         }
         [TestMethod]
-        public void TestCPR02FilerShortRunCompression()
+        public void TestCpr02FilerShortRunCompression()
         {
             string input = "###...@@@+++$$$   ***";
             string expected = "3#3.3@3+3$3-3*";
@@ -80,7 +80,7 @@ namespace SokobanConsoleGameTest
             Assert.AreEqual(expected, actual, "Runs of 3 symbols were not compressed to digit and symbol pairs");
         }
         [TestMethod]
-        public void TestCPR03FilerLongRunCompression()
+        public void TestCpr03FilerLongRunCompression()
         {
             string input = "##########..........@@@@@@@@@@++++++++++$$$$$$$$$$          **********";
             string expected = "10#10.10@10+10$10-10*";
@@ -92,7 +92,7 @@ namespace SokobanConsoleGameTest
             Assert.AreEqual(expected, actual, "Runs of 10 symbols were not compressed to digits followed by a symbol");
         }
         [TestMethod]
-        public void TestCPR04FilerRunsAndSinglesCompression()
+        public void TestCpr04FilerRunsAndSinglesCompression()
         {
             string input = "###.@@@+$$$ ***";
             string expected = "3#.3@+3$-3*";
@@ -104,7 +104,7 @@ namespace SokobanConsoleGameTest
             Assert.AreEqual(expected, actual, "runs were not compressed and singles left alone");
         }
         [TestMethod]
-        public void TestCPR05FilerTwoLinesCompressedToOne()
+        public void TestCpr05FilerTwoLinesCompressedToOne()
         {
             string input = "#######\n#.@ # #";
             string expected = "7#|#.@-#-#";
@@ -116,7 +116,7 @@ namespace SokobanConsoleGameTest
             Assert.AreEqual(expected, actual, "Line seperator not right");
         }
         [TestMethod]
-        public void TestCPR06FilerRemoveTrailingBlanksWhenCompressing()
+        public void TestCpr06FilerRemoveTrailingBlanksWhenCompressing()
         {
             string input = "#######    \n#.@ # #   ";
             string expected = "7#|#.@-#-#";
@@ -128,7 +128,7 @@ namespace SokobanConsoleGameTest
             Assert.AreEqual(expected, actual, "Trailing Blanks at end of line");
         }
         [TestMethod]
-        public void TestCPR07FilerRemoveonlyOnlyTrailingBlanksWhenCompressing()
+        public void TestCpr07FilerRemoveonlyOnlyTrailingBlanksWhenCompressing()
         {
             string input = "#######    \n    #######\n#.@ # #   ";
             string expected = "7#|4-7#|#.@-#-#";

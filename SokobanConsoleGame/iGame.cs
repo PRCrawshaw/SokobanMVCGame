@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SokobanConsoleGame
+namespace SokobanGame
 {
     public enum Direction { Up, Down, Left, Right };
 
-    public interface IGame
+    public interface iGame
     {
         bool isFinished();
         bool Load(string newLevel);
