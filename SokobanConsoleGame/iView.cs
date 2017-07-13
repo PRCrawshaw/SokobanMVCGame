@@ -9,6 +9,7 @@ namespace SokobanGame
     public interface iView
     {
         void DesignerNewLevel(int rows, int cols);
+        void CreateLevelGridImage(int row, int col, Parts part);
         void CreateLevelGridButton(int row, int col, Parts part);
         void DesignerLoadLevel();
         void DisplayMain();
@@ -16,5 +17,6 @@ namespace SokobanGame
         void SetMoves(int moves);
         void SetGamePosition(int row, int col, Parts part);
         void FinishGame(string bestPlayer, string bestScore, int thisScore);
+        void DrawIt();
     }
 }

@@ -61,7 +61,6 @@
     <Compile Include="iFiler.cs" />
     <Compile Include="iGame.cs" />
     <Compile Include="iLoader.cs" />
-    <Compile Include="ImageHandler.cs" />
     <Compile Include="iSaver.cs" />
     <Compile Include="iView.cs" />
     <Compile Include="Position.cs" />

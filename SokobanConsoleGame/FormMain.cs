@@ -21,25 +21,72 @@ namespace SokobanGame
             InitializeComponent();
             Graphics = this.CreateGraphics();
         }
+        public void ResetForm()
+        {
+            this.Invalidate();
+        }
         public void AddController(Controller ctrl)
         {
             Ctrl = ctrl;
         }
-        public void CreateLevelGridImages(int row, int col, Parts part)
+        public void CreateLevelGridImage(int row, int col, Parts part)
         {
-            int rectCol = 40 * col;
-            int rectRow = 40 * row;
+            int startX = 120;
+            int startY = 40;
+            int rectCol = col + startX;
+            int rectRow = row + startY;
             Graphics.DrawRectangle(Pens.Black, new Rectangle(rectCol, rectRow, 40, 40));
             Rectangle inner = new Rectangle(rectCol + 1, rectRow + 1, 40, 40);
             Graphics.FillRectangle(Brushes.LightGray, inner);
-            if (part != Parts.Empty)
+            Graphics.DrawImage(GetMyPartImage(part), inner);
+        }
+        private void start_button_Click(object sender, EventArgs e)
+        {
+            Ctrl.SetupGame();
+        }
+        public void DrawIt()
+        {
+            CreateLevelGridImage(10, 10, Parts.Player);
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
             {
-                Graphics.DrawImage(GetMyPartImage(part), inner);
+                case Keys.Left:
+                    Ctrl.Move(Direction.Left);
+                    break;
+                case Keys.Right:
+                    Ctrl.Move(Direction.Right);
+                    break;
+                case Keys.Up:
+                    Ctrl.Move(Direction.Up);
+                    break;
+                case Keys.Down:
+                    Ctrl.Move(Direction.Down);
+                    break;
+                default:
+                    MessageBox.Show("Use the arrow keys to move the player.");
+                    break;
             }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+        public void CreateLevelGridButton(int row, int col, Parts part)
+        {
+            Point p = new Point(col + StartPos, row + StartPos);
+            Button newButton = new Button();
+            newButton.Name = String.Format("{0}_{1}", row, col);
+            newButton.Visible = true;
+            newButton.Width = 40;
+            newButton.Height = 40;
+            newButton.Location = p;
+            //newButton.Click += new EventHandler(levelGrid_buttonClick);
+            newButton.BackgroundImage = GetMyPartImage(part);
+            newButton.BackgroundImageLayout = ImageLayout.Stretch;
+            this.Controls.Add(newButton);
         }
         public Image GetMyPartImage(Parts part)
         {
-            Image image = Image.FromFile("Empty01.png");
+            Image image = Image.FromFile("Empty01.png"); // default image
             switch (part)
             {
                 case Parts.Wall:
@@ -67,51 +114,6 @@ namespace SokobanGame
                     break;
             }
             return image;
-        }
-        public void CreateLevelGridButton(int row, int col, Parts part)
-        {
-            Point p = new Point(col + StartPos, row + StartPos);
-            Button newButton = new Button();
-            newButton.Name = String.Format("{0}_{1}", row, col);
-            newButton.Visible = true;
-            newButton.Width = 40;
-            newButton.Height = 40;
-            newButton.Location = p;
-            //newButton.Click += new EventHandler(levelGrid_buttonClick);
-            newButton = GetMyPart(part, newButton);
-            newButton.BackgroundImageLayout = ImageLayout.Stretch;
-            this.Controls.Add(newButton);
-        }
-
-        public Button GetMyPart(Parts part, Button button)
-        {
-            switch (part)
-            {
-                case Parts.Wall:
-                    button.BackgroundImage = Image.FromFile("Wall01.png");
-                    break;
-                case Parts.Block:
-                    button.BackgroundImage = Image.FromFile("Block01.png");
-                    break;
-                case Parts.Goal:
-                    button.BackgroundImage = Image.FromFile("Goal01.png");
-                    break;
-                case Parts.BlockOnGoal:
-                    button.BackgroundImage = Image.FromFile("BlockOnGoal01.png");
-                    break;
-                case Parts.PlayerOnGoal:
-                    button.BackgroundImage = Image.FromFile("PlayerOnGoal01.png");
-                    break;
-                case Parts.Player:
-                    button.BackgroundImage = Image.FromFile("Player01.png");
-                    break;
-                case Parts.Empty:
-                    button.BackgroundImage = Image.FromFile("Empty01.png");
-                    break;
-                default:
-                    break;
-            }
-            return button;
         }
 
         public void DesignerLoadLevel()
@@ -147,6 +149,16 @@ namespace SokobanGame
         public void SetMoves(int moves)
         {
             throw new NotImplementedException();
+        }
+
+        private void start_button_Click_1(object sender, EventArgs e)
+        {
+            Ctrl.SetupGame();
+        }
+
+        private void btn_reset_Click(object sender, EventArgs e)
+        {
+            ResetForm();
         }
     }
 }
