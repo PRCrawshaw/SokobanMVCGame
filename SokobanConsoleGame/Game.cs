@@ -13,11 +13,11 @@ namespace SokobanGame
     public class Game : iGame, iFileable
     {
         Filer Filer;
-        private Parts[,] LevelGrid;
-        private int RowCount;
-        private int ColCount;
+        public Parts[,] LevelGrid;
         private Stack MoveStack = new Stack();
-        public Position PlayerPos;
+        public Position PlayerPos { get; set; }
+        public int RowCount { get; set; }
+        public int ColCount { get; set; }
         public string LevelString{ get; set; }
         public int MoveCount { get; set; }
         public Game(Filer filer)
