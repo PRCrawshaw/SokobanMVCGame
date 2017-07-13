@@ -15,11 +15,14 @@ namespace SokobanGame
         Filer Filer;
         public Parts[,] LevelGrid;
         private Stack MoveStack = new Stack();
+        public Position[] ChangedPositions = new Position[2];
         public Position PlayerPos { get; set; }
         public int RowCount { get; set; }
         public int ColCount { get; set; }
         public string LevelString{ get; set; }
         public int MoveCount { get; set; }
+        protected const int NEWPOS = 0;
+        protected const int BESIDENEWPOS = 1;
         public Game(Filer filer)
         {
             Filer = filer;
@@ -99,9 +102,11 @@ namespace SokobanGame
             Position newPos = GetNewPos(moveDirection, PlayerPos);
             Position besideNewPos = GetNewPos(moveDirection, newPos);
             Parts newPosPart = GetMovable(newPos);
-            if (newPosPart == Parts.Empty)
+            ChangedPositions[NEWPOS] = GetNewPos(moveDirection, PlayerPos);
+            ChangedPositions[BESIDENEWPOS] = GetNewPos(moveDirection, newPos);
+            if (newPosPart == Parts.Empty || newPosPart == Parts.Goal)
             {
-                MovePlayer(newPos, moveDirection);
+                MovePlayer(newPos,  newPosPart);
                 moved = true;
             }
             else if (newPosPart != Parts.Wall)
@@ -110,8 +115,8 @@ namespace SokobanGame
                 if (besideNewPossPart != Parts.Wall &&
                     besideNewPossPart != Parts.Block)
                 {
-                    MoveBlock(besideNewPos);
-                    MovePlayer(newPos, moveDirection);
+                    MoveBlock(ChangedPositions[BESIDENEWPOS]);
+                    MovePlayer(ChangedPositions[NEWPOS],  newPosPart);
                     moved = true;
                 }
             }
@@ -123,19 +128,26 @@ namespace SokobanGame
                 LevelGrid[pos.Row, pos.Column] = Parts.BlockOnGoal;
             else LevelGrid[pos.Row, pos.Column] = Parts.Block;
         }
-        private void MovePlayer(Position newPos, Direction moveDirection)
+        private void MovePlayer(Position newPos, Parts newPosPart)
         {
-            LevelGrid[PlayerPos.Row, PlayerPos.Column] = Parts.Empty;
-            LevelGrid[newPos.Row, newPos.Column] = Parts.Player;
+            Parts oldposPart = LevelGrid[PlayerPos.Row, PlayerPos.Column];
+
+            if (oldposPart == Parts.Player || oldposPart == Parts.Block)
+                LevelGrid[PlayerPos.Row, PlayerPos.Column] = Parts.Empty;
+            else LevelGrid[PlayerPos.Row, PlayerPos.Column] = Parts.Goal;
+
+            if (newPosPart == Parts.Empty || newPosPart == Parts.Block)
+                LevelGrid[newPos.Row, newPos.Column] = Parts.Player;
+            else LevelGrid[newPos.Row, newPos.Column] = Parts.PlayerOnGoal;
+
             PlayerPos = newPos;
-            //Parts[,] savedState = DeepCopy(LevelGrid); // i.e. not a reference
-            MoveStack.Push(DeepCopy(LevelGrid));
+            MoveStack.Push(DeepCopy(LevelGrid)); // i.e. not a reference
             MoveCount++;
 
         }
         public static T DeepCopy<T>(T other)
         {
-            // gets a copy of the object not a reference to the object
+            // returns a copy of the object not a reference to the object
             using (MemoryStream ms = new MemoryStream())
             {
                 BinaryFormatter formatter = new BinaryFormatter();

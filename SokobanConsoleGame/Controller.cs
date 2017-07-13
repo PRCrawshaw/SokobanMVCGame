@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SokobanGame
 {
@@ -15,9 +16,8 @@ namespace SokobanGame
         {
             Game = game;
             View = view;
-            View.DrawIt();
             View.CreateLevelGridImage(10, 10, Parts.Goal);
-            //SetupGame();
+            SetupGame();
         }
         public void SetupGame()
         {
@@ -29,10 +29,18 @@ namespace SokobanGame
         {
             Game.Move(direction);
             PlacePieces();
+            if (Game.isFinished())
+            {
+                MessageBox.Show("You won");
+                View.ResetForm();
+            }
+
+
         }
 
         private void PlacePieces()
         {
+            View.SetButtonHighlight();
             int GridWidth = 40;
             for (int r = 1; r <= Game.RowCount; r++)
             {

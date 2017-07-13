@@ -131,10 +131,11 @@ namespace SokobanGame
         }
         private bool CheckGoalsAgainstPlayers(string input)
         {
-            int goalCount = input.Count(f => f == '.');
-            goalCount += input.Count(f => f == '*');
-            int boxCount = input.Count(f => f == '$');
-            boxCount += input.Count(f => f == '*');
+            int goalCount = input.Count(f => f == '.'); // goal
+            goalCount += input.Count(f => f == '*'); // box on goal
+            goalCount += input.Count(f => f == '+'); // player on goal
+            int boxCount = input.Count(f => f == '$'); // box
+            boxCount += input.Count(f => f == '*'); // box on goal
             this.NoGoals = goalCount;
             this.NoBoxes = boxCount;
             if (boxCount == goalCount && boxCount > 0)

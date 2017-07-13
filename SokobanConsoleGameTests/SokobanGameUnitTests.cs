@@ -250,7 +250,7 @@ namespace SokobanGame.Tests
         public void TestChk14CheckGoalCountPreExpansion()
         {
             string input = "3#3.3@3+3$3-3*";
-            int expected = 6;
+            int expected = 9;
             Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);
@@ -286,7 +286,7 @@ namespace SokobanGame.Tests
         public void TestChk17CheckGoalCountGreaterThan10PreExpansion()
         {
             string input = "11#11.11@11+11$11-11*"; ;
-            int expected = 22;
+            int expected = 33;
             Filer filer = new Filer(Converter);
             // act
             filer.PreExpandingCheck(input);

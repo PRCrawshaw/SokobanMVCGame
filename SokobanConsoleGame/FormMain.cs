@@ -44,10 +44,6 @@ namespace SokobanGame
         {
             Ctrl.SetupGame();
         }
-        public void DrawIt()
-        {
-            CreateLevelGridImage(10, 10, Parts.Player);
-        }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             switch (keyData)
@@ -86,34 +82,38 @@ namespace SokobanGame
         }
         public Image GetMyPartImage(Parts part)
         {
-            Image image = Image.FromFile("Empty01.png"); // default image
+            Image image = Image.FromFile("Empty.png"); // default image
             switch (part)
             {
                 case Parts.Wall:
-                    image = Image.FromFile("Wall01.png");
+                    image = Image.FromFile("Wall.png");
                     break;
                 case Parts.Block:
-                    image = Image.FromFile("Block01.png");
+                    image = Image.FromFile("Block.png");
                     break;
                 case Parts.Goal:
-                    image = Image.FromFile("Goal01.png");
+                    image = Image.FromFile("Goal.png");
                     break;
                 case Parts.BlockOnGoal:
-                    image = Image.FromFile("BlockOnGoal01.png");
+                    image = Image.FromFile("BlockOnGoal.png");
                     break;
                 case Parts.PlayerOnGoal:
-                    image = Image.FromFile("PlayerOnGoal01.png");
+                    image = Image.FromFile("PlayerOnGoal.png");
                     break;
                 case Parts.Player:
-                    image = Image.FromFile("Player01.png");
+                    image = Image.FromFile("Player.png");
                     break;
                 case Parts.Empty:
-                    image = Image.FromFile("Empty01.png");
+                    image = Image.FromFile("Empty.png");
                     break;
                 default:
                     break;
             }
             return image;
+        }
+        public void SetButtonHighlight()
+        {
+            btn_start.Focus();
         }
 
         public void DesignerLoadLevel()

@@ -5,8 +5,8 @@ using SokobanGame;
 namespace SokobanGameTests
 {
     [TestClass]
-	public class GameMoveUnitTests
-	{
+    public class GameMoveUnitTests
+    {
         protected iLoader Loader;
         protected iSaver Saver;
         protected Converter Converter = new Converter();
@@ -22,7 +22,7 @@ namespace SokobanGameTests
             // act 
             bool actual = game.Load("#######\n#  #\n#@ #\n####");
             // assert
-            Assert.AreEqual(actual, expected, 
+            Assert.AreEqual(actual, expected,
                 "The game accepted an invalid string");
         }
         [TestMethod]
@@ -35,7 +35,7 @@ namespace SokobanGameTests
             // act 
             bool actual = game.Load("####\n# .#\n#@$#\n####");
             // assert
-            Assert.AreEqual(actual, expected, 
+            Assert.AreEqual(actual, expected,
                 "The game did not accept a valid string");
         }
         [TestMethod]
@@ -147,6 +147,19 @@ namespace SokobanGameTests
                 "The game did not accept a valid string");
         }
         [TestMethod]
+        public void TestLoad11LoadFileWithPayerOnGoal()
+        {
+            //player starts at row 3 column 2
+            Filer filer = new Filer(Converter);
+            Game game = new Game(filer);
+            bool expected = true;
+            // act 
+            bool actual = game.Load("#######\n#     #\n#     #\n# +   #\n#    $#\n#######");
+            // assert
+            Assert.AreEqual(expected, actual,
+                "The game did not accept a valid string");
+        }
+        [TestMethod]
         public void TestGame01PlayerNoLongerThereIfMoved_Up()
         {
             //player starts at row 3 column 2
@@ -156,10 +169,10 @@ namespace SokobanGameTests
             // act 
             game.Move(Direction.Up);
             // assert
-            Position pos = new Position(3 - OFFSET, 2- OFFSET);
+            Position pos = new Position(3 - OFFSET, 2 - OFFSET);
             Parts actual3_2 = game.GetMovable(pos);
             Parts expected3_2 = Parts.Empty;
-            Assert.AreEqual(actual3_2, expected3_2, 
+            Assert.AreEqual(actual3_2, expected3_2,
                 "The player is unmoved after being told to go up");
         }
         [TestMethod]
@@ -172,9 +185,9 @@ namespace SokobanGameTests
             // act
             game.Move(Direction.Up);
             //assert 
-            Parts actual2_2 = game.WhatsAt(2- OFFSET, 2- OFFSET);
+            Parts actual2_2 = game.WhatsAt(2 - OFFSET, 2 - OFFSET);
             Parts expected2_2 = Parts.Player;
-            Assert.AreEqual(actual2_2, expected2_2, 
+            Assert.AreEqual(actual2_2, expected2_2,
                 "The player is not where expected after being told to go up");
         }
         [TestMethod]
@@ -284,7 +297,7 @@ namespace SokobanGameTests
             // block should be at row 2 column 3
             Parts actual2_3 = game.WhatsAt(2 - OFFSET, 3 - OFFSET);
             Parts expected2_3 = Parts.Block;
-            Assert.AreEqual(actual2_3, expected2_3, 
+            Assert.AreEqual(actual2_3, expected2_3,
                 "The block is not where expected after being pushed to go up");
         }
         [TestMethod]
@@ -301,7 +314,7 @@ namespace SokobanGameTests
             // block should be at row 2 column 3
             Parts actual2_3 = game.WhatsAt(2 - OFFSET, 3 - OFFSET);
             Parts expected2_3 = Parts.BlockOnGoal;
-            Assert.AreEqual(actual2_3, expected2_3, 
+            Assert.AreEqual(actual2_3, expected2_3,
                 "The block has not become block on goal after being pushed to go up");
         }
         [TestMethod]
@@ -318,7 +331,7 @@ namespace SokobanGameTests
             // block should be at row 4 column 3
             Parts actual4_3 = game.WhatsAt(4 - OFFSET, 3 - OFFSET);
             Parts expected4_3 = Parts.Block;
-            Assert.AreEqual(actual4_3, expected4_3, 
+            Assert.AreEqual(actual4_3, expected4_3,
                 "The block is not where expected after being pushed to go down");
         }
         [TestMethod]
@@ -335,7 +348,7 @@ namespace SokobanGameTests
             // block should be at row 4 column 3
             Parts actual4_3 = game.WhatsAt(4 - OFFSET, 3 - OFFSET);
             Parts expected4_3 = Parts.BlockOnGoal;
-            Assert.AreEqual(actual4_3, expected4_3, 
+            Assert.AreEqual(actual4_3, expected4_3,
                 "The block has not become block on goal after being pushed to go down");
         }
         [TestMethod]
@@ -352,7 +365,7 @@ namespace SokobanGameTests
             // block should be at row 3 column 2
             Parts actual3_2 = game.WhatsAt(3 - OFFSET, 2 - OFFSET);
             Parts expected3_2 = Parts.Block;
-            Assert.AreEqual(actual3_2, expected3_2, 
+            Assert.AreEqual(actual3_2, expected3_2,
                 "The block is not where expected after being pushed to go left");
         }
         [TestMethod]
@@ -369,7 +382,7 @@ namespace SokobanGameTests
             // block should be at row 3 column 2
             Parts actual3_2 = game.WhatsAt(3 - OFFSET, 2 - OFFSET);
             Parts expected3_2 = Parts.BlockOnGoal;
-            Assert.AreEqual(actual3_2, expected3_2, 
+            Assert.AreEqual(actual3_2, expected3_2,
                 "The block has not become block on goal after being pushed to go left");
         }
         [TestMethod]
@@ -386,7 +399,7 @@ namespace SokobanGameTests
             // block should be at row 3 column 4
             Parts actual3_4 = game.WhatsAt(3 - OFFSET, 4 - OFFSET);
             Parts expected3_4 = Parts.Block;
-            Assert.AreEqual(actual3_4, expected3_4, 
+            Assert.AreEqual(actual3_4, expected3_4,
                 "The block is not where expected after being pushed to go right");
         }
         [TestMethod]
@@ -403,7 +416,7 @@ namespace SokobanGameTests
             // block should be at row 3 column 4
             Parts actual3_4 = game.WhatsAt(3 - OFFSET, 4 - OFFSET);
             Parts expected3_4 = Parts.BlockOnGoal;
-            Assert.AreEqual(actual3_4, expected3_4, 
+            Assert.AreEqual(actual3_4, expected3_4,
                 "The block has not become block on goal after being pushed to go right");
         }
         [TestMethod]
@@ -738,6 +751,40 @@ namespace SokobanGameTests
             //assert 
             Assert.AreEqual(expected4_3, actual4_3,
                 "Block not returning to position two turns ago");
+        }
+        [TestMethod]
+        public void TestGame38MovePlayerOntoGoalGetPlayerOnGoal()
+        {
+            Filer filer = new Filer(Converter);
+            Game game = new Game(filer);
+            // goal  at row 4 column 3
+            game.Load("#######\n#     #\n#     #\n# .   #\n# @  $#\n#######");
+            Parts goal = game.WhatsAt(4 - OFFSET, 3 - OFFSET);
+            // act
+            game.Move(Direction.Up);
+            // player on goal at 4 3
+            Parts actual4_3 = game.WhatsAt(4 - OFFSET, 3 - OFFSET);
+            Parts expected4_3 = Parts.PlayerOnGoal;
+            //assert 
+            Assert.AreEqual(expected4_3, actual4_3,
+                "Unable to move the player onto a goal. ");
+        }
+        [TestMethod]
+        public void TestGame39MovePlayerOffGoalGetGoal()
+        {
+            Filer filer = new Filer(Converter);
+            Game game = new Game(filer);
+            // goal  at row 4 column 3
+            game.Load("#######\n#     #\n#     #\n# +   #\n#    $#\n#######");
+            Parts playerOnGoal = game.WhatsAt(4 - OFFSET, 3 - OFFSET);
+            // act
+            game.Move(Direction.Up);
+            // player on goal at 4 3
+            Parts actual4_3 = game.WhatsAt(4 - OFFSET, 3 - OFFSET);
+            Parts expected4_3 = Parts.Goal;
+            //assert 
+            Assert.AreEqual(expected4_3, actual4_3,
+                "Move player off goal does not return position to goal. ");
         }
     }      
 }
