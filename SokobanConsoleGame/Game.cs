@@ -15,14 +15,15 @@ namespace SokobanGame
         Filer Filer;
         public Parts[,] LevelGrid;
         private Stack MoveStack = new Stack();
-        public Position[] ChangedPositions = new Position[2];
+        public Position[] ChangedPositions = new Position[3];
         public Position PlayerPos { get; set; }
         public int RowCount { get; set; }
         public int ColCount { get; set; }
         public string LevelString{ get; set; }
         public int MoveCount { get; set; }
-        protected const int NEWPOS = 0;
-        protected const int BESIDENEWPOS = 1;
+        protected const int OLDPOS = 0;
+        protected const int NEWPOS = 1;
+        protected const int BESIDENEWPOS = 2;
         public Game(Filer filer)
         {
             Filer = filer;
@@ -31,6 +32,7 @@ namespace SokobanGame
         {
             if (CheckStringValidGameString(newLevel))
             {
+                MoveCount = 0;
                 LevelString = newLevel;
                 setupGrid();
                 return true;
@@ -99,39 +101,39 @@ namespace SokobanGame
         public bool Move(Direction moveDirection)
         {
             bool moved = false;
-            Position newPos = GetNewPos(moveDirection, PlayerPos);
-            Position besideNewPos = GetNewPos(moveDirection, newPos);
-            Parts newPosPart = GetMovable(newPos);
-            ChangedPositions[NEWPOS] = GetNewPos(moveDirection, PlayerPos);
-            ChangedPositions[BESIDENEWPOS] = GetNewPos(moveDirection, newPos);
+            ChangedPositions[OLDPOS] = PlayerPos;
+            ChangedPositions[NEWPOS] = GetNewPos(moveDirection, PlayerPos); 
+            Parts newPosPart = GetMovable(ChangedPositions[NEWPOS]);
             if (newPosPart == Parts.Empty || newPosPart == Parts.Goal)
             {
-                MovePlayer(newPos,  newPosPart);
+                MovePlayer(newPosPart);
                 moved = true;
             }
             else if (newPosPart != Parts.Wall)
             {
-                Parts besideNewPossPart = GetMovable(besideNewPos);
+                ChangedPositions[BESIDENEWPOS] = GetNewPos(moveDirection, ChangedPositions[NEWPOS]);
+                Parts besideNewPossPart = GetMovable(ChangedPositions[BESIDENEWPOS]);
                 if (besideNewPossPart != Parts.Wall &&
                     besideNewPossPart != Parts.Block)
                 {
-                    MoveBlock(ChangedPositions[BESIDENEWPOS]);
-                    MovePlayer(ChangedPositions[NEWPOS],  newPosPart);
+                    MoveBlock();
+                    MovePlayer(newPosPart);
                     moved = true;
                 }
             }
             return moved;
         }
-        private void MoveBlock(Position pos)
+        private void MoveBlock()
         {
+            Position pos = ChangedPositions[BESIDENEWPOS];
             if (GetMovable(pos) == Parts.Goal)
                 LevelGrid[pos.Row, pos.Column] = Parts.BlockOnGoal;
             else LevelGrid[pos.Row, pos.Column] = Parts.Block;
         }
-        private void MovePlayer(Position newPos, Parts newPosPart)
+        private void MovePlayer(Parts newPosPart)
         {
             Parts oldposPart = LevelGrid[PlayerPos.Row, PlayerPos.Column];
-
+            Position newPos = ChangedPositions[NEWPOS];
             if (oldposPart == Parts.Player || oldposPart == Parts.Block)
                 LevelGrid[PlayerPos.Row, PlayerPos.Column] = Parts.Empty;
             else LevelGrid[PlayerPos.Row, PlayerPos.Column] = Parts.Goal;
@@ -183,10 +185,11 @@ namespace SokobanGame
         }
         public void Undo()
         {
-            if (MoveStack.Count > 0)
+            if (MoveStack.Count > 1)
             {
                 MoveStack.Pop(); // remove last move
                 LevelGrid = (Parts[,])MoveStack.Peek(); // get move before last move
+                MoveCount--;
             }
         }
         public Direction GetReverseDirection(Direction lastDirection)

@@ -13,16 +13,27 @@ namespace SokobanGame
     public partial class FormMain : Form, iView
     {
         public Controller Ctrl;
-        public int StartPos = 120;
+        //protected const int STARTPOS = 120;
+        protected const int STARTX = 120;
+        protected const int STARTY = 40;
+        protected const int GAP = 0;
+        private int GridSize = 40;
         private Graphics Graphics;
 
         public FormMain()
         {
             InitializeComponent();
             Graphics = this.CreateGraphics();
+            lbl_MoveCount.Visible = false;
+            lbl_MoveCountNo.Visible = false;
         }
         public void ResetForm()
         {
+            lbl_MoveCount.Visible = false;
+            lbl_MoveCountNo.Visible = false;
+            lbl_Notification.Visible = false;
+            Ctrl.isFinished = false;
+            Ctrl.SetupGame();
             this.Invalidate();
         }
         public void AddController(Controller ctrl)
@@ -31,12 +42,14 @@ namespace SokobanGame
         }
         public void CreateLevelGridImage(int row, int col, Parts part)
         {
-            int startX = 120;
-            int startY = 40;
-            int rectCol = col + startX;
-            int rectRow = row + startY;
-            Graphics.DrawRectangle(Pens.Black, new Rectangle(rectCol, rectRow, 40, 40));
-            Rectangle inner = new Rectangle(rectCol + 1, rectRow + 1, 40, 40);
+            //int startX = STARTPOS;
+            //int startY = 40;
+            int rectCol = col + STARTX;
+            int rectRow = row + STARTY;
+            Pen pen = new Pen(Color.FromArgb(255, 42, 42, 42));
+            Graphics.DrawRectangle(pen, new Rectangle(
+                rectCol, rectRow, GridSize + GAP, GridSize + GAP));
+            Rectangle inner = new Rectangle(rectCol + GAP, rectRow + GAP, 40, 40);
             Graphics.FillRectangle(Brushes.LightGray, inner);
             Graphics.DrawImage(GetMyPartImage(part), inner);
         }
@@ -68,7 +81,7 @@ namespace SokobanGame
         }
         public void CreateLevelGridButton(int row, int col, Parts part)
         {
-            Point p = new Point(col + StartPos, row + StartPos);
+            Point p = new Point(col + 240, row + STARTY);
             Button newButton = new Button();
             newButton.Name = String.Format("{0}_{1}", row, col);
             newButton.Visible = true;
@@ -113,52 +126,57 @@ namespace SokobanGame
         }
         public void SetButtonHighlight()
         {
-            btn_start.Focus();
+            btn_reset.Focus();
         }
-
         public void DesignerLoadLevel()
         {
             throw new NotImplementedException();
         }
-
         public void DesignerNewLevel(int rows, int cols)
         {
             throw new NotImplementedException();
         }
-
         public void DisplayMain()
         {
             throw new NotImplementedException();
         }
-
         public void FinishGame(string bestPlayer, string bestScore, int thisScore)
         {
             throw new NotImplementedException();
         }
-
         public void GameSetup(int moves)
         {
             throw new NotImplementedException();
         }
-
         public void SetGamePosition(int row, int col, Parts part)
         {
             throw new NotImplementedException();
         }
-
         public void SetMoves(int moves)
         {
-            throw new NotImplementedException();
+            lbl_MoveCount.Visible = true;
+            lbl_MoveCountNo.Visible = true;
+            lbl_MoveCountNo.Text = moves.ToString();
         }
-
+        public void SetNotification(string message)
+        {
+            lbl_Notification.Visible = true;
+            lbl_Notification.Text = message;
+            SetButtonHighlight();
+        }
         private void start_button_Click_1(object sender, EventArgs e)
         {
             Ctrl.SetupGame();
         }
-
         private void btn_reset_Click(object sender, EventArgs e)
         {
-            ResetForm();
+            Ctrl.isFinished = false;
+            Ctrl.SetupGame();
+        }
+
+        private void btn_Undo_Click(object sender, EventArgs e)
+        {
+            Ctrl.Undo();
         }
     }
 }

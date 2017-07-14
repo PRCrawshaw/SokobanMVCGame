@@ -19,5 +19,6 @@ namespace SokobanGame
         void FinishGame(string bestPlayer, string bestScore, int thisScore);
         void ResetForm();
         void SetButtonHighlight();
+        void SetNotification(string message);
     }
 }
