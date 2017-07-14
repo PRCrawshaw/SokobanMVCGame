@@ -28,16 +28,37 @@ namespace SokobanGame
         {
             Filer = filer;
         }
-        public bool Load(string newLevel)
+        public bool Load(string fileName)
+        {
+            string newLevel = Filer.Load(fileName);
+            if (newLevel != "File does not exist")
+            {
+                if (CheckStringValidGameString(newLevel))
+                {
+                    MoveCount = 0;
+                    MoveStack.Clear();
+                    LevelString = newLevel;
+                    setupGrid();
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool LoadLevel(string newLevel)
         {
             if (CheckStringValidGameString(newLevel))
             {
                 MoveCount = 0;
+                MoveStack.Clear();
                 LevelString = newLevel;
                 setupGrid();
                 return true;
             }
             return false;
+        }
+        public string[] GetFileList()
+        {
+            return Filer.GetFileList();
         }
         public bool CheckStringValidGameString(string newLevel)
         {
@@ -192,28 +213,28 @@ namespace SokobanGame
                 MoveCount--;
             }
         }
-        public Direction GetReverseDirection(Direction lastDirection)
-        {
-            Direction reversedDirection = Direction.Up;
-            switch (lastDirection)
-            {
-                case Direction.Down:
-                    reversedDirection = Direction.Up;
-                    break;
-                case Direction.Up:
-                    reversedDirection = Direction.Down;
-                    break;
-                case Direction.Right:
-                    reversedDirection = Direction.Left;
-                    break;
-                case Direction.Left:
-                    reversedDirection = Direction.Right;
-                    break;
-                default:
-                    break;
-            }
-            return reversedDirection;
-        }
+        //public Direction GetReverseDirection(Direction lastDirection)
+        //{
+        //    Direction reversedDirection = Direction.Up;
+        //    switch (lastDirection)
+        //    {
+        //        case Direction.Down:
+        //            reversedDirection = Direction.Up;
+        //            break;
+        //        case Direction.Up:
+        //            reversedDirection = Direction.Down;
+        //            break;
+        //        case Direction.Right:
+        //            reversedDirection = Direction.Left;
+        //            break;
+        //        case Direction.Left:
+        //            reversedDirection = Direction.Right;
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //    return reversedDirection;
+        //}
         public int GetRowCount() { return RowCount; }
         public int GetColumnCount() { return ColCount; }
     }

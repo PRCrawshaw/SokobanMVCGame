@@ -20,5 +20,6 @@ namespace SokobanGame
         void ResetForm();
         void SetButtonHighlight();
         void SetNotification(string message);
+        void ClearGameGrid();
     }
 }

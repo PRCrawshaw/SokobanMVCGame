@@ -13,27 +13,30 @@ namespace SokobanGame
     public partial class FormMain : Form, iView
     {
         public Controller Ctrl;
-        //protected const int STARTPOS = 120;
         protected const int STARTX = 120;
         protected const int STARTY = 40;
         protected const int GAP = 0;
         private int GridSize = 40;
+        private string DefaultFileName = "Level1.txt";
         private Graphics Graphics;
 
         public FormMain()
         {
             InitializeComponent();
             Graphics = this.CreateGraphics();
-            lbl_MoveCount.Visible = false;
-            lbl_MoveCountNo.Visible = false;
+            ToggleMoveCountVisibility(false);
+        }
+        public void ToggleMoveCountVisibility(bool toggle)
+        {
+            lbl_MoveCount.Visible = toggle;
+            lbl_MoveCountNo.Visible = toggle;
         }
         public void ResetForm()
         {
-            lbl_MoveCount.Visible = false;
-            lbl_MoveCountNo.Visible = false;
+            ToggleMoveCountVisibility(false);
             lbl_Notification.Visible = false;
             Ctrl.isFinished = false;
-            Ctrl.SetupGame();
+            Ctrl.SetupGame(DefaultFileName);
             this.Invalidate();
         }
         public void AddController(Controller ctrl)
@@ -42,8 +45,6 @@ namespace SokobanGame
         }
         public void CreateLevelGridImage(int row, int col, Parts part)
         {
-            //int startX = STARTPOS;
-            //int startY = 40;
             int rectCol = col + STARTX;
             int rectRow = row + STARTY;
             Pen pen = new Pen(Color.FromArgb(255, 42, 42, 42));
@@ -55,7 +56,7 @@ namespace SokobanGame
         }
         private void start_button_Click(object sender, EventArgs e)
         {
-            Ctrl.SetupGame();
+            Ctrl.SetupGame(DefaultFileName);
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -154,8 +155,7 @@ namespace SokobanGame
         }
         public void SetMoves(int moves)
         {
-            lbl_MoveCount.Visible = true;
-            lbl_MoveCountNo.Visible = true;
+            ToggleMoveCountVisibility(true);
             lbl_MoveCountNo.Text = moves.ToString();
         }
         public void SetNotification(string message)
@@ -166,17 +166,44 @@ namespace SokobanGame
         }
         private void start_button_Click_1(object sender, EventArgs e)
         {
-            Ctrl.SetupGame();
+            Ctrl.SetupGame(DefaultFileName);
         }
         private void btn_reset_Click(object sender, EventArgs e)
         {
             Ctrl.isFinished = false;
-            Ctrl.SetupGame();
+            Ctrl.SetupGame(DefaultFileName);
         }
 
         private void btn_Undo_Click(object sender, EventArgs e)
         {
             Ctrl.Undo();
+        }
+
+        private void btn_GetLevels_Click(object sender, EventArgs e)
+        {
+            ToggleMoveCountVisibility(false);
+            lst_FileList.Visible = true;
+            lst_FileList.Items.Clear();
+            ClearGameGrid();
+            string[] fileListWithPath = Ctrl.GetFileList();
+            string[] fileList = new string[fileListWithPath.Length];
+            for (int i=0; i<fileListWithPath.Length; i++)
+            {
+                fileList[i] = fileListWithPath[i].Substring(fileListWithPath[i].LastIndexOf('\\') + 1);
+            }
+            lst_FileList.Items.AddRange(fileList); 
+        }
+
+        private void lst_FileList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lst_FileList.Visible = false;
+            ClearGameGrid();
+            DefaultFileName = lst_FileList.SelectedItem.ToString();
+            Ctrl.SetupGame(DefaultFileName);
+        }
+        public void ClearGameGrid()
+        {
+            this.CreateGraphics().Clear(FormMain.ActiveForm.BackColor);
         }
     }
 }

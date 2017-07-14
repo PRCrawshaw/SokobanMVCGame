@@ -20,7 +20,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             bool expected = false;
             // act 
-            bool actual = game.Load("#######\n#  #\n#@ #\n####");
+            bool actual = game.LoadLevel("#######\n#  #\n#@ #\n####");
             // assert
             Assert.AreEqual(actual, expected,
                 "The game accepted an invalid string");
@@ -33,7 +33,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             bool expected = true;
             // act 
-            bool actual = game.Load("####\n# .#\n#@$#\n####");
+            bool actual = game.LoadLevel("####\n# .#\n#@$#\n####");
             // assert
             Assert.AreEqual(actual, expected,
                 "The game did not accept a valid string");
@@ -46,7 +46,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             bool expected = false;
             // act 
-            bool actual = game.Load("#######\n#  #\n#@ #\n####");
+            bool actual = game.LoadLevel("#######\n#  #\n#@ #\n####");
             // assert
             Assert.AreEqual(actual, expected,
                 "The game did not accept a valid string");
@@ -59,7 +59,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             bool expected = false;
             // act 
-            bool actual = game.Load("#####\n# ..#\n#@ $#\n####");
+            bool actual = game.LoadLevel("#####\n# ..#\n#@ $#\n####");
             // assert
             Assert.AreEqual(actual, expected,
                 "The game did not accept a valid string");
@@ -72,7 +72,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             bool expected = false;
             // act 
-            bool actual = game.Load("#####\n# .*#\n#@ $#\n####");
+            bool actual = game.LoadLevel("#####\n# .*#\n#@ $#\n####");
             // assert
             Assert.AreEqual(actual, expected,
                 "The game did not accept a valid string");
@@ -85,7 +85,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             bool expected = false;
             // act 
-            bool actual = game.Load("#####\n# @.#\n#@ $#\n####");
+            bool actual = game.LoadLevel("#####\n# @.#\n#@ $#\n####");
             // assert
             Assert.AreEqual(actual, expected,
                 "The game did not accept a valid string");
@@ -98,7 +98,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             int expected = 4;
             // act 
-            game.Load("####\n# .#\n#@$#\n####");
+            game.LoadLevel("####\n# .#\n#@$#\n####");
             int actual = game.GetRowCount();
             // assert
             Assert.AreEqual(expected, actual,
@@ -112,7 +112,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             int expected = 4;
             // act 
-            game.Load("####\n# .#\n#@$#\n####");
+            game.LoadLevel("####\n# .#\n#@$#\n####");
             int actual = game.GetColumnCount();
             // assert
             Assert.AreEqual(expected, actual,
@@ -126,7 +126,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             int expected = 6;
             // act 
-            game.Load("#######\n#  #  #\n#    .#\n# $#  #\n# @#  #\n#######");
+            game.LoadLevel("#######\n#  #  #\n#    .#\n# $#  #\n# @#  #\n#######");
             int actual = game.GetRowCount();
             // assert
             Assert.AreEqual(expected, actual,
@@ -140,7 +140,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             int expected = 7;
             // act 
-            game.Load("#######\n#  #  #\n#    .#\n# $#  #\n# @#  #\n#######");
+            game.LoadLevel("#######\n#  #  #\n#    .#\n# $#  #\n# @#  #\n#######");
             int actual = game.GetColumnCount();
             // assert
             Assert.AreEqual(expected, actual,
@@ -154,7 +154,7 @@ namespace SokobanGameTests
             Game game = new Game(filer);
             bool expected = true;
             // act 
-            bool actual = game.Load("#######\n#     #\n#     #\n# +   #\n#    $#\n#######");
+            bool actual = game.LoadLevel("#######\n#     #\n#     #\n# +   #\n#    $#\n#######");
             // assert
             Assert.AreEqual(expected, actual,
                 "The game did not accept a valid string");
@@ -165,7 +165,7 @@ namespace SokobanGameTests
             //player starts at row 3 column 2
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("####\n# .#\n#@$#\n####");
+            game.LoadLevel("####\n# .#\n#@$#\n####");
             // act 
             game.Move(Direction.Up);
             // assert
@@ -181,7 +181,7 @@ namespace SokobanGameTests
             // player starts at row 3 column 2 
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("####\n# .#\n#@$#\n####");
+            game.LoadLevel("####\n# .#\n#@$#\n####");
             // act
             game.Move(Direction.Up);
             //assert 
@@ -196,7 +196,7 @@ namespace SokobanGameTests
             //player starts at row 2 column 2
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("####\n#@.#\n# $#\n####");
+            game.LoadLevel("####\n#@.#\n# $#\n####");
             // act 
             game.Move(Direction.Down);
             // assert
@@ -212,7 +212,7 @@ namespace SokobanGameTests
             // player starts at row 2 column 2 
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("####\n#@.#\n# $#\n####");
+            game.LoadLevel("####\n#@.#\n# $#\n####");
             // act
             game.Move(Direction.Down);
             //assert 
@@ -227,7 +227,7 @@ namespace SokobanGameTests
             //player starts at row 2 column 3
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("####\n# @#\n#.$#\n####");
+            game.LoadLevel("####\n# @#\n#.$#\n####");
             // act 
             game.Move(Direction.Left);
             // assert
@@ -243,7 +243,7 @@ namespace SokobanGameTests
             // player starts at row 2 column 3 
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("####\n# @#\n#.$#\n####");
+            game.LoadLevel("####\n# @#\n#.$#\n####");
             // act
             game.Move(Direction.Left);
             //assert 
@@ -258,7 +258,7 @@ namespace SokobanGameTests
             //player starts at row 2 column 2
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("####\n#@ #\n#.$#\n####");
+            game.LoadLevel("####\n#@ #\n#.$#\n####");
             // act 
             game.Move(Direction.Right);
             // assert
@@ -274,7 +274,7 @@ namespace SokobanGameTests
             // player starts at row 2 column 2 
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("####\n#@ #\n#.$#\n####");
+            game.LoadLevel("####\n#@ #\n#.$#\n####");
             // act
             game.Move(Direction.Right);
             //assert 
@@ -290,7 +290,7 @@ namespace SokobanGameTests
             // block starts at row 3 column 3
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#  .#\n# $ #\n# @ #\n#####");
+            game.LoadLevel("#####\n#  .#\n# $ #\n# @ #\n#####");
             // act
             game.Move(Direction.Up);
             //assert 
@@ -307,7 +307,7 @@ namespace SokobanGameTests
             // block starts at row 3 column 3
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n# . #\n# $ #\n# @ #\n#####");
+            game.LoadLevel("#####\n# . #\n# $ #\n# @ #\n#####");
             // act
             game.Move(Direction.Up);
             //assert 
@@ -324,7 +324,7 @@ namespace SokobanGameTests
             // block starts at row 3 column 3
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n# @ #\n# $ #\n#  .#\n#####");
+            game.LoadLevel("#####\n# @ #\n# $ #\n#  .#\n#####");
             // act
             game.Move(Direction.Down);
             //assert 
@@ -341,7 +341,7 @@ namespace SokobanGameTests
             // block starts at row 3 column 3
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n# @ #\n# $ #\n# . #\n#####");
+            game.LoadLevel("#####\n# @ #\n# $ #\n# . #\n#####");
             // act
             game.Move(Direction.Down);
             //assert 
@@ -358,7 +358,7 @@ namespace SokobanGameTests
             // block starts at row 3 column 3
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n# $@#\n#  .#\n#####");
+            game.LoadLevel("#####\n#   #\n# $@#\n#  .#\n#####");
             // act
             game.Move(Direction.Left);
             //assert 
@@ -375,7 +375,7 @@ namespace SokobanGameTests
             // block starts at row 3 column 3
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n#.$@#\n#   #\n#####");
+            game.LoadLevel("#####\n#   #\n#.$@#\n#   #\n#####");
             // act
             game.Move(Direction.Left);
             //assert 
@@ -392,7 +392,7 @@ namespace SokobanGameTests
             // block starts at row 3 column 3
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n#@$ #\n#  .#\n#####");
+            game.LoadLevel("#####\n#   #\n#@$ #\n#  .#\n#####");
             // act
             game.Move(Direction.Right);
             //assert 
@@ -409,7 +409,7 @@ namespace SokobanGameTests
             // block starts at row 3 column 3
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n#@$.#\n#   #\n#####");
+            game.LoadLevel("#####\n#   #\n#@$.#\n#   #\n#####");
             // act
             game.Move(Direction.Right);
             //assert 
@@ -424,7 +424,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n# @ #\n# $ #\n#  .#\n#####");
+            game.LoadLevel("#####\n# @ #\n# $ #\n#  .#\n#####");
             // act
             bool actual = game.Move(Direction.Up);
             //assert 
@@ -437,7 +437,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n# $ #\n# @.#\n#####");
+            game.LoadLevel("#####\n#   #\n# $ #\n# @.#\n#####");
             // act
             bool actual = game.Move(Direction.Down);
             //assert 
@@ -450,7 +450,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n# $ #\n#@ .#\n#####");
+            game.LoadLevel("#####\n#   #\n# $ #\n#@ .#\n#####");
             // act
             bool actual = game.Move(Direction.Left);
             //assert 
@@ -463,7 +463,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#  @#\n# $ #\n#  .#\n#####");
+            game.LoadLevel("#####\n#  @#\n# $ #\n#  .#\n#####");
             // act
             bool actual = game.Move(Direction.Right);
             //assert 
@@ -476,7 +476,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n# $ #\n# @ #\n#  .#\n#####");
+            game.LoadLevel("#####\n# $ #\n# @ #\n#  .#\n#####");
             // act
             bool actual = game.Move(Direction.Up);
             //assert 
@@ -489,7 +489,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n# @ #\n# $.#\n#####");
+            game.LoadLevel("#####\n#   #\n# @ #\n# $.#\n#####");
             // act
             bool actual = game.Move(Direction.Down);
             //assert 
@@ -502,7 +502,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n#$@ #\n#  .#\n#####");
+            game.LoadLevel("#####\n#   #\n#$@ #\n#  .#\n#####");
             // act
             bool actual = game.Move(Direction.Left);
             //assert 
@@ -515,7 +515,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n# @$#\n#  .#\n#####");
+            game.LoadLevel("#####\n#   #\n# @$#\n#  .#\n#####");
             // act
             bool actual = game.Move(Direction.Right);
             //assert 
@@ -528,7 +528,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n# . #\n# $ #\n# @ #\n#####");
+            game.LoadLevel("#####\n# . #\n# $ #\n# @ #\n#####");
             // act
             game.Move(Direction.Up);
             bool actual = game.isFinished();
@@ -542,7 +542,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n#.$@#\n#   #\n#####");
+            game.LoadLevel("#####\n#   #\n#.$@#\n#   #\n#####");
             // act
             game.Move(Direction.Left);
             bool actual = game.isFinished();
@@ -556,7 +556,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n#   #\n#@$.#\n#   #\n#####");
+            game.LoadLevel("#####\n#   #\n#@$.#\n#   #\n#####");
             // act
             game.Move(Direction.Right);
             bool actual = game.isFinished();
@@ -570,7 +570,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#####\n# . #\n# $ #\n#$@.#\n#####");
+            game.LoadLevel("#####\n# . #\n# $ #\n#$@.#\n#####");
             // act
             game.Move(Direction.Up);
             bool actual = game.isFinished();
@@ -584,7 +584,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#######\n#  #  #\n#    .#\n# $#  #\n# @#  #\n#######");
+            game.LoadLevel("#######\n#  #  #\n#    .#\n# $#  #\n# @#  #\n#######");
             // act
             bool moved = game.Move(Direction.Up);
             moved = game.Move(Direction.Left);
@@ -603,7 +603,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#######\n#  #  #\n#    .#\n# $#  #\n# @#  #\n#######");
+            game.LoadLevel("#######\n#  #  #\n#    .#\n# $#  #\n# @#  #\n#######");
             int expected = 6;
             // act
             bool moved = game.Move(Direction.Up);
@@ -623,7 +623,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#######\n#     #\n#    .#\n# $#  #\n# @   #\n#######");
+            game.LoadLevel("#######\n#     #\n#    .#\n# $#  #\n# @   #\n#######");
             int expected = 0;
             // act
             int actual = game.MoveCount;
@@ -636,7 +636,7 @@ namespace SokobanGameTests
         {
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
-            game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
+            game.LoadLevel("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
             int expected = 11;
             // act
             game.Move(Direction.Up);
@@ -661,7 +661,7 @@ namespace SokobanGameTests
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // player starts at row 5 column 3
-            game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
+            game.LoadLevel("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
             // act
             game.Move(Direction.Up);
             game.Move(Direction.Up);
@@ -679,7 +679,7 @@ namespace SokobanGameTests
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // player starts at row 5 column 3
-            game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
+            game.LoadLevel("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
             // act
             game.Move(Direction.Up); // player at 4 3
             game.Move(Direction.Up); // player at 3 3
@@ -698,7 +698,7 @@ namespace SokobanGameTests
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // player starts at row 5 column 3
-            game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
+            game.LoadLevel("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
             // act
             game.Move(Direction.Up); // player at 4 3
             game.Move(Direction.Up); // player at 3 3
@@ -718,7 +718,7 @@ namespace SokobanGameTests
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // block starts at row 4 column 3
-            game.Load("#######\n#     #\n#    .#\n# $   #\n# @   #\n#######");
+            game.LoadLevel("#######\n#     #\n#    .#\n# $   #\n# @   #\n#######");
             // act
             game.Move(Direction.Up); // block at 3 3
             game.Move(Direction.Up); // block at 2 3
@@ -736,7 +736,7 @@ namespace SokobanGameTests
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // block starts at row 4 column 3
-            game.Load("#######\n#     #\n#    .#\n# $   #\n# @   #\n#######");
+            game.LoadLevel("#######\n#     #\n#    .#\n# $   #\n# @   #\n#######");
             Parts block1 = game.WhatsAt(4 - OFFSET, 3 - OFFSET);
             // act
             game.Move(Direction.Up); // block at 3 3
@@ -758,7 +758,7 @@ namespace SokobanGameTests
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // goal  at row 4 column 3
-            game.Load("#######\n#     #\n#     #\n# .   #\n# @  $#\n#######");
+            game.LoadLevel("#######\n#     #\n#     #\n# .   #\n# @  $#\n#######");
             Parts goal = game.WhatsAt(4 - OFFSET, 3 - OFFSET);
             // act
             game.Move(Direction.Up);
@@ -775,7 +775,7 @@ namespace SokobanGameTests
             Filer filer = new Filer(Converter);
             Game game = new Game(filer);
             // goal  at row 4 column 3
-            game.Load("#######\n#     #\n#     #\n# +   #\n#    $#\n#######");
+            game.LoadLevel("#######\n#     #\n#     #\n# +   #\n#    $#\n#######");
             Parts playerOnGoal = game.WhatsAt(4 - OFFSET, 3 - OFFSET);
             // act
             game.Move(Direction.Up);

@@ -36,6 +36,8 @@ namespace SokobanGame
             this.lbl_MoveCountNo = new System.Windows.Forms.Label();
             this.lbl_Notification = new System.Windows.Forms.Label();
             this.btn_Undo = new System.Windows.Forms.Button();
+            this.lst_FileList = new System.Windows.Forms.ListBox();
+            this.btn_GetLevels = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_start
@@ -95,11 +97,34 @@ namespace SokobanGame
             this.btn_Undo.UseVisualStyleBackColor = true;
             this.btn_Undo.Click += new System.EventHandler(this.btn_Undo_Click);
             // 
+            // lst_FileList
+            // 
+            this.lst_FileList.FormattingEnabled = true;
+            this.lst_FileList.ItemHeight = 25;
+            this.lst_FileList.Location = new System.Drawing.Point(253, 81);
+            this.lst_FileList.Name = "lst_FileList";
+            this.lst_FileList.Size = new System.Drawing.Size(310, 429);
+            this.lst_FileList.TabIndex = 6;
+            this.lst_FileList.Visible = false;
+            this.lst_FileList.SelectedIndexChanged += new System.EventHandler(this.lst_FileList_SelectedIndexChanged);
+            // 
+            // btn_GetLevels
+            // 
+            this.btn_GetLevels.Location = new System.Drawing.Point(42, 417);
+            this.btn_GetLevels.Name = "btn_GetLevels";
+            this.btn_GetLevels.Size = new System.Drawing.Size(183, 67);
+            this.btn_GetLevels.TabIndex = 7;
+            this.btn_GetLevels.Text = "Get Levels";
+            this.btn_GetLevels.UseVisualStyleBackColor = true;
+            this.btn_GetLevels.Click += new System.EventHandler(this.btn_GetLevels_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(947, 890);
+            this.ClientSize = new System.Drawing.Size(1438, 1013);
+            this.Controls.Add(this.btn_GetLevels);
+            this.Controls.Add(this.lst_FileList);
             this.Controls.Add(this.btn_Undo);
             this.Controls.Add(this.lbl_Notification);
             this.Controls.Add(this.lbl_MoveCountNo);
@@ -120,5 +145,7 @@ namespace SokobanGame
         private System.Windows.Forms.Label lbl_MoveCountNo;
         private System.Windows.Forms.Label lbl_Notification;
         private System.Windows.Forms.Button btn_Undo;
+        private System.Windows.Forms.ListBox lst_FileList;
+        private System.Windows.Forms.Button btn_GetLevels;
     }
 }

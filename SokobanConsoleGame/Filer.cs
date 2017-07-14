@@ -11,22 +11,24 @@ namespace SokobanGame
     public enum ConversionType { expand, compress};
     public class Filer : iFiler, iLoader, iSaver, iChecker     
     {
-        //protected iLoader Loader;
-        //protected iSaver Saver;
         public Converter Converter;
-        //protected iChecker Checker;
+        protected const string EXTENSION = @".txt";
+        protected const string DIR = @"levels\";
         public int NoPlayers{ get; set; }
         public int NoGoals { get; set; }
         public int NoBoxes { get; set; }
         public Filer(Converter converter) 
         {
-            //Loader = loader;
-            //Saver = saver;
             Converter = converter;
-            //Checker = checker;
+        }
+        public string[] GetFileList()
+        {
+            string[] txtfiles = Directory.GetFiles(DIR, "*.txt");
+            return txtfiles;
         }
         public string Load(string filename)
         {
+            filename = DIR + filename;
             if (File.Exists(filename))
             {
                 var fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read);

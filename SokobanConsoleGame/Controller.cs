@@ -12,18 +12,29 @@ namespace SokobanGame
         Game Game;
         iView View;
         private int redrawCount = 0;
-        protected const int JITTER_REDRAW = 5;
+        protected const int JITTER_REDRAW = 10;
         public bool isFinished = false;
         public Controller(Game game, iView view)
         {
             Game = game;
             View = view;
         }
-        public void SetupGame()
+        public void SetupGame(string fileName)
         {
-            Game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
-            PlacePieces();
-            View.SetMoves(0);
+            //Game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
+            if (Game.Load(fileName))
+            {
+                PlacePieces();
+                View.SetMoves(0);
+            }
+        }
+        public string[] GetFileList()
+        {
+            return Game.GetFileList();
+        }
+        public void Load(string fileName)
+        {
+            Game.Load(fileName);
         }
         public void Move(Direction direction)
         {
