@@ -63,6 +63,7 @@
     <Compile Include="iLoader.cs" />
     <Compile Include="iSaver.cs" />
     <Compile Include="iView.cs" />
+    <Compile Include="Parts.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

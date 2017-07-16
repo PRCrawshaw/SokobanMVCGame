@@ -41,6 +41,7 @@ namespace SokobanGame
             int length = lines[0].Length;
             savedLength = length;
             string result = "";
+            // get maximum line length
             foreach (string line in lines)
             {
                 if (length < line.Length)
@@ -48,29 +49,19 @@ namespace SokobanGame
                     length = line.Length;
                 }
             }
-            if (savedLength != length)
+            foreach (string line in lines)
             {
-                foreach (string line in lines)
+                result += line;
+                if (line.Length < length)
                 {
-                    result += line;
-                    if (line.Length < length)
+                    int addSpaces = length - line.Length;
+                    while (addSpaces > 0)
                     {
-                        int addSpaces = length - line.Length;
-                        while (addSpaces >= 0)
-                        {
-                            result += " ";
-                            addSpaces -= 1; 
-                        }
+                        result += " ";
+                        addSpaces -= 1; 
                     }
-                    result += "\n";
                 }
-            } else
-            {
-                foreach (string line in lines)
-                {
-                    result += line;
-                    result += "\n";
-                }
+                result += "\n";
             }
             return result;
         }

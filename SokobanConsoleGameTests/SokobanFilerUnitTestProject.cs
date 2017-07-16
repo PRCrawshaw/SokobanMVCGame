@@ -212,5 +212,17 @@ namespace SokobanGameTests
             // assert  
             Assert.AreEqual(expected, actual, "runs were not compressed and singles left alone");
         }
+        [TestMethod]
+        public void TestExp07FilerExpandRowToEqualLength()
+        {
+            string input = "5#|#3-#|3#|5#";
+            string expected = "#####\n#   #\n###  \n#####";
+            Converter expander = new Converter();
+            // act
+            expander.Expand(input);
+            string actual = expander.Expanded;
+            // assert
+            Assert.AreEqual(expected, actual, "Did not expand line to have trailing spaces");
+        }
     }
 }

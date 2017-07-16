@@ -14,7 +14,7 @@ namespace SokobanGame
     {
         Filer Filer;
         public Parts[,] LevelGrid;
-        private Stack MoveStack = new Stack();
+        public Stack MoveStack = new Stack();
         public Position[] ChangedPositions = new Position[3];
         public Position PlayerPos { get; set; }
         public int RowCount { get; set; }
@@ -121,6 +121,7 @@ namespace SokobanGame
         }
         public bool Move(Direction moveDirection)
         {
+            Console.WriteLine("Move Player: " + moveDirection);
             bool moved = false;
             ChangedPositions[OLDPOS] = PlayerPos;
             ChangedPositions[NEWPOS] = GetNewPos(moveDirection, PlayerPos); 
@@ -142,6 +143,8 @@ namespace SokobanGame
                     moved = true;
                 }
             }
+            //OutputLevelGrid();
+            //OutputStack();
             return moved;
         }
         private void MoveBlock()
@@ -206,11 +209,77 @@ namespace SokobanGame
         }
         public void Undo()
         {
+            //Console.WriteLine("Before undo");
+            //Console.WriteLine("MoveStack count: " + MoveStack.Count);
+            //OutputStack();
             if (MoveStack.Count > 1)
             {
                 MoveStack.Pop(); // remove last move
-                LevelGrid = (Parts[,])MoveStack.Peek(); // get move before last move
+                LevelGrid = DeepCopy((Parts[,])MoveStack.Peek()); // get move before last move
+                ResetPlayerPos();
                 MoveCount--;
+            }
+            else
+            {
+                MoveStack.Clear();
+                setupGrid();
+                MoveCount--;
+            }
+            //Console.WriteLine("after undo");
+            //Console.WriteLine("MoveStack count: " + MoveStack.Count);
+            //OutputStack();
+        }
+        //private void OutputLevelGrid()
+        //{
+        //    string textGrid = "";
+        //    for (int r = 0; r < RowCount; r++)
+        //    {
+        //        for (int c = 0; c < ColCount; c++)
+        //        {
+        //            char partLetter = (char)LevelGrid[r, c];
+        //        textGrid += partLetter;
+        //        }
+        //    textGrid += "|";
+        //    }
+        //    textGrid += "\n";
+        //    Console.WriteLine("LevelGrid: " + textGrid);
+
+        //}
+        //private void OutputStack()
+        //{
+        //    string stack = "";
+        //    Stack stackCopy = DeepCopy(MoveStack);
+        //    Console.WriteLine("stackCopy count: " + stackCopy.Count);
+        //    int stackCount = stackCopy.Count;
+        //    for (int i=0; i<stackCount; i++)
+        //    {
+        //        Parts[,] part = (Parts[,])stackCopy.Pop();
+        //        for (int r=0; r < RowCount; r++)
+        //        {
+        //            for (int c=0; c < ColCount; c++)
+        //            {                      
+        //                char partLetter = (char)part[r, c];
+        //                stack += partLetter;
+        //            }
+        //            stack += "|";
+        //        }
+        //        stack += "end line\n";
+        //    }
+        //    Console.WriteLine(stack);
+
+        //}
+        private void ResetPlayerPos()
+        {
+            for (int r=0; r<RowCount; r++)
+            {   
+                for (int c=0; c<ColCount; c++)
+                {
+                    if (LevelGrid[r, c] == Parts.Player)
+                    {
+                        PlayerPos = new Position(r, c);
+                        break;
+                    }                       
+                }                
             }
         }
         //public Direction GetReverseDirection(Direction lastDirection)

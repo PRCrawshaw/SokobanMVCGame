@@ -28,7 +28,8 @@ namespace SokobanGame
         }
         public string Load(string filename)
         {
-            filename = DIR + filename;
+            if (!filename.Contains("Levels")) // used for unit tests
+                filename = DIR + filename;
             if (File.Exists(filename))
             {
                 var fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
@@ -63,6 +64,7 @@ namespace SokobanGame
         }
         public string Save(string filename, string text)
         {
+            //filename = DIR + filename;
             if (!File.Exists(filename))
             {
                 text = convertString(text, ConversionType.compress);
@@ -141,6 +143,49 @@ namespace SokobanGame
             this.NoGoals = goalCount;
             this.NoBoxes = boxCount;
             if (boxCount == goalCount && boxCount > 0)
+                return true;
+            else return false;
+        }
+        public bool CheckWallsOnEdges(string input)
+        {
+            Converter.Compress(input);
+            bool firstRowOk = false;
+            bool lastRowOK = false;
+            bool middleLinesOk = false;
+            string compressedInput = Converter.Compressed;
+            string[] compressedLines = compressedInput.Split('|');
+            string[] inputLines = input.Split('\n');
+            int length = inputLines[0].Length;
+            int noOfLines = compressedLines.Length -1;
+            
+            // check first and last rows
+            string lastLine = compressedLines[noOfLines];
+            string firstLine = compressedLines[0];
+            if (firstLine[1] == '#' && firstLine.Length == 2)
+                firstRowOk = true;
+            if (lastLine[1] == '#' && lastLine.Length == 2 )
+                lastRowOK = true;
+
+            // check middle rows
+            // add trailing spaces
+            for (int j=0; j< inputLines.Length; j++)
+            {
+                if (inputLines[j][length-1] == ' ')
+                {
+                    // find out how many spaces TODO
+
+                    compressedLines[j] += "-";
+                }
+            }
+            // start on second line 
+            for (int i=1; i < noOfLines; i++)
+            {
+                if (compressedLines[i].StartsWith("#") && compressedLines[i].EndsWith("#"))
+                    middleLinesOk = true;
+                else middleLinesOk = false;
+            }
+
+            if (lastRowOK && firstRowOk && middleLinesOk)
                 return true;
             else return false;
         }

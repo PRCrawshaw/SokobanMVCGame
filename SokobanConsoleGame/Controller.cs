@@ -14,6 +14,7 @@ namespace SokobanGame
         private int redrawCount = 0;
         protected const int JITTER_REDRAW = 10;
         public bool isFinished = false;
+        public Parts[,] DesignLevel;
         public Controller(Game game, iView view)
         {
             Game = game;
@@ -21,11 +22,64 @@ namespace SokobanGame
         }
         public void SetupGame(string fileName)
         {
-            //Game.Load("#######\n#     #\n#    .#\n#    $#\n# @   #\n#######");
             if (Game.Load(fileName))
             {
-                PlacePieces();
                 View.SetMoves(0);
+                View.PlayingGame = true;
+                View.ToggleMoveCountVisibility(true);
+                View.ToogleNotificationVisiablity(true);
+                View.ToogleListBoxVisiablity(false);
+                View.SetNotification("");
+                PlacePieces();
+                isFinished = false;
+            }
+        }
+        public void SetupDesigner(int rows, int cols)
+        {
+            InitializeDesignLevel(rows, cols);
+            int GridWidth = 40;
+            for (int r = 1; r <= rows; r++)
+            {
+                for (int c = 1; c <= cols; c++)
+                {
+                    View.CreateLevelGridButton(
+                        GridWidth * (r - 1), GridWidth * (c - 1), Parts.Empty);
+                }
+            }
+            View.CreateSelectTypeButtons();
+        }
+        public bool CheckDesignBeforeSave()
+        {
+            bool result = Game.CheckStringValidGameString(ConvertDesignLevelToString());
+            Console.WriteLine("Valid String result: " + result);
+            return result;
+        }
+        public string ConvertDesignLevelToString()
+        {
+            string textGrid = "";
+            int rows = DesignLevel.GetLength(0);
+            int cols = DesignLevel.GetLength(1);
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    char partLetter = (char)DesignLevel[r, c];
+                    textGrid += partLetter;
+                }
+                textGrid += "|";
+            }
+            Console.WriteLine("DesignLevel: " + textGrid);
+            return textGrid;
+        }
+        private void InitializeDesignLevel(int rows, int cols)
+        {
+            DesignLevel = new Parts[rows, cols];
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    DesignLevel[r, c] = Parts.Empty;
+                }
             }
         }
         public string[] GetFileList()

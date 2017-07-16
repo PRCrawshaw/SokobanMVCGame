@@ -44,14 +44,14 @@ namespace SokobanGame.Tests
         public void TestFile03ReadFromAFile()
         {
             string input = "#.@ $     \n##########";
-            string expected = "#.@ $      \n##########";
+            string expected = "#.@ $     \n##########";
             string fileName = "TestFile02.txt";
             Filer filer = new Filer(Converter);
             // act
             // write to a file to ensure file exists.
-            string temp = filer.Save(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName, input);
+            string temp = filer.Save(AppDomain.CurrentDomain.BaseDirectory + @"\Levels\" + fileName, input);
             // now try to read back from the file. Note file is expanded as read
-            string actual = filer.Load(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName);
+            string actual = filer.Load(AppDomain.CurrentDomain.BaseDirectory + @"\Levels\" + fileName);
             // assert 
             Assert.AreEqual(expected, actual, "Did not read from a file");
         }
@@ -71,12 +71,12 @@ namespace SokobanGame.Tests
         {
             // note TestFile02.txt must be in the debug directory
             //     ~\SokobanConsoleGame\SokobanConsoleGame\SokobanConsoleGameTests\bin\Debug
-            string expected = "#.@ $      \n##########";
+            string expected = "#.@ $     \n##########";
             string fileName = "TestFile02.txt";
             Filer filer = new Filer(Converter);
             // act
             // file is expanded as read
-            string actual = filer.Load(AppDomain.CurrentDomain.BaseDirectory + @"\" + fileName);
+            string actual = filer.Load(AppDomain.CurrentDomain.BaseDirectory + @"\Levels\" + fileName);
             // assert 
             Assert.AreEqual(expected, actual, 
                 "Did read and expand file in debug directory");
