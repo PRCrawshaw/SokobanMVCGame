@@ -12,7 +12,7 @@ namespace SokobanGame
 {
     public class Game : iGame, iFileable
     {
-        Filer Filer;
+        public Filer Filer;
         public Parts[,] LevelGrid;
         public Stack MoveStack = new Stack();
         public Position[] ChangedPositions = new Position[3];

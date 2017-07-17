@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 namespace SokobanGame
 {
     public enum ConversionType { expand, compress};
-    public class Filer : iFiler, iLoader, iSaver, iChecker     
+    public class Filer : iFiler, iLoader, iSaver, iChecker
     {
         public Converter Converter;
         protected const string EXTENSION = @".txt";
         protected const string DIR = @"levels\";
-        public int NoPlayers{ get; set; }
+        public int NoPlayers { get; set; }
         public int NoGoals { get; set; }
         public int NoBoxes { get; set; }
-        public Filer(Converter converter) 
+        public Filer(Converter converter)
         {
             Converter = converter;
         }
@@ -105,7 +105,7 @@ namespace SokobanGame
         {
             string[] lines = input.Split('\n');
             int lineLength = lines[0].Length;
-            for (int i=0; i<lines.Length; i++)
+            for (int i = 0; i < lines.Length; i++)
             {
                 if (lineLength != lines[i].Length)
                 {
@@ -151,43 +151,53 @@ namespace SokobanGame
             Converter.Compress(input);
             bool firstRowOk = false;
             bool lastRowOK = false;
-            bool middleLinesOk = false;
-            string compressedInput = Converter.Compressed;
-            string[] compressedLines = compressedInput.Split('|');
+            bool middleLinesOk = true;
+            string[] compressedLines = Converter.Compressed.Split('|');
             string[] inputLines = input.Split('\n');
-            int length = inputLines[0].Length;
-            int noOfLines = compressedLines.Length -1;
-            
-            // check first and last rows
-            string lastLine = compressedLines[noOfLines];
+
+            string lastLine = compressedLines[compressedLines.Length - 1];
             string firstLine = compressedLines[0];
-            if (firstLine[1] == '#' && firstLine.Length == 2)
-                firstRowOk = true;
-            if (lastLine[1] == '#' && lastLine.Length == 2 )
-                lastRowOK = true;
+            firstRowOk = CheckFirstLastLineEdges(firstLine);
+            lastRowOK = CheckFirstLastLineEdges(lastLine);
 
-            // check middle rows
-            // add trailing spaces
-            for (int j=0; j< inputLines.Length; j++)
-            {
-                if (inputLines[j][length-1] == ' ')
-                {
-                    // find out how many spaces TODO
-
-                    compressedLines[j] += "-";
-                }
-            }
-            // start on second line 
-            for (int i=1; i < noOfLines; i++)
-            {
-                if (compressedLines[i].StartsWith("#") && compressedLines[i].EndsWith("#"))
-                    middleLinesOk = true;
-                else middleLinesOk = false;
-            }
-
+            middleLinesOk = CheckMiddleRowEdges(inputLines, compressedLines);
             if (lastRowOK && firstRowOk && middleLinesOk)
                 return true;
             else return false;
+        }
+        private bool CheckFirstLastLineEdges(string line)
+        {
+            if (line != String.Empty)
+            {
+                if (line[1] == '#' && line.Length == 2)
+                    return true;
+            }
+            return false;
+        }
+        private bool CheckMiddleRowEdges(string[] inputLines, string[] compressedLines)
+        {
+            int length = inputLines[0].Length;
+            int noOfLines = compressedLines.Length - 1;
+            bool result = true;
+            // add trailing spaces
+            for (int j = 0; j < inputLines.Length; j++)
+            {
+                if (inputLines[j][length - 1] == ' ')
+                {
+                    // find out how many spaces TODO
+                    compressedLines[j] += "-";
+                }
+            }
+            // start on second line end on second to last line
+            for (int i = 1; i < noOfLines; i++)
+            {
+                if (!compressedLines[i].StartsWith("#")
+                    || !compressedLines[i].EndsWith("#"))
+                {
+                    result = false;
+                }
+            }
+            return result;
         }
     }
 }

@@ -50,9 +50,41 @@ namespace SokobanGame
         }
         public bool CheckDesignBeforeSave()
         {
-            bool result = Game.CheckStringValidGameString(ConvertDesignLevelToString());
-            Console.WriteLine("Valid String result: " + result);
+            // if valid no player, boxes, goals
+            bool result = false;
+            string gameString = ConvertDesignLevelToString();
+            if (!Game.CheckStringValidGameString(gameString))
+            {
+                MessageBox.Show(
+                    "You need a single player and an equal number of goals and boxes",
+                    "Invalid Game", MessageBoxButtons.OK);          
+            }
+            else
+            {
+                if (!Game.Filer.CheckWallsOnEdges(gameString))
+                {
+                    if (DisplayYesNoMessageBox(
+                    "You do not have walls on all outside edges. Do you wish to save anyway?",
+                    "Missing Walls"))
+                    {
+                        result = true;
+                    }
+                }
+                else result = true;
+            }
             return result;
+        }
+        public bool DisplayYesNoMessageBox(string message, string caption)
+        {
+            bool response = false;
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result;
+            result = MessageBox.Show(message, caption, buttons, MessageBoxIcon.Question);
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+                response = true;
+            }
+            return response;
         }
         public string ConvertDesignLevelToString()
         {
@@ -150,7 +182,8 @@ namespace SokobanGame
             {
                 Game.Undo();
                 PlacePieces();
-                View.SetMoves(Game.MoveCount);
+                if (Game.MoveCount >= 0)
+                    View.SetMoves(Game.MoveCount);
             }
             else
             {

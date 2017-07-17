@@ -19,7 +19,7 @@ namespace SokobanConsoleGameTests
             Assert.AreEqual(expected, actual, "Did not find walls on outside edges");
         }
         [TestMethod]
-        public void TestWalls02WallsOnOutsideEdgesFail()
+        public void TestWalls02WallsOnOutsideEdgesOneMiddleLineEndsWithSpaces()
         {
             string input = "#####\n#   #\n#   #\n#    \n#####";
             bool expected = false;
@@ -27,6 +27,36 @@ namespace SokobanConsoleGameTests
             bool actual = filer.CheckWallsOnEdges(input);
             // assert 
             Assert.AreEqual(expected, actual, "Did not find missing wall on outside edges");
+        }
+        [TestMethod]
+        public void TestWalls03WallsOnOutsideEdgesOneMiddleLineStartsWithSpaces()
+        {
+            string input = "#####\n#   #\n    #\n#   #\n#####";
+            bool expected = false;
+            Filer filer = new Filer(Converter);
+            bool actual = filer.CheckWallsOnEdges(input);
+            // assert 
+            Assert.AreEqual(expected, actual, "Did not find missing wall on outside edges");
+        }
+        [TestMethod]
+        public void TestWalls04NoWallsInFirstLine()
+        {
+            string input = "     \n#   #\n#   #\n #   #\n#####";
+            bool expected = false;
+            Filer filer = new Filer(Converter);
+            bool actual = filer.CheckWallsOnEdges(input);
+            // assert 
+            Assert.AreEqual(expected, actual, "Did not find no walls in first line");
+        }
+        [TestMethod]
+        public void TestWalls05NoWallsInLastLine()
+        {
+            string input = "#####\n#   #\n#   #\n #   #\n     ";
+            bool expected = false;
+            Filer filer = new Filer(Converter);
+            bool actual = filer.CheckWallsOnEdges(input);
+            // assert 
+            Assert.AreEqual(expected, actual, "Did not find no walls in last line");
         }
     }
 }
