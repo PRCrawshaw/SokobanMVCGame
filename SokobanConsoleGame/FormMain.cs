@@ -19,7 +19,7 @@ namespace SokobanGame
         private int GridSize = 40;
         private string DefaultFileName = "Level1.txt";
         private Graphics Graphics;
-        private Parts PartType = Parts.Player;
+        private Parts PartType = Parts.Wall;
         private int HighlightX;
         private int HighlightY;
         public bool PlayingGame { get; set; }
@@ -132,14 +132,10 @@ namespace SokobanGame
             newButton.Height = 40;
             newButton.Location = p;
             newButton.Click += new EventHandler(Design_buttonClick);
-            if (part != Parts.Empty)
-            {
-                newButton.BackgroundImage = GetMyPartImage(part);
-                newButton.BackgroundImageLayout = ImageLayout.Stretch;
-            }
+            newButton.BackgroundImage = GetMyPartImage(part);
+            newButton.BackgroundImageLayout = ImageLayout.Stretch;
             this.Controls.Add(newButton);
         }
-
         private void Design_buttonClick(object sender, EventArgs e)
         {
             Button clickedButton = (Button)sender;
@@ -151,14 +147,23 @@ namespace SokobanGame
         private void PartType_buttonClick(object sender, EventArgs e)
         {
             Button clickedButton = (Button)sender;
-            PartType = (Parts)Enum.Parse(typeof(Parts), clickedButton.Name);           
-            Pen pen = new Pen(Color.FromArgb(255, 242, 242, 242)); // clear the previous highlight
-            pen.Width = 5;
-            Graphics.DrawRectangle(pen, new Rectangle(HighlightX - 2, HighlightY - 2, 43, 43));
+            PartType = (Parts)Enum.Parse(typeof(Parts), clickedButton.Name);
+            HighlightPartType(Color.FromArgb(255, 242, 242, 242)); // background colour      
             HighlightX = clickedButton.Location.X;
             HighlightY = clickedButton.Location.Y;
-            pen.Color = Color.Red;
-            Graphics.DrawRectangle(pen, new Rectangle(HighlightX-2, HighlightY-2, 43, 43));
+            HighlightPartType(Color.Red);
+        }
+        private void HighlightPartType(Color color)
+        {
+            Pen pen = new Pen(color);
+            pen.Width = 5;
+            Graphics.DrawRectangle(pen, new Rectangle(HighlightX - 2, HighlightY - 2, 43, 43));
+        }
+        public void SetIntialHighlightArea()
+        {
+            HighlightX = STARTX;
+            HighlightY = STARTY;
+            HighlightPartType(Color.Red);
         }
         public void CreateSelectTypeButtons()
         {
@@ -247,17 +252,23 @@ namespace SokobanGame
         }
         private void btn_GetLevels_Click(object sender, EventArgs e)
         {
-            ToggleMoveCountVisibility(false);
-            ToogleListBoxVisiablity(true);
+            Ctrl.GetLevels();
+            //ToggleMoveCountVisibility(false);
+            //ToogleListBoxVisiablity(true);
+            //lst_FileList.Items.Clear();
+            //ClearGameGrid();
+            //string[] fileListWithPath = Ctrl.GetFileList();
+            //string[] fileList = new string[fileListWithPath.Length];
+            //for (int i=0; i<fileListWithPath.Length; i++)
+            //{
+            //    fileList[i] = fileListWithPath[i].Substring(fileListWithPath[i].LastIndexOf('\\') + 1);
+            //}
+            //lst_FileList.Items.AddRange(fileList); 
+        }
+        public void SetupItemList(string[] fileList)
+        {
             lst_FileList.Items.Clear();
-            ClearGameGrid();
-            string[] fileListWithPath = Ctrl.GetFileList();
-            string[] fileList = new string[fileListWithPath.Length];
-            for (int i=0; i<fileListWithPath.Length; i++)
-            {
-                fileList[i] = fileListWithPath[i].Substring(fileListWithPath[i].LastIndexOf('\\') + 1);
-            }
-            lst_FileList.Items.AddRange(fileList); 
+            lst_FileList.Items.AddRange(fileList);
         }
         private void lst_FileList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -271,6 +282,7 @@ namespace SokobanGame
         {
             this.CreateGraphics().Clear(FormMain.ActiveForm.BackColor);
         }
+        // Designer buttones
         private void btn_Design_Click(object sender, EventArgs e)
         {
             ToggleMoveCountVisibility(false);
@@ -291,17 +303,20 @@ namespace SokobanGame
         private void btn_SaveDesign_Click(object sender, EventArgs e)
         {
             if (Ctrl.CheckDesignBeforeSave())
+            {
+                Ctrl.SaveDesign();
                 ClearDesignArea();
-            else SetNotification("Must have: One Player, Equal Number of Goals and Boxes\n                   and be surrounded by Walls");
+            }
+            else SetNotification("Must have: One Player, Equal Number of Goals and Boxes\n"+
+                                 "and be surrounded by Walls");
         }
-
         private void ClearDesignArea()
         {
             ToogleGameButtonsVisiablity(true);
             ToggleChooseDesignerSizeVisibility(false);
             DeleteDesignButtons();
+            SetNotification("");
         }
-
         private void DeleteDesignButtons()
         {
             int noRows = Convert.ToInt32(nup_Rows.Value);
@@ -321,9 +336,7 @@ namespace SokobanGame
                 Button btn = this.Controls.Find(btnName, true).FirstOrDefault() as Button;
                 this.Controls.Remove(btn);
             }
-            Pen pen = new Pen(Color.FromArgb(255, 242, 242, 242)); // clear the previous highlight
-            pen.Width = 5;
-            Graphics.DrawRectangle(pen, new Rectangle(HighlightX - 2, HighlightY - 2, 43, 43));
+            HighlightPartType(Color.FromArgb(255, 242, 242, 242));
         }
     }
 }

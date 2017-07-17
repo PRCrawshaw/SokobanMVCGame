@@ -19,6 +19,16 @@ namespace SokobanConsoleGameTests
             Assert.AreEqual(expected, actual, "Did not find walls on outside edges");
         }
         [TestMethod]
+        public void TestWalls01WallsOnOutsideEdgesPassSixGrid()
+        {
+            string input = "######\n#.   #\n#  $ #\n#    #\n#   @#\n######";
+            bool expected = true;
+            Filer filer = new Filer(Converter);
+            bool actual = filer.CheckWallsOnEdges(input);
+            // assert 
+            Assert.AreEqual(expected, actual, "Did not find walls on outside edges");
+        }
+        [TestMethod]
         public void TestWalls02WallsOnOutsideEdgesOneMiddleLineEndsWithSpaces()
         {
             string input = "#####\n#   #\n#   #\n#    \n#####";

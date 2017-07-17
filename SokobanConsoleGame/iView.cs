@@ -23,5 +23,7 @@ namespace SokobanGame
         void ToggleMoveCountVisibility(bool v);
         void ToogleNotificationVisiablity(bool v);
         void ToogleListBoxVisiablity(bool v);
+        void SetIntialHighlightArea();
+        void SetupItemList(string[] fileList);
     }
 }

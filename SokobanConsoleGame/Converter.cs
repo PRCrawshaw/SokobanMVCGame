@@ -16,6 +16,7 @@ namespace SokobanGame
             if (checkValidString(uncompressedLevel))
             {
                 string str = Regex.Replace(uncompressedLevel, "\n", "|");
+                //str = Regex.Replace(uncompressedLevel, "\\", "");
                 str = Regex.Replace(str, "\\s", "-");
                 str = CompressObjects(str);
                 this.Compressed = str;

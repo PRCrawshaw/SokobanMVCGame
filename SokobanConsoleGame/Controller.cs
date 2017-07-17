@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,6 +16,7 @@ namespace SokobanGame
         protected const int JITTER_REDRAW = 10;
         public bool isFinished = false;
         public Parts[,] DesignLevel;
+        private string DesignGameString;
         public Controller(Game game, iView view)
         {
             Game = game;
@@ -37,23 +39,42 @@ namespace SokobanGame
         public void SetupDesigner(int rows, int cols)
         {
             InitializeDesignLevel(rows, cols);
+            View.SetIntialHighlightArea();
             int GridWidth = 40;
             for (int r = 1; r <= rows; r++)
             {
                 for (int c = 1; c <= cols; c++)
                 {
+                    Parts part;
+                    if (CheckIfOutsideEdge(r, c, rows, cols))
+                    {
+                        part = Parts.Wall;
+                        DesignLevel[r-1, c-1] = Parts.Wall;
+                    }
+                    else part = Parts.Empty;
                     View.CreateLevelGridButton(
-                        GridWidth * (r - 1), GridWidth * (c - 1), Parts.Empty);
+                        GridWidth * (r - 1), GridWidth * (c - 1), part);
                 }
             }
             View.CreateSelectTypeButtons();
+        }
+        private bool CheckIfOutsideEdge(int r, int c, int rows, int cols)
+        {
+            if (r == 1 || r == rows || c == 1 || c == cols)
+                return true;
+            else return false;
+        }
+        public bool SaveDesign()
+        {
+            Game.Filer.Save("TestSaveDesign.txt", DesignGameString);
+            return true;
         }
         public bool CheckDesignBeforeSave()
         {
             // if valid no player, boxes, goals
             bool result = false;
-            string gameString = ConvertDesignLevelToString();
-            if (!Game.CheckStringValidGameString(gameString))
+            ConvertDesignLevelToString();
+            if (!Game.CheckStringValidGameString(DesignGameString))
             {
                 MessageBox.Show(
                     "You need a single player and an equal number of goals and boxes",
@@ -61,7 +82,7 @@ namespace SokobanGame
             }
             else
             {
-                if (!Game.Filer.CheckWallsOnEdges(gameString))
+                if (!Game.Filer.CheckWallsOnEdges(DesignGameString))
                 {
                     if (DisplayYesNoMessageBox(
                     "You do not have walls on all outside edges. Do you wish to save anyway?",
@@ -86,9 +107,9 @@ namespace SokobanGame
             }
             return response;
         }
-        public string ConvertDesignLevelToString()
+        private void ConvertDesignLevelToString()
         {
-            string textGrid = "";
+            DesignGameString = "";
             int rows = DesignLevel.GetLength(0);
             int cols = DesignLevel.GetLength(1);
             for (int r = 0; r < rows; r++)
@@ -96,12 +117,13 @@ namespace SokobanGame
                 for (int c = 0; c < cols; c++)
                 {
                     char partLetter = (char)DesignLevel[r, c];
-                    textGrid += partLetter;
+                    DesignGameString += partLetter;
                 }
-                textGrid += "|";
+                if (r != rows-1)
+                    DesignGameString += "\n";
             }
-            Console.WriteLine("DesignLevel: " + textGrid);
-            return textGrid;
+            DesignGameString = Regex.Replace(DesignGameString, "-", " ");
+            Console.WriteLine("DesignLevel: " + DesignGameString);
         }
         private void InitializeDesignLevel(int rows, int cols)
         {
@@ -124,6 +146,7 @@ namespace SokobanGame
         }
         public void Move(Direction direction)
         {
+            bool getNewLevel = false;
             if (Game.Move(direction) && !isFinished)
             {
                 View.SetMoves(Game.MoveCount);
@@ -140,10 +163,14 @@ namespace SokobanGame
                 View.SetNotification("");
                 if (Game.isFinished())
                 {
-                    View.SetNotification("You won");
-                    //View.ResetForm();
                     isFinished = true;
-                }
+                    if (DisplayYesNoMessageBox(
+                        "You have won. Do you wish to load another level?", "Game Over"))
+                    { 
+                        GetLevels();
+                    }
+                    else View.ResetForm();
+                    }
             }
             else
             {
@@ -151,6 +178,19 @@ namespace SokobanGame
                     View.SetNotification("You've already won");
                 else View.SetNotification("Can't move into a wall.");
             }
+        }
+        public void GetLevels()
+        {
+            View.ToggleMoveCountVisibility(false);
+            View.ToogleListBoxVisiablity(true);
+            View.ClearGameGrid();
+            string[] fileListWithPath = GetFileList();
+            string[] fileList = new string[fileListWithPath.Length];
+            for (int i = 0; i < fileListWithPath.Length; i++)
+            {
+                fileList[i] = fileListWithPath[i].Substring(fileListWithPath[i].LastIndexOf('\\') + 1);
+            }
+            View.SetupItemList(fileList);
         }
         private void PlacePieces()
         {
