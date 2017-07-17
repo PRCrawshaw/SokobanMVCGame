@@ -16,10 +16,10 @@ namespace SokobanGame
         void DisplayMain();
         void SetMoves(int moves);
         void FinishGame(string bestPlayer, string bestScore, int thisScore);
-        void ResetForm();
+        //void ResetForm();
         void SetButtonHighlight();
         void SetNotification(string message);
-        void ClearGameGrid();
+        void ClearGameGrid(EventArgs e);
         void ToggleMoveCountVisibility(bool v);
         void ToogleNotificationVisiablity(bool v);
         void ToogleListBoxVisiablity(bool v);

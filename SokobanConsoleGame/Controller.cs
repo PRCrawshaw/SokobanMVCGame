@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
+using SokobanConsoleGame;
 
 namespace SokobanGame
 {
@@ -66,7 +68,11 @@ namespace SokobanGame
         }
         public bool SaveDesign()
         {
-            Game.Filer.Save("TestSaveDesign.txt", DesignGameString);
+            string filename = ShowGetFilenameDialogBox();
+            if (filename.Substring(Math.Max(0, filename.Length - 4)) != ".txt")
+                filename = filename + ".txt";
+            filename = "Levels\\" + filename;
+            Game.Filer.Save(filename, DesignGameString);
             return true;
         }
         public bool CheckDesignBeforeSave()
@@ -107,6 +113,23 @@ namespace SokobanGame
             }
             return response;
         }
+        public string ShowGetFilenameDialogBox()
+        {
+            FileSaveNameDialogue FilenameDialogue = new FileSaveNameDialogue();
+            string fileName = "";
+            // Show testDialog as a modal dialog and determine if DialogResult = OK.
+            if (FilenameDialogue.ShowDialog() == DialogResult.OK)
+            {
+                // Read the contents of testDialog's TextBox.
+                fileName = FilenameDialogue.GetName();
+            }
+            else
+            {
+                fileName = "Cancelled";
+            }
+            FilenameDialogue.Dispose();
+            return fileName;
+        }
         private void ConvertDesignLevelToString()
         {
             DesignGameString = "";
@@ -146,7 +169,6 @@ namespace SokobanGame
         }
         public void Move(Direction direction)
         {
-            bool getNewLevel = false;
             if (Game.Move(direction) && !isFinished)
             {
                 View.SetMoves(Game.MoveCount);
@@ -169,8 +191,7 @@ namespace SokobanGame
                     { 
                         GetLevels();
                     }
-                    else View.ResetForm();
-                    }
+                 }
             }
             else
             {
@@ -181,9 +202,10 @@ namespace SokobanGame
         }
         public void GetLevels()
         {
+            EventArgs e = new EventArgs();
             View.ToggleMoveCountVisibility(false);
             View.ToogleListBoxVisiablity(true);
-            View.ClearGameGrid();
+            View.ClearGameGrid(e);
             string[] fileListWithPath = GetFileList();
             string[] fileList = new string[fileListWithPath.Length];
             for (int i = 0; i < fileListWithPath.Length; i++)

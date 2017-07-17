@@ -23,8 +23,6 @@ namespace SokobanGame
         private int HighlightX;
         private int HighlightY;
         public bool PlayingGame { get; set; }
-        //private int MoveOver = 0;
-
         public FormMain()
         {
             InitializeComponent();
@@ -72,11 +70,11 @@ namespace SokobanGame
             }
                 
         }
-        public void ResetForm()
-        {
-            Ctrl.SetupGame(DefaultFileName);
-            this.Invalidate();
-        }
+        //public void ResetForm()
+        //{
+        //    Ctrl.SetupGame(DefaultFileName);
+        //    this.Invalidate();
+        //}
         public void AddController(Controller ctrl)
         {
             Ctrl = ctrl;
@@ -91,6 +89,11 @@ namespace SokobanGame
             Rectangle inner = new Rectangle(rectCol + GAP, rectRow + GAP, 40, 40);
             Graphics.FillRectangle(Brushes.LightGray, inner);
             Graphics.DrawImage(GetMyPartImage(part), inner);
+        }
+        public void ClearGameGrid(EventArgs e)
+        {
+            this.Graphics.Clear(FormMain.ActiveForm.BackColor);
+            this.CreateGraphics().Clear(FormMain.ActiveForm.BackColor);
         }
         private void start_button_Click(object sender, EventArgs e)
         {
@@ -252,18 +255,8 @@ namespace SokobanGame
         }
         private void btn_GetLevels_Click(object sender, EventArgs e)
         {
+            ClearGameGrid(e);
             Ctrl.GetLevels();
-            //ToggleMoveCountVisibility(false);
-            //ToogleListBoxVisiablity(true);
-            //lst_FileList.Items.Clear();
-            //ClearGameGrid();
-            //string[] fileListWithPath = Ctrl.GetFileList();
-            //string[] fileList = new string[fileListWithPath.Length];
-            //for (int i=0; i<fileListWithPath.Length; i++)
-            //{
-            //    fileList[i] = fileListWithPath[i].Substring(fileListWithPath[i].LastIndexOf('\\') + 1);
-            //}
-            //lst_FileList.Items.AddRange(fileList); 
         }
         public void SetupItemList(string[] fileList)
         {
@@ -273,21 +266,17 @@ namespace SokobanGame
         private void lst_FileList_SelectedIndexChanged(object sender, EventArgs e)
         {
             ToogleListBoxVisiablity(false);
-            ClearGameGrid();
+            ClearGameGrid(e);
             DefaultFileName = lst_FileList.SelectedItem.ToString();
             Ctrl.SetupGame(DefaultFileName);
             PlayingGame = true;
-        }
-        public void ClearGameGrid()
-        {
-            this.CreateGraphics().Clear(FormMain.ActiveForm.BackColor);
         }
         // Designer buttones
         private void btn_Design_Click(object sender, EventArgs e)
         {
             ToggleMoveCountVisibility(false);
             ToogleGameButtonsVisiablity(false);
-            ClearGameGrid();
+            ClearGameGrid(e);
             ToggleChooseDesignerSizeVisibility(true);
             PlayingGame = false;
         }

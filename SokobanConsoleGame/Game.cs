@@ -121,7 +121,7 @@ namespace SokobanGame
         }
         public bool Move(Direction moveDirection)
         {
-            Console.WriteLine("Move Player: " + moveDirection);
+            //Console.WriteLine("Move Player: " + moveDirection);
             bool moved = false;
             ChangedPositions[OLDPOS] = PlayerPos;
             ChangedPositions[NEWPOS] = GetNewPos(moveDirection, PlayerPos); 
@@ -143,8 +143,6 @@ namespace SokobanGame
                     moved = true;
                 }
             }
-            //OutputLevelGrid();
-            //OutputStack();
             return moved;
         }
         private void MoveBlock()
@@ -282,28 +280,6 @@ namespace SokobanGame
                 }                
             }
         }
-        //public Direction GetReverseDirection(Direction lastDirection)
-        //{
-        //    Direction reversedDirection = Direction.Up;
-        //    switch (lastDirection)
-        //    {
-        //        case Direction.Down:
-        //            reversedDirection = Direction.Up;
-        //            break;
-        //        case Direction.Up:
-        //            reversedDirection = Direction.Down;
-        //            break;
-        //        case Direction.Right:
-        //            reversedDirection = Direction.Left;
-        //            break;
-        //        case Direction.Left:
-        //            reversedDirection = Direction.Right;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //    return reversedDirection;
-        //}
         public int GetRowCount() { return RowCount; }
         public int GetColumnCount() { return ColCount; }
     }
