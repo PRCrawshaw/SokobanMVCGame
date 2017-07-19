@@ -23,6 +23,7 @@ namespace SokobanGame
         private int HighlightX;
         private int HighlightY;
         public bool PlayingGame { get; set; }
+
         public FormMain()
         {
             InitializeComponent();
@@ -30,76 +31,16 @@ namespace SokobanGame
             ToggleMoveCountVisibility(false);
             ToggleChooseDesignerSizeVisibility(false);
             btn_SaveDesign.Visible = false;
+            btn_QuitDesign.Visible = false;
         }
-        public void ToggleMoveCountVisibility(bool toggle)
-        {
-            lbl_MoveCount.Visible = toggle;
-            lbl_MoveCountNo.Visible = toggle;
-        }
-        public void ToggleChooseDesignerSizeVisibility(bool toggle)
-        {
-            lbl_NoCols.Visible = toggle;
-            lbl_NoRows.Visible = toggle;
-            nup_Cols.Visible = toggle;
-            nup_Rows.Visible = toggle;
-            btn_StartDesign.Visible = toggle;
-        }
-        public void ToogleNotificationVisiablity(bool toggle)
-        {
-            lbl_Notification.Visible = toggle;
-        }
-        public void ToogleListBoxVisiablity(bool toggle)
-        {
-            lst_FileList.Visible = toggle;
-        }
-        public void ToogleGameButtonsVisiablity(bool toggle)
-        {
-            btn_GetLevels.Visible = toggle;
-            btn_reset.Visible = toggle;
-            btn_start.Visible = toggle;
-            btn_Undo.Visible = toggle;
-            if (toggle)
-            {
-                btn_Design.Visible = true;
-                btn_SaveDesign.Visible = false;
-            }
-            else
-            {
-                btn_Design.Visible = false;
-                btn_SaveDesign.Visible = true;
-            }
-                
-        }
-        //public void ResetForm()
-        //{
-        //    Ctrl.SetupGame(DefaultFileName);
-        //    this.Invalidate();
-        //}
+
         public void AddController(Controller ctrl)
         {
             Ctrl = ctrl;
         }
-        public void CreateLevelGridImage(int row, int col, Parts part)
-        {
-            int rectCol = col + STARTX;
-            int rectRow = row + STARTY;
-            Pen pen = new Pen(Color.FromArgb(255, 42, 42, 42));
-            Graphics.DrawRectangle(pen, new Rectangle(
-                rectCol, rectRow, GridSize + GAP, GridSize + GAP));
-            Rectangle inner = new Rectangle(rectCol + GAP, rectRow + GAP, 40, 40);
-            Graphics.FillRectangle(Brushes.LightGray, inner);
-            Graphics.DrawImage(GetMyPartImage(part), inner);
-        }
-        public void ClearGameGrid(EventArgs e)
-        {
-            this.Graphics.Clear(FormMain.ActiveForm.BackColor);
-            this.CreateGraphics().Clear(FormMain.ActiveForm.BackColor);
-        }
-        private void start_button_Click(object sender, EventArgs e)
-        {
-            this.Invalidate();
-            Ctrl.SetupGame(DefaultFileName);
-        }
+
+
+        // Use arrows for navigation
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (PlayingGame)
@@ -125,6 +66,19 @@ namespace SokobanGame
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        // game and design buttons and images
+        public void CreateLevelGridImage(int row, int col, Parts part)
+        {
+            int rectCol = col + STARTX;
+            int rectRow = row + STARTY;
+            Pen pen = new Pen(Color.FromArgb(255, 42, 42, 42));
+            Graphics.DrawRectangle(pen, new Rectangle(
+                rectCol, rectRow, GridSize + GAP, GridSize + GAP));
+            Rectangle inner = new Rectangle(rectCol + GAP, rectRow + GAP, 40, 40);
+            Graphics.FillRectangle(Brushes.LightGray, inner);
+            Graphics.DrawImage(GetMyPartImage(part), inner);
+        }
         public void CreateLevelGridButton(int row, int col, Parts part)
         {
             Point p = new Point(col + 120, row + STARTY + 50);
@@ -138,23 +92,6 @@ namespace SokobanGame
             newButton.BackgroundImage = GetMyPartImage(part);
             newButton.BackgroundImageLayout = ImageLayout.Stretch;
             this.Controls.Add(newButton);
-        }
-        private void Design_buttonClick(object sender, EventArgs e)
-        {
-            Button clickedButton = (Button)sender;
-            string[] row_col = clickedButton.Name.Split('_');
-            Ctrl.DesignLevel[int.Parse(row_col[0]), int.Parse(row_col[1])] = PartType;
-            clickedButton.BackgroundImage = GetMyPartImage(PartType);
-            clickedButton.BackgroundImageLayout = ImageLayout.Stretch;
-        }
-        private void PartType_buttonClick(object sender, EventArgs e)
-        {
-            Button clickedButton = (Button)sender;
-            PartType = (Parts)Enum.Parse(typeof(Parts), clickedButton.Name);
-            HighlightPartType(Color.FromArgb(255, 242, 242, 242)); // background colour      
-            HighlightX = clickedButton.Location.X;
-            HighlightY = clickedButton.Location.Y;
-            HighlightPartType(Color.Red);
         }
         private void HighlightPartType(Color color)
         {
@@ -222,14 +159,8 @@ namespace SokobanGame
         {
             btn_reset.Focus();
         }
-        public void DisplayMain()
-        {
-            throw new NotImplementedException();
-        }
-        public void FinishGame(string bestPlayer, string bestScore, int thisScore)
-        {
-            throw new NotImplementedException();
-        }
+
+        // set text fields
         public void SetMoves(int moves)
         {
             ToggleMoveCountVisibility(true);
@@ -241,68 +172,61 @@ namespace SokobanGame
             lbl_Notification.Text = message;
             SetButtonHighlight();
         }
-        private void start_button_Click_1(object sender, EventArgs e)
-        {
-            Ctrl.SetupGame(DefaultFileName);
-        }
-        private void btn_reset_Click(object sender, EventArgs e)
-        {
-            Ctrl.SetupGame(DefaultFileName);
-        }
-        private void btn_Undo_Click(object sender, EventArgs e)
-        {
-            Ctrl.Undo();
-        }
-        private void btn_GetLevels_Click(object sender, EventArgs e)
-        {
-            ClearGameGrid(e);
-            Ctrl.GetLevels();
-        }
         public void SetupItemList(string[] fileList)
         {
             lst_FileList.Items.Clear();
             lst_FileList.Items.AddRange(fileList);
         }
-        private void lst_FileList_SelectedIndexChanged(object sender, EventArgs e)
+        // Visibility Toggles
+        public void ToggleMoveCountVisibility(bool toggle)
         {
-            ToogleListBoxVisiablity(false);
-            ClearGameGrid(e);
-            DefaultFileName = lst_FileList.SelectedItem.ToString();
-            Ctrl.SetupGame(DefaultFileName);
-            PlayingGame = true;
+            lbl_MoveCount.Visible = toggle;
+            lbl_MoveCountNo.Visible = toggle;
         }
-        // Designer buttones
-        private void btn_Design_Click(object sender, EventArgs e)
+        public void ToggleChooseDesignerSizeVisibility(bool toggle)
         {
-            ToggleMoveCountVisibility(false);
-            ToogleGameButtonsVisiablity(false);
-            ClearGameGrid(e);
-            ToggleChooseDesignerSizeVisibility(true);
-            PlayingGame = false;
+            lbl_NoCols.Visible = toggle;
+            lbl_NoRows.Visible = toggle;
+            nup_Cols.Visible = toggle;
+            nup_Rows.Visible = toggle;
+            btn_StartDesign.Visible = toggle;
+            btn_QuitDesign.Visible = toggle;
         }
-        public void DesignerLoadLevel()
+        public void ToogleNotificationVisiablity(bool toggle)
         {
-            throw new NotImplementedException();
+            lbl_Notification.Visible = toggle;
         }
-        private void btn_StartDesign_Click(object sender, EventArgs e)
+        public void ToogleListBoxVisiablity(bool toggle)
         {
-            ToggleChooseDesignerSizeVisibility(false);
-            Ctrl.SetupDesigner(Convert.ToInt32(nup_Rows.Value), Convert.ToInt32(nup_Cols.Value));
+            lst_FileList.Visible = toggle;
         }
-        private void btn_SaveDesign_Click(object sender, EventArgs e)
+        public void ToogleGameButtonsVisiablity(bool toggle)
         {
-            if (Ctrl.CheckDesignBeforeSave())
+            btn_GetLevels.Visible = toggle;
+            btn_reset.Visible = toggle;
+            btn_start.Visible = toggle;
+            btn_Undo.Visible = toggle;
+            if (toggle)
             {
-                Ctrl.SaveDesign();
-                ClearDesignArea();
+                btn_Design.Visible = true;
+                btn_SaveDesign.Visible = false;
             }
-            else SetNotification("Must have: One Player, Equal Number of Goals and Boxes\n"+
-                                 "and be surrounded by Walls");
+            else
+            {
+                btn_Design.Visible = false;
+                btn_SaveDesign.Visible = true;
+            }
+        }
+        public void ClearGameGrid(EventArgs e)
+        {
+            this.Graphics.Clear(FormMain.ActiveForm.BackColor);
+            this.CreateGraphics().Clear(FormMain.ActiveForm.BackColor);
         }
         private void ClearDesignArea()
         {
             ToogleGameButtonsVisiablity(true);
             ToggleChooseDesignerSizeVisibility(false);
+            ToogleListBoxVisiablity(false);
             DeleteDesignButtons();
             SetNotification("");
         }
@@ -327,5 +251,98 @@ namespace SokobanGame
             }
             HighlightPartType(Color.FromArgb(255, 242, 242, 242));
         }
+
+        // button clicks
+        private void start_button_Click(object sender, EventArgs e)
+        {
+            this.Invalidate();
+            Ctrl.SetupGame(DefaultFileName);
+        }
+        private void Design_buttonClick(object sender, EventArgs e)
+        {
+            Button clickedButton = (Button)sender;
+            string[] row_col = clickedButton.Name.Split('_');
+            Ctrl.DesignLevel[int.Parse(row_col[0]), int.Parse(row_col[1])] = PartType;
+            clickedButton.BackgroundImage = GetMyPartImage(PartType);
+            clickedButton.BackgroundImageLayout = ImageLayout.Stretch;
+        }
+        private void PartType_buttonClick(object sender, EventArgs e)
+        {
+            Button clickedButton = (Button)sender;
+            PartType = (Parts)Enum.Parse(typeof(Parts), clickedButton.Name);
+            HighlightPartType(Color.FromArgb(255, 242, 242, 242)); // background colour      
+            HighlightX = clickedButton.Location.X;
+            HighlightY = clickedButton.Location.Y;
+            HighlightPartType(Color.Red);
+        }
+        private void start_button_Click_1(object sender, EventArgs e)
+        {
+            Ctrl.SetupGame(DefaultFileName);
+        }
+        private void btn_reset_Click(object sender, EventArgs e)
+        {
+            Ctrl.SetupGame(DefaultFileName);
+        }
+        private void btn_Undo_Click(object sender, EventArgs e)
+        {
+            Ctrl.Undo();
+        }
+        private void btn_GetLevels_Click(object sender, EventArgs e)
+        {
+            ClearGameGrid(e);
+            Ctrl.GetLevels();
+        }
+        private void lst_FileList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ToogleListBoxVisiablity(false);
+            ClearGameGrid(e);
+            DefaultFileName = lst_FileList.SelectedItem.ToString();
+            Ctrl.SetupGame(DefaultFileName);
+            PlayingGame = true;
+        }
+        // Designer buttons
+        private void btn_Design_Click(object sender, EventArgs e)
+        {
+            ToggleMoveCountVisibility(false);
+            ToogleGameButtonsVisiablity(false);
+            ClearGameGrid(e);
+            ToggleChooseDesignerSizeVisibility(true);
+            PlayingGame = false;
+        }
+        private void btn_StartDesign_Click(object sender, EventArgs e)
+        {
+            ToggleChooseDesignerSizeVisibility(false);
+            Ctrl.SetupDesigner(Convert.ToInt32(nup_Rows.Value), Convert.ToInt32(nup_Cols.Value));
+        }
+        private void btn_SaveDesign_Click(object sender, EventArgs e)
+        {
+            if (Ctrl.CheckDesignBeforeSave())
+            {
+                Ctrl.SaveDesign();
+                ClearDesignArea();
+            }
+            else SetNotification("Must have: One Player, Equal Number of Goals and Boxes\n"+
+                                 "and be surrounded by Walls");
+        }
+        
+        // unimplemented methods for future functionality
+        public void DesignerLoadLevel()
+        {
+            throw new NotImplementedException();
+        }
+        public void FinishGame(string bestPlayer, string bestScore, int thisScore)
+        {
+            throw new NotImplementedException();
+        }
+        public void DisplayMain()
+        {
+            throw new NotImplementedException();
+        }
+        //public void ResetForm()
+        //{
+        //    Ctrl.SetupGame(DefaultFileName);
+        //    this.Invalidate();
+        //}
+
     }
 }

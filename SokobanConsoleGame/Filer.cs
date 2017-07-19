@@ -167,9 +167,10 @@ namespace SokobanGame
         }
         private bool CheckFirstLastLineEdges(string line)
         {
+            int n;
             if (line != String.Empty)
             {
-                if (line[1] == '#' && line.Length == 2)
+                if (line.EndsWith("#") && int.TryParse((line.TrimEnd('#')), out n))
                     return true;
             }
             return false;

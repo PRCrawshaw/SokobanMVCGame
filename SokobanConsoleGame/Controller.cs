@@ -17,7 +17,7 @@ namespace SokobanGame
         private int redrawCount = 0;
         protected const int JITTER_REDRAW = 10;
         public bool isFinished = false;
-        public Parts[,] DesignLevel;
+        public Parts[,] DesignLevel = new Parts[1,1];
         private string DesignGameString;
         public Controller(Game game, iView view)
         {

@@ -19,7 +19,7 @@ namespace SokobanConsoleGameTests
             Assert.AreEqual(expected, actual, "Did not find walls on outside edges");
         }
         [TestMethod]
-        public void TestWalls01WallsOnOutsideEdgesPassSixGrid()
+        public void TestWalls02WallsOnOutsideEdgesPassSixGrid()
         {
             string input = "######\n#.   #\n#  $ #\n#    #\n#   @#\n######";
             bool expected = true;
@@ -29,7 +29,17 @@ namespace SokobanConsoleGameTests
             Assert.AreEqual(expected, actual, "Did not find walls on outside edges");
         }
         [TestMethod]
-        public void TestWalls02WallsOnOutsideEdgesOneMiddleLineEndsWithSpaces()
+        public void TestWalls03WallsOnOutsideEdgesPassDoubleDigitGrid()
+        {
+            string input = "##########\n#.       #\n#      $ #\n#        #\n#        #\n#        #\n#        #\n#       @#\n#        #\n#        #\n##########";
+            bool expected = true;
+            Filer filer = new Filer(Converter);
+            bool actual = filer.CheckWallsOnEdges(input);
+            // assert 
+            Assert.AreEqual(expected, actual, "Did not find walls on outside edges");
+        }
+        [TestMethod]
+        public void TestWalls04WallsOnOutsideEdgesOneMiddleLineEndsWithSpaces()
         {
             string input = "#####\n#   #\n#   #\n#    \n#####";
             bool expected = false;
@@ -39,7 +49,7 @@ namespace SokobanConsoleGameTests
             Assert.AreEqual(expected, actual, "Did not find missing wall on outside edges");
         }
         [TestMethod]
-        public void TestWalls03WallsOnOutsideEdgesOneMiddleLineStartsWithSpaces()
+        public void TestWalls05WallsOnOutsideEdgesOneMiddleLineStartsWithSpaces()
         {
             string input = "#####\n#   #\n    #\n#   #\n#####";
             bool expected = false;
@@ -49,7 +59,7 @@ namespace SokobanConsoleGameTests
             Assert.AreEqual(expected, actual, "Did not find missing wall on outside edges");
         }
         [TestMethod]
-        public void TestWalls04NoWallsInFirstLine()
+        public void TestWalls06NoWallsInFirstLine()
         {
             string input = "     \n#   #\n#   #\n #   #\n#####";
             bool expected = false;
@@ -59,7 +69,7 @@ namespace SokobanConsoleGameTests
             Assert.AreEqual(expected, actual, "Did not find no walls in first line");
         }
         [TestMethod]
-        public void TestWalls05NoWallsInLastLine()
+        public void TestWalls07NoWallsInLastLine()
         {
             string input = "#####\n#   #\n#   #\n #   #\n     ";
             bool expected = false;

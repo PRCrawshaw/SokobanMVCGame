@@ -45,6 +45,7 @@ namespace SokobanGame
             this.lbl_NoRows = new System.Windows.Forms.Label();
             this.btn_StartDesign = new System.Windows.Forms.Button();
             this.btn_SaveDesign = new System.Windows.Forms.Button();
+            this.btn_QuitDesign = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nup_Cols)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nup_Rows)).BeginInit();
             this.SuspendLayout();
@@ -219,11 +220,21 @@ namespace SokobanGame
             this.btn_SaveDesign.UseVisualStyleBackColor = true;
             this.btn_SaveDesign.Click += new System.EventHandler(this.btn_SaveDesign_Click);
             // 
+            // btn_QuitDesign
+            // 
+            this.btn_QuitDesign.Location = new System.Drawing.Point(42, 535);
+            this.btn_QuitDesign.Name = "btn_QuitDesign";
+            this.btn_QuitDesign.Size = new System.Drawing.Size(183, 67);
+            this.btn_QuitDesign.TabIndex = 15;
+            this.btn_QuitDesign.Text = "Quit Design";
+            this.btn_QuitDesign.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1438, 1013);
+            this.Controls.Add(this.btn_QuitDesign);
             this.Controls.Add(this.btn_SaveDesign);
             this.Controls.Add(this.btn_StartDesign);
             this.Controls.Add(this.lbl_NoRows);
@@ -264,5 +275,6 @@ namespace SokobanGame
         private System.Windows.Forms.Label lbl_NoRows;
         private System.Windows.Forms.Button btn_StartDesign;
         private System.Windows.Forms.Button btn_SaveDesign;
+        private System.Windows.Forms.Button btn_QuitDesign;
     }
 }
