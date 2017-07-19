@@ -64,7 +64,8 @@ namespace SokobanGame
         {
             if (!Filer.CheckLineLengths(newLevel) ||
                 !Filer.CheckPlayersGoalsBlocks(newLevel) ||
-                !Filer.Converter.checkValidString(newLevel))
+                !Filer.Converter.checkValidString(newLevel) ||
+                !Filer.CheckWallsOnEdges(newLevel))
             {
                 return false;
             }

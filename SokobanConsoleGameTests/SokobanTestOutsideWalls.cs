@@ -5,7 +5,7 @@ using SokobanGame;
 namespace SokobanConsoleGameTests
 {
     [TestClass]
-    public class TestOutsideWalls
+    public class SokobanTestOutsideWalls
     {
         protected Converter Converter = new Converter();
         [TestMethod]

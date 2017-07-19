@@ -25,5 +25,6 @@ namespace SokobanGame
         void ToogleListBoxVisiablity(bool v);
         void SetIntialHighlightArea();
         void SetupItemList(string[] fileList);
+        void SetDefaultFileName(string v);
     }
 }

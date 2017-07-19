@@ -17,6 +17,8 @@ namespace SokobanGame
         public int NoPlayers { get; set; }
         public int NoGoals { get; set; }
         public int NoBoxes { get; set; }
+
+        // Constructor
         public Filer(Converter converter)
         {
             Converter = converter;

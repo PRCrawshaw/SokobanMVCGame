@@ -53,11 +53,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="GameMoveUnitTests.cs" />
+    <Compile Include="SokobanGameMoveUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SokobanGameUnitTests.cs" />
-    <Compile Include="SokobanFilerUnitTestProject.cs" />
-    <Compile Include="TestOutsideWalls.cs" />
+    <Compile Include="SokobanFilerUnitTests.cs" />
+    <Compile Include="SokobanTestOutsideWalls.cs" />
+    <Compile Include="SokobanLoadUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SokobanConsoleGame\SokobanGame.csproj">

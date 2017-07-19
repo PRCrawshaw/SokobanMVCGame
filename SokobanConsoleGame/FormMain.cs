@@ -17,13 +17,15 @@ namespace SokobanGame
         protected const int STARTY = 40;
         protected const int GAP = 0;
         private int GridSize = 40;
-        private string DefaultFileName = "Level1.txt";
-        private Graphics Graphics;
-        private Parts PartType = Parts.Wall;
         private int HighlightX;
         private int HighlightY;
-        public bool PlayingGame { get; set; }
+        private string DefaultFileName;
+        private Graphics Graphics;
+        private Parts PartType = Parts.Wall;
 
+        public bool PlayingGame { get; set; }
+        
+        // Setup methods
         public FormMain()
         {
             InitializeComponent();
@@ -33,12 +35,14 @@ namespace SokobanGame
             btn_SaveDesign.Visible = false;
             btn_QuitDesign.Visible = false;
         }
-
         public void AddController(Controller ctrl)
         {
             Ctrl = ctrl;
         }
-
+        public void SetDefaultFileName(string name)
+        {
+            DefaultFileName = name;
+        }
 
         // Use arrows for navigation
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -296,10 +300,12 @@ namespace SokobanGame
         {
             ToogleListBoxVisiablity(false);
             ClearGameGrid(e);
-            DefaultFileName = lst_FileList.SelectedItem.ToString();
+            SetDefaultFileName(lst_FileList.SelectedItem.ToString());
             Ctrl.SetupGame(DefaultFileName);
             PlayingGame = true;
         }
+
+        
         // Designer buttons
         private void btn_Design_Click(object sender, EventArgs e)
         {
@@ -325,7 +331,7 @@ namespace SokobanGame
                                  "and be surrounded by Walls");
         }
         
-        // unimplemented methods for future functionality
+        // unimplemented interface methods for future functionality
         public void DesignerLoadLevel()
         {
             throw new NotImplementedException();
