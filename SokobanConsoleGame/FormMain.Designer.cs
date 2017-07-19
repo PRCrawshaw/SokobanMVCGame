@@ -228,6 +228,7 @@ namespace SokobanGame
             this.btn_QuitDesign.TabIndex = 15;
             this.btn_QuitDesign.Text = "Quit Design";
             this.btn_QuitDesign.UseVisualStyleBackColor = true;
+            this.btn_QuitDesign.Click += new System.EventHandler(this.btn_QuitDesign_Click);
             // 
             // FormMain
             // 

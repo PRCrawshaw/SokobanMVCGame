@@ -39,10 +39,6 @@ namespace SokobanGame
         {
             Ctrl = ctrl;
         }
-        public void SetDefaultFileName(string name)
-        {
-            DefaultFileName = name;
-        }
 
         // Use arrows for navigation
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -128,7 +124,7 @@ namespace SokobanGame
                 nextXPos += 50;
             }
         }
-        public Image GetMyPartImage(Parts part)
+        private Image GetMyPartImage(Parts part)
         {
             Image image = Image.FromFile("Empty.png"); // default image
             switch (part)
@@ -181,6 +177,11 @@ namespace SokobanGame
             lst_FileList.Items.Clear();
             lst_FileList.Items.AddRange(fileList);
         }
+        public void SetDefaultFileName(string name)
+        {
+            DefaultFileName = name;
+        }
+
         // Visibility Toggles
         public void ToggleMoveCountVisibility(bool toggle)
         {
@@ -194,7 +195,6 @@ namespace SokobanGame
             nup_Cols.Visible = toggle;
             nup_Rows.Visible = toggle;
             btn_StartDesign.Visible = toggle;
-            btn_QuitDesign.Visible = toggle;
         }
         public void ToogleNotificationVisiablity(bool toggle)
         {
@@ -226,13 +226,14 @@ namespace SokobanGame
             this.Graphics.Clear(FormMain.ActiveForm.BackColor);
             this.CreateGraphics().Clear(FormMain.ActiveForm.BackColor);
         }
-        private void ClearDesignArea()
+        public void ClearDesignArea()
         {
             ToogleGameButtonsVisiablity(true);
             ToggleChooseDesignerSizeVisibility(false);
             ToogleListBoxVisiablity(false);
             DeleteDesignButtons();
             SetNotification("");
+            btn_QuitDesign.Visible = false;
         }
         private void DeleteDesignButtons()
         {
@@ -257,11 +258,11 @@ namespace SokobanGame
         }
 
         // button clicks
-        private void start_button_Click(object sender, EventArgs e)
-        {
-            this.Invalidate();
-            Ctrl.SetupGame(DefaultFileName);
-        }
+        //private void start_button_Click(object sender, EventArgs e)
+        //{
+        //    this.Invalidate();
+        //    Ctrl.SetupGame(DefaultFileName);
+        //}
         private void Design_buttonClick(object sender, EventArgs e)
         {
             Button clickedButton = (Button)sender;
@@ -304,8 +305,7 @@ namespace SokobanGame
             Ctrl.SetupGame(DefaultFileName);
             PlayingGame = true;
         }
-
-        
+      
         // Designer buttons
         private void btn_Design_Click(object sender, EventArgs e)
         {
@@ -313,6 +313,7 @@ namespace SokobanGame
             ToogleGameButtonsVisiablity(false);
             ClearGameGrid(e);
             ToggleChooseDesignerSizeVisibility(true);
+            btn_QuitDesign.Visible = true;
             PlayingGame = false;
         }
         private void btn_StartDesign_Click(object sender, EventArgs e)
@@ -324,13 +325,17 @@ namespace SokobanGame
         {
             if (Ctrl.CheckDesignBeforeSave())
             {
-                Ctrl.SaveDesign();
-                ClearDesignArea();
+                if (Ctrl.SaveDesign())
+                    ClearDesignArea();
             }
             else SetNotification("Must have: One Player, Equal Number of Goals and Boxes\n"+
                                  "and be surrounded by Walls");
         }
-        
+        private void btn_QuitDesign_Click(object sender, EventArgs e)
+        {
+            Ctrl.QuitDesign();
+        }
+
         // unimplemented interface methods for future functionality
         public void DesignerLoadLevel()
         {
@@ -344,6 +349,8 @@ namespace SokobanGame
         {
             throw new NotImplementedException();
         }
+
+
         //public void ResetForm()
         //{
         //    Ctrl.SetupGame(DefaultFileName);

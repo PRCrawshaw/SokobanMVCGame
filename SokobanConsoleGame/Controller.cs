@@ -182,11 +182,15 @@ namespace SokobanGame
         public bool SaveDesign()
         {
             string filename = ShowGetFilenameDialogBox();
-            if (filename.Substring(Math.Max(0, filename.Length - 4)) != ".txt")
-                filename = filename + ".txt";
-            filename = "Levels\\" + filename;
-            Game.Filer.Save(filename, DesignGameString);
-            return true;
+            if (filename != "Cancelled")
+            {
+                if (filename.Substring(Math.Max(0, filename.Length - 4)) != ".txt")
+                    filename = filename + ".txt";
+                filename = "Levels\\" + filename;
+                Game.Filer.Save(filename, DesignGameString);
+                return true;
+            }
+            return false;
         }
         public bool CheckDesignBeforeSave()
         {
@@ -213,6 +217,32 @@ namespace SokobanGame
                 else result = true;
             }
             return result;
+        }
+        public void QuitDesign()
+        {
+            int size = DesignLevel.GetLength(0);
+            if (size != 1)
+            {
+                if (DisplayYesNoMessageBox(
+                    "Do you wish to save this design", "Quit Design"))
+                {
+                    SaveDesign();
+                }
+                else
+                {
+                    ToggleDesignButtons();
+                }
+            }
+            else
+                ToggleDesignButtons();
+
+        }
+        private void ToggleDesignButtons()
+        {
+            View.ToggleChooseDesignerSizeVisibility(false);
+            View.ToogleGameButtonsVisiablity(true);
+            View.ClearDesignArea();
+
         }
         private bool DisplayYesNoMessageBox(string message, string caption)
         {
