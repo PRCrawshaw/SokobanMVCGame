@@ -8,6 +8,6 @@ namespace SokobanGame
 {
     public interface iSaver
     {
-        void Save(string filename, iFileable callMeBackforDetails);
+        string Save(string filename, string text);
     }
 }

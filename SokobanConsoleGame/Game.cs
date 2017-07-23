@@ -16,14 +16,18 @@ namespace SokobanGame
         public Parts[,] LevelGrid;
         public Stack MoveStack = new Stack();
         public Position[] ChangedPositions = new Position[3];
+        protected const int OLDPOS = 0;
+        protected const int NEWPOS = 1;
+        protected const int BESIDENEWPOS = 2;
+        
+        // Getter, Setters
         public Position PlayerPos { get; set; }
         public int RowCount { get; set; }
         public int ColCount { get; set; }
         public string LevelString{ get; set; }
         public int MoveCount { get; set; }
-        protected const int OLDPOS = 0;
-        protected const int NEWPOS = 1;
-        protected const int BESIDENEWPOS = 2;
+        
+        // Methods
         public Game(Filer filer)
         {
             Filer = filer;
@@ -228,6 +232,22 @@ namespace SokobanGame
             //Console.WriteLine("MoveStack count: " + MoveStack.Count);
             //OutputStack();
         }
+        private void ResetPlayerPos()
+        {
+            for (int r=0; r<RowCount; r++)
+            {   
+                for (int c=0; c<ColCount; c++)
+                {
+                    if (LevelGrid[r, c] == Parts.Player)
+                    {
+                        PlayerPos = new Position(r, c);
+                        break;
+                    }                       
+                }                
+            }
+        }
+        public int GetRowCount() { return RowCount; }
+        public int GetColumnCount() { return ColCount; }
         //private void OutputLevelGrid()
         //{
         //    string textGrid = "";
@@ -267,21 +287,5 @@ namespace SokobanGame
         //    Console.WriteLine(stack);
 
         //}
-        private void ResetPlayerPos()
-        {
-            for (int r=0; r<RowCount; r++)
-            {   
-                for (int c=0; c<ColCount; c++)
-                {
-                    if (LevelGrid[r, c] == Parts.Player)
-                    {
-                        PlayerPos = new Position(r, c);
-                        break;
-                    }                       
-                }                
-            }
-        }
-        public int GetRowCount() { return RowCount; }
-        public int GetColumnCount() { return ColCount; }
     }
 }

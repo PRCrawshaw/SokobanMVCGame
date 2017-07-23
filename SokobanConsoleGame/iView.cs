@@ -27,11 +27,6 @@ namespace SokobanGame
         void ToogleListBoxVisiablity(bool v);
         void ToogleGameButtonsVisiablity(bool v);
         void ClearGameGrid(EventArgs e);
-
-        // unimplemented interface methods for future functionality
-        void DesignerLoadLevel();
-        void FinishGame(string bestPlayer, string bestScore, int thisScore);
-        void DisplayMain();
         void ClearDesignArea();
     }
 }

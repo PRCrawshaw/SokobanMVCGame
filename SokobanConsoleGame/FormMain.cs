@@ -257,12 +257,6 @@ namespace SokobanGame
             HighlightPartType(Color.FromArgb(255, 242, 242, 242));
         }
 
-        // button clicks
-        //private void start_button_Click(object sender, EventArgs e)
-        //{
-        //    this.Invalidate();
-        //    Ctrl.SetupGame(DefaultFileName);
-        //}
         private void Design_buttonClick(object sender, EventArgs e)
         {
             Button clickedButton = (Button)sender;
@@ -311,6 +305,7 @@ namespace SokobanGame
         {
             ToggleMoveCountVisibility(false);
             ToogleGameButtonsVisiablity(false);
+            ToogleListBoxVisiablity(false);
             ClearGameGrid(e);
             ToggleChooseDesignerSizeVisibility(true);
             btn_QuitDesign.Visible = true;
@@ -335,27 +330,5 @@ namespace SokobanGame
         {
             Ctrl.QuitDesign();
         }
-
-        // unimplemented interface methods for future functionality
-        public void DesignerLoadLevel()
-        {
-            throw new NotImplementedException();
-        }
-        public void FinishGame(string bestPlayer, string bestScore, int thisScore)
-        {
-            throw new NotImplementedException();
-        }
-        public void DisplayMain()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        //public void ResetForm()
-        //{
-        //    Ctrl.SetupGame(DefaultFileName);
-        //    this.Invalidate();
-        //}
-
     }
 }

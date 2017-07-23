@@ -14,6 +14,8 @@ namespace SokobanGame
         public Converter Converter;
         protected const string EXTENSION = @".txt";
         protected const string DIR = @"levels\";
+
+        // Getter, Setters
         public int NoPlayers { get; set; }
         public int NoGoals { get; set; }
         public int NoBoxes { get; set; }
@@ -23,6 +25,8 @@ namespace SokobanGame
         {
             Converter = converter;
         }
+
+        // Load and save methods
         public string[] GetFileList()
         {
             string[] txtfiles = Directory.GetFiles(DIR, "*.txt");
@@ -55,18 +59,8 @@ namespace SokobanGame
             }
             else return "File does not exist";
         }
-        public void Save(string filename, iFileable callMeBackforDetails)
-        {
-            //    using (StreamWriter writer = new StreamWriter("important.txt"))
-            //        {
-            //            writer.Write("Word ");
-            //            writer.WriteLine("word 2");
-            //            writer.WriteLine("Line");
-            //        }
-        }
         public string Save(string filename, string text)
         {
-            //filename = DIR + filename;
             if (!File.Exists(filename))
             {
                 text = convertString(text, ConversionType.compress);
@@ -92,6 +86,8 @@ namespace SokobanGame
             }
             return input;
         }
+
+        // Checker methods
         public bool PreExpandingCheck(string input)
         {
             string temp = Converter.ExpandObjects(input);

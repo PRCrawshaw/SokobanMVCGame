@@ -8,7 +8,7 @@ namespace SokobanGame
 {
     public interface iFiler
     {
-        void Save(string filename, iFileable callMeBackforDetails);
+        string Save(string filename, string text);
         string Load(string filename);
     }
 }

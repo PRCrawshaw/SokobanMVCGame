@@ -20,12 +20,14 @@ namespace SokobanGame
         public bool isFinished = false;
         public Parts[,] DesignLevel = new Parts[1,1];
         private string DesignGameString;
+
         public Controller(Game game, iView view)
         {
             Game = game;
             View = view;
             View.SetDefaultFileName(DEFAULT_FILENAME);
         }
+        
         // Game play methods
         public void SetupGame(string fileName)
         {
