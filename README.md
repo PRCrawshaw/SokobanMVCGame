@@ -15,7 +15,7 @@ This is the third iteration.
 This the third iteration which has some basic functionality such as:
   * Move the player around using the arrow keys 
       (note. only basic error checking of cmd key presses is implemented)
-  * Not allow the player or blocks to move onto walls
+  * Checking to ensure the player and/or blocks are unable to move onto walls
   * Sequentially undo moves
   * Choose the game board from a list of levels 
       (note. at this point invalid game formats will create an error message but the file will not be deleted and the default game will be loaded. Removing of invalid games will need to be done outside of the program) 
