@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using SokobanConsoleGame;
+using System.Drawing;
 
 namespace SokobanGame
 {
@@ -14,6 +15,8 @@ namespace SokobanGame
     {
         Game Game;
         iView View;
+        FormPlayGame Form_PlayGame = new FormPlayGame();
+        Controller Ctrl;
         private int redrawCount = 0;
         protected const int JITTER_REDRAW = 10;
         public const string DEFAULT_FILENAME = "Level1.txt";
@@ -26,11 +29,15 @@ namespace SokobanGame
             Game = game;
             View = view;
             View.SetDefaultFileName(DEFAULT_FILENAME);
+            Ctrl = this;
+            FormPlayGame Form_PlayGame = new FormPlayGame();
+
         }
         
         // Game play methods
         public void SetupGame(string fileName)
         {
+            Form_PlayGame.AddController(Ctrl);
             if (!Game.Load(fileName))
             {
                 MessageBox.Show(
@@ -39,15 +46,48 @@ namespace SokobanGame
                 View.SetDefaultFileName(DEFAULT_FILENAME);
                 Game.Load(DEFAULT_FILENAME);
             }
-            View.SetMoves(0);
-            View.PlayingGame = true;
-            View.ToggleMoveCountVisibility(true);
-            View.ToogleNotificationVisiablity(true);
-            View.ToogleListBoxVisiablity(false);
-            View.SetNotification("");
-            PlacePieces();
+            Form_PlayGame.SetMoves(0);
+            Form_PlayGame.PlayingGame = true;
+            Form_PlayGame.ToggleMoveCountVisibility(true);
+            Form_PlayGame.ToogleNotificationVisiablity(true);
+            Form_PlayGame.SetNotification("???");
+
             isFinished = false;
+            Form_PlayGame.Show();
+            Form_PlayGame.PlacePieces(Game);
         }
+        public Image GetMyPartImage(Parts part)
+        {
+            Image image = Image.FromFile("Empty.png"); // default image
+            switch (part)
+            {
+                case Parts.Wall:
+                    image = Image.FromFile("Wall.png");
+                    break;
+                case Parts.Block:
+                    image = Image.FromFile("Block.png");
+                    break;
+                case Parts.Goal:
+                    image = Image.FromFile("Goal.png");
+                    break;
+                case Parts.BlockOnGoal:
+                    image = Image.FromFile("BlockOnGoal.png");
+                    break;
+                case Parts.PlayerOnGoal:
+                    image = Image.FromFile("PlayerOnGoal.png");
+                    break;
+                case Parts.Player:
+                    image = Image.FromFile("Player.png");
+                    break;
+                case Parts.Empty:
+                    image = Image.FromFile("Empty.png");
+                    break;
+                default:
+                    break;
+            }
+            return image;
+        }
+
         public void Load(string fileName)
         {
             if (!Game.Load(fileName))
@@ -57,27 +97,27 @@ namespace SokobanGame
                     "Invalid Game", MessageBoxButtons.OK);
             }
         }
-        private void PlacePieces()
-        {
-            int GridWidth = 40;
-            for (int r = 1; r <= Game.RowCount; r++)
-            {
-                for (int c = 1; c <= Game.ColCount; c++)
-                {
-                    View.CreateLevelGridImage(
-                        GridWidth * (r - 1), GridWidth * (c - 1), Game.LevelGrid[r - 1, c - 1]);
-                }
-            }
-            View.SetButtonHighlight();
-        }
+        //private void PlacePieces()
+        //{
+        //    int GridWidth = 40;
+        //    for (int r = 1; r <= Game.RowCount; r++)
+        //    {
+        //        for (int c = 1; c <= Game.ColCount; c++)
+        //        {
+        //            Form_PlayGame.CreateLevelGridImage(
+        //                GridWidth * (r - 1), GridWidth * (c - 1), Game.LevelGrid[r - 1, c - 1]);
+        //        }
+        //    }
+        //    //View.SetButtonHighlight();
+        //}
         public void Move(Direction direction)
         {
             if (Game.Move(direction) && !isFinished)
             {
-                View.SetMoves(Game.MoveCount);
+                Form_PlayGame.SetMoves(Game.MoveCount);
                 if (redrawCount > JITTER_REDRAW) // decreases jitters
                 {
-                    PlacePieces();       // redraws all pieces
+                    Form_PlayGame.PlacePieces(Game);       // redraws all pieces
                     redrawCount = 0;
                 }
                 else
@@ -85,7 +125,7 @@ namespace SokobanGame
                     PlaceMovedPieces(); // places new changed pieces on top of old pieces
                     redrawCount++;
                 }
-                View.SetNotification("");
+                Form_PlayGame.SetNotification("Done Something");
                 if (Game.isFinished())
                 {
                     isFinished = true;
@@ -99,8 +139,8 @@ namespace SokobanGame
             else
             {
                 if (isFinished)
-                    View.SetNotification("You've already won");
-                else View.SetNotification("Can't move into a wall.");
+                    Form_PlayGame.SetNotification("You've already won");
+                else Form_PlayGame.SetNotification("Can't move into a wall.");
             }
         }
         private void PlaceMovedPieces()
@@ -108,45 +148,55 @@ namespace SokobanGame
             int GridWidth = 40;
             foreach (Position pos in Game.ChangedPositions)
             {
-                View.CreateLevelGridImage(GridWidth * (pos.Row),
+                Form_PlayGame.CreateLevelGridImage(GridWidth * (pos.Row),
                     GridWidth * (pos.Column),
                     Game.LevelGrid[pos.Row, pos.Column]);
             }
-            View.SetButtonHighlight();
+            //From_PlayGame.SetButtonHighlight();
         }
         public void Undo()
         {
             if (!isFinished)
             {
                 Game.Undo();
-                PlacePieces();
+                Form_PlayGame.PlacePieces(Game);
                 if (Game.MoveCount >= 0)
-                    View.SetMoves(Game.MoveCount);
+                    Form_PlayGame.SetMoves(Game.MoveCount);
             }
             else
             {
-                View.SetNotification("Hit reset if you wish to reload the game.");
+                Form_PlayGame.SetNotification("Hit reset if you wish to reload the game.");
             }
         }
         // Get Level methods
         public void GetLevels()
         {
-            EventArgs e = new EventArgs();
-            View.ToggleMoveCountVisibility(false);
-            View.ToogleListBoxVisiablity(true);
-            View.ClearGameGrid(e);
+            FormLevels frm_Levels = new FormLevels();
             string[] fileListWithPath = GetFileList();
             string[] fileList = new string[fileListWithPath.Length];
             for (int i = 0; i < fileListWithPath.Length; i++)
             {
                 fileList[i] = fileListWithPath[i].Substring(fileListWithPath[i].LastIndexOf('\\') + 1);
             }
-            View.SetupItemList(fileList);
+            frm_Levels.SetupItemList(fileList);
+            //frm_Levels.Location = new Point(40, 40);
+            if (frm_Levels.ShowDialog() == DialogResult.OK)
+            {
+                View.SetDefaultFileName(frm_Levels.Filename);
+                SetupGame(frm_Levels.Filename);
+            }
+            frm_Levels.Dispose();
+
         }
         public string[] GetFileList()
         {
             return Game.GetFileList();
         }
+        public void SetDefaultFileName(string filename)
+        {
+            View.SetDefaultFileName(filename);
+        }
+
         // Designer methods
         public void SetupDesigner(int rows, int cols)
         {
@@ -184,7 +234,7 @@ namespace SokobanGame
         public bool SaveDesign()
         {
             string filename = ShowGetFilenameDialogBox();
-            if (filename != "Cancelled")
+            if (filename != "Cancelled" && filename != "")
             {
                 if (filename.Substring(Math.Max(0, filename.Length - 4)) != ".txt")
                     filename = filename + ".txt";
@@ -280,7 +330,6 @@ namespace SokobanGame
         {
             FileSaveNameDialogue FilenameDialogue = new FileSaveNameDialogue();
             string fileName = "";
-            // Show testDialog as a modal dialog and determine if DialogResult = OK.
             if (FilenameDialogue.ShowDialog() == DialogResult.OK)
             {
                 // Read the contents of testDialog's TextBox.

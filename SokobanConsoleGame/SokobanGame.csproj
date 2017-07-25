@@ -54,11 +54,23 @@
     <Compile Include="FileSaveNameDialogue.Designer.cs">
       <DependentUpon>FileSaveNameDialogue.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormLevels.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLevels.Designer.cs">
+      <DependentUpon>FormLevels.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPlayGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPlayGame.Designer.cs">
+      <DependentUpon>FormPlayGame.cs</DependentUpon>
     </Compile>
     <Compile Include="Game.cs" />
     <Compile Include="iChecker.cs" />
@@ -73,6 +85,11 @@
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -81,8 +98,18 @@
     <EmbeddedResource Include="FileSaveNameDialogue.resx">
       <DependentUpon>FileSaveNameDialogue.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormLevels.resx">
+      <DependentUpon>FormLevels.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPlayGame.resx">
+      <DependentUpon>FormPlayGame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -31,12 +31,6 @@ namespace SokobanGame
         private void InitializeComponent()
         {
             this.btn_start = new System.Windows.Forms.Button();
-            this.btn_reset = new System.Windows.Forms.Button();
-            this.lbl_MoveCount = new System.Windows.Forms.Label();
-            this.lbl_MoveCountNo = new System.Windows.Forms.Label();
-            this.lbl_Notification = new System.Windows.Forms.Label();
-            this.btn_Undo = new System.Windows.Forms.Button();
-            this.lst_FileList = new System.Windows.Forms.ListBox();
             this.btn_GetLevels = new System.Windows.Forms.Button();
             this.btn_Design = new System.Windows.Forms.Button();
             this.nup_Cols = new System.Windows.Forms.NumericUpDown();
@@ -59,64 +53,6 @@ namespace SokobanGame
             this.btn_start.Text = "Start Game";
             this.btn_start.UseVisualStyleBackColor = true;
             this.btn_start.Click += new System.EventHandler(this.start_button_Click_1);
-            // 
-            // btn_reset
-            // 
-            this.btn_reset.Location = new System.Drawing.Point(42, 167);
-            this.btn_reset.Name = "btn_reset";
-            this.btn_reset.Size = new System.Drawing.Size(183, 67);
-            this.btn_reset.TabIndex = 1;
-            this.btn_reset.Text = "Reset";
-            this.btn_reset.UseVisualStyleBackColor = true;
-            this.btn_reset.Click += new System.EventHandler(this.btn_reset_Click);
-            // 
-            // lbl_MoveCount
-            // 
-            this.lbl_MoveCount.AutoSize = true;
-            this.lbl_MoveCount.Location = new System.Drawing.Point(234, 13);
-            this.lbl_MoveCount.Name = "lbl_MoveCount";
-            this.lbl_MoveCount.Size = new System.Drawing.Size(134, 25);
-            this.lbl_MoveCount.TabIndex = 2;
-            this.lbl_MoveCount.Text = "Move Count:";
-            // 
-            // lbl_MoveCountNo
-            // 
-            this.lbl_MoveCountNo.AutoSize = true;
-            this.lbl_MoveCountNo.Location = new System.Drawing.Point(365, 13);
-            this.lbl_MoveCountNo.Name = "lbl_MoveCountNo";
-            this.lbl_MoveCountNo.Size = new System.Drawing.Size(24, 25);
-            this.lbl_MoveCountNo.TabIndex = 3;
-            this.lbl_MoveCountNo.Text = "0";
-            // 
-            // lbl_Notification
-            // 
-            this.lbl_Notification.AutoSize = true;
-            this.lbl_Notification.Location = new System.Drawing.Point(478, 13);
-            this.lbl_Notification.Name = "lbl_Notification";
-            this.lbl_Notification.Size = new System.Drawing.Size(18, 25);
-            this.lbl_Notification.TabIndex = 4;
-            this.lbl_Notification.Text = " ";
-            // 
-            // btn_Undo
-            // 
-            this.btn_Undo.Location = new System.Drawing.Point(42, 259);
-            this.btn_Undo.Name = "btn_Undo";
-            this.btn_Undo.Size = new System.Drawing.Size(183, 67);
-            this.btn_Undo.TabIndex = 5;
-            this.btn_Undo.Text = "Undo";
-            this.btn_Undo.UseVisualStyleBackColor = true;
-            this.btn_Undo.Click += new System.EventHandler(this.btn_Undo_Click);
-            // 
-            // lst_FileList
-            // 
-            this.lst_FileList.FormattingEnabled = true;
-            this.lst_FileList.ItemHeight = 25;
-            this.lst_FileList.Location = new System.Drawing.Point(253, 81);
-            this.lst_FileList.Name = "lst_FileList";
-            this.lst_FileList.Size = new System.Drawing.Size(310, 429);
-            this.lst_FileList.TabIndex = 6;
-            this.lst_FileList.Visible = false;
-            this.lst_FileList.SelectedIndexChanged += new System.EventHandler(this.lst_FileList_SelectedIndexChanged);
             // 
             // btn_GetLevels
             // 
@@ -244,12 +180,6 @@ namespace SokobanGame
             this.Controls.Add(this.nup_Cols);
             this.Controls.Add(this.btn_Design);
             this.Controls.Add(this.btn_GetLevels);
-            this.Controls.Add(this.lst_FileList);
-            this.Controls.Add(this.btn_Undo);
-            this.Controls.Add(this.lbl_Notification);
-            this.Controls.Add(this.lbl_MoveCountNo);
-            this.Controls.Add(this.lbl_MoveCount);
-            this.Controls.Add(this.btn_reset);
             this.Controls.Add(this.btn_start);
             this.Name = "FormMain";
             this.Text = "Sokoban";
@@ -262,12 +192,6 @@ namespace SokobanGame
         #endregion
 
         private System.Windows.Forms.Button btn_start;
-        private System.Windows.Forms.Button btn_reset;
-        private System.Windows.Forms.Label lbl_MoveCount;
-        private System.Windows.Forms.Label lbl_MoveCountNo;
-        private System.Windows.Forms.Label lbl_Notification;
-        private System.Windows.Forms.Button btn_Undo;
-        private System.Windows.Forms.ListBox lst_FileList;
         private System.Windows.Forms.Button btn_GetLevels;
         private System.Windows.Forms.Button btn_Design;
         private System.Windows.Forms.NumericUpDown nup_Cols;

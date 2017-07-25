@@ -75,20 +75,18 @@
             this.AcceptButton = this.btn_OK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btn_Cancel;
             this.ClientSize = new System.Drawing.Size(637, 280);
+            this.ControlBox = false;
             this.Controls.Add(this.txt_Filename);
             this.Controls.Add(this.lbl_Filename);
             this.Controls.Add(this.btn_OK);
             this.Controls.Add(this.btn_Cancel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.IsMdiContainer = true;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FileSaveNameDialogue";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "FileSaveNameDialogue";
             this.ResumeLayout(false);
             this.PerformLayout();
 

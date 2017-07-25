@@ -16,21 +16,20 @@ namespace SokobanGame
         protected const int STARTX = 120;
         protected const int STARTY = 40;
         protected const int GAP = 0;
-        private int GridSize = 40;
+        //private int GridSize = 40;
         private int HighlightX;
         private int HighlightY;
         private string DefaultFileName;
         private Graphics Graphics;
         private Parts PartType = Parts.Wall;
 
-        public bool PlayingGame { get; set; }
         
         // Setup methods
         public FormMain()
         {
             InitializeComponent();
             Graphics = this.CreateGraphics();
-            ToggleMoveCountVisibility(false);
+            //ToggleMoveCountVisibility(false);
             ToggleChooseDesignerSizeVisibility(false);
             btn_SaveDesign.Visible = false;
             btn_QuitDesign.Visible = false;
@@ -41,44 +40,8 @@ namespace SokobanGame
         }
 
         // Use arrows for navigation
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (PlayingGame)
-            {
-                switch (keyData)
-                {
-                    case Keys.Left:
-                        Ctrl.Move(Direction.Left);
-                        break;
-                    case Keys.Right:
-                        Ctrl.Move(Direction.Right);
-                        break;
-                    case Keys.Up:
-                        Ctrl.Move(Direction.Up);
-                        break;
-                    case Keys.Down:
-                        Ctrl.Move(Direction.Down);
-                        break;
-                    default:
-                        MessageBox.Show("Use the arrow keys to move the player.");
-                        break;
-                }
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
 
         // game and design buttons and images
-        public void CreateLevelGridImage(int row, int col, Parts part)
-        {
-            int rectCol = col + STARTX;
-            int rectRow = row + STARTY;
-            Pen pen = new Pen(Color.FromArgb(255, 42, 42, 42));
-            Graphics.DrawRectangle(pen, new Rectangle(
-                rectCol, rectRow, GridSize + GAP, GridSize + GAP));
-            Rectangle inner = new Rectangle(rectCol + GAP, rectRow + GAP, 40, 40);
-            Graphics.FillRectangle(Brushes.LightGray, inner);
-            Graphics.DrawImage(GetMyPartImage(part), inner);
-        }
         public void CreateLevelGridButton(int row, int col, Parts part)
         {
             Point p = new Point(col + 120, row + STARTY + 50);
@@ -89,7 +52,7 @@ namespace SokobanGame
             newButton.Height = 40;
             newButton.Location = p;
             newButton.Click += new EventHandler(Design_buttonClick);
-            newButton.BackgroundImage = GetMyPartImage(part);
+            newButton.BackgroundImage = Ctrl.GetMyPartImage(part);
             newButton.BackgroundImageLayout = ImageLayout.Stretch;
             this.Controls.Add(newButton);
         }
@@ -118,76 +81,24 @@ namespace SokobanGame
                 newButton.Height = 40;
                 newButton.Location = p;
                 newButton.Click += new EventHandler(PartType_buttonClick);
-                newButton.BackgroundImage = GetMyPartImage(part);
+                newButton.BackgroundImage = Ctrl.GetMyPartImage(part);
                 newButton.BackgroundImageLayout = ImageLayout.Stretch;
                 this.Controls.Add(newButton);
                 nextXPos += 50;
             }
         }
-        private Image GetMyPartImage(Parts part)
-        {
-            Image image = Image.FromFile("Empty.png"); // default image
-            switch (part)
-            {
-                case Parts.Wall:
-                    image = Image.FromFile("Wall.png");
-                    break;
-                case Parts.Block:
-                    image = Image.FromFile("Block.png");
-                    break;
-                case Parts.Goal:
-                    image = Image.FromFile("Goal.png");
-                    break;
-                case Parts.BlockOnGoal:
-                    image = Image.FromFile("BlockOnGoal.png");
-                    break;
-                case Parts.PlayerOnGoal:
-                    image = Image.FromFile("PlayerOnGoal.png");
-                    break;
-                case Parts.Player:
-                    image = Image.FromFile("Player.png");
-                    break;
-                case Parts.Empty:
-                    image = Image.FromFile("Empty.png");
-                    break;
-                default:
-                    break;
-            }
-            return image;
-        }
-        public void SetButtonHighlight()
-        {
-            btn_reset.Focus();
-        }
+        //public void SetButtonHighlight()
+        //{
+        //    btn_reset.Focus();
+        //}
 
         // set text fields
-        public void SetMoves(int moves)
-        {
-            ToggleMoveCountVisibility(true);
-            lbl_MoveCountNo.Text = moves.ToString();                                                              
-        }
-        public void SetNotification(string message)
-        {
-            lbl_Notification.Visible = true;
-            lbl_Notification.Text = message;
-            SetButtonHighlight();
-        }
-        public void SetupItemList(string[] fileList)
-        {
-            lst_FileList.Items.Clear();
-            lst_FileList.Items.AddRange(fileList);
-        }
         public void SetDefaultFileName(string name)
         {
             DefaultFileName = name;
         }
 
         // Visibility Toggles
-        public void ToggleMoveCountVisibility(bool toggle)
-        {
-            lbl_MoveCount.Visible = toggle;
-            lbl_MoveCountNo.Visible = toggle;
-        }
         public void ToggleChooseDesignerSizeVisibility(bool toggle)
         {
             lbl_NoCols.Visible = toggle;
@@ -196,20 +107,12 @@ namespace SokobanGame
             nup_Rows.Visible = toggle;
             btn_StartDesign.Visible = toggle;
         }
-        public void ToogleNotificationVisiablity(bool toggle)
-        {
-            lbl_Notification.Visible = toggle;
-        }
-        public void ToogleListBoxVisiablity(bool toggle)
-        {
-            lst_FileList.Visible = toggle;
-        }
         public void ToogleGameButtonsVisiablity(bool toggle)
         {
             btn_GetLevels.Visible = toggle;
-            btn_reset.Visible = toggle;
+            //btn_reset.Visible = toggle;
             btn_start.Visible = toggle;
-            btn_Undo.Visible = toggle;
+            //btn_Undo.Visible = toggle;
             if (toggle)
             {
                 btn_Design.Visible = true;
@@ -221,18 +124,12 @@ namespace SokobanGame
                 btn_SaveDesign.Visible = true;
             }
         }
-        public void ClearGameGrid(EventArgs e)
-        {
-            this.Graphics.Clear(FormMain.ActiveForm.BackColor);
-            this.CreateGraphics().Clear(FormMain.ActiveForm.BackColor);
-        }
         public void ClearDesignArea()
         {
             ToogleGameButtonsVisiablity(true);
             ToggleChooseDesignerSizeVisibility(false);
-            ToogleListBoxVisiablity(false);
             DeleteDesignButtons();
-            SetNotification("");
+            //SetNotification("");
             btn_QuitDesign.Visible = false;
         }
         private void DeleteDesignButtons()
@@ -257,12 +154,13 @@ namespace SokobanGame
             HighlightPartType(Color.FromArgb(255, 242, 242, 242));
         }
 
+        // button clicks
         private void Design_buttonClick(object sender, EventArgs e)
         {
             Button clickedButton = (Button)sender;
             string[] row_col = clickedButton.Name.Split('_');
             Ctrl.DesignLevel[int.Parse(row_col[0]), int.Parse(row_col[1])] = PartType;
-            clickedButton.BackgroundImage = GetMyPartImage(PartType);
+            clickedButton.BackgroundImage = Ctrl.GetMyPartImage(PartType);
             clickedButton.BackgroundImageLayout = ImageLayout.Stretch;
         }
         private void PartType_buttonClick(object sender, EventArgs e)
@@ -278,38 +176,20 @@ namespace SokobanGame
         {
             Ctrl.SetupGame(DefaultFileName);
         }
-        private void btn_reset_Click(object sender, EventArgs e)
-        {
-            Ctrl.SetupGame(DefaultFileName);
-        }
-        private void btn_Undo_Click(object sender, EventArgs e)
-        {
-            Ctrl.Undo();
-        }
         private void btn_GetLevels_Click(object sender, EventArgs e)
         {
-            ClearGameGrid(e);
             Ctrl.GetLevels();
-        }
-        private void lst_FileList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ToogleListBoxVisiablity(false);
-            ClearGameGrid(e);
-            SetDefaultFileName(lst_FileList.SelectedItem.ToString());
-            Ctrl.SetupGame(DefaultFileName);
-            PlayingGame = true;
         }
       
         // Designer buttons
         private void btn_Design_Click(object sender, EventArgs e)
         {
-            ToggleMoveCountVisibility(false);
+            //ToggleMoveCountVisibility(false);
             ToogleGameButtonsVisiablity(false);
-            ToogleListBoxVisiablity(false);
-            ClearGameGrid(e);
+            //ClearGameGrid(e);
             ToggleChooseDesignerSizeVisibility(true);
             btn_QuitDesign.Visible = true;
-            PlayingGame = false;
+            //PlayingGame = false;
         }
         private void btn_StartDesign_Click(object sender, EventArgs e)
         {
@@ -323,8 +203,8 @@ namespace SokobanGame
                 if (Ctrl.SaveDesign())
                     ClearDesignArea();
             }
-            else SetNotification("Must have: One Player, Equal Number of Goals and Boxes\n"+
-                                 "and be surrounded by Walls");
+            //else SetNotification("Must have: One Player, Equal Number of Goals and Boxes\n"+
+                                 //"and be surrounded by Walls");
         }
         private void btn_QuitDesign_Click(object sender, EventArgs e)
         {
