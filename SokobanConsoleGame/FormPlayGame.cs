@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace SokobanConsoleGame
 {
-    public partial class FormPlayGame : Form
+    public partial class FormPlayGame : Form, iView
     {
         public Controller Ctrl;
         private Graphics Graphics;
@@ -20,13 +20,7 @@ namespace SokobanConsoleGame
         protected const int GAP = 0;
         private int GridSize = 40;
         private string DefaultFileName;
-
-
-        public string GameFileName {
-            get;
-            set; }
         public bool PlayingGame { get; set; }
-
 
         public FormPlayGame()
         {
@@ -67,6 +61,16 @@ namespace SokobanConsoleGame
         {
             return false;
         }
+        public void SetNotification(string message)
+        {
+            lbl_Notification.Visible = true;
+            lbl_Notification.Text = message;
+        }
+        public void SetDefaultFileName(string name)
+        {
+            DefaultFileName = name;
+        }
+        // Game board methods
         public void CreateLevelGridImage(int row, int col, Parts part)
         {
             int rectCol = col + STARTX;
@@ -121,42 +125,27 @@ namespace SokobanConsoleGame
             }
             return image;
         }
-
         public void SetMoves(int moves)
         {
             lbl_MoveCountNo.Text = moves.ToString();
         }
-        public void SetNotification(string message)
-        {
-            lbl_Notification.Visible = true;
-            lbl_Notification.Text = message;
-            //SetButtonHighlight();
-        }
-
         public void ClearGameGrid(EventArgs e)
         {
             this.Graphics.Clear(FormPlayGame.ActiveForm.BackColor);
             this.CreateGraphics().Clear(FormPlayGame.ActiveForm.BackColor);
         }
-   
+        // button clicks
         private void btn_GameClose_Click(object sender, EventArgs e)
         {
             this.Hide();
         }
-
         private void btn_Undo_Click_1(object sender, EventArgs e)
         {
             Ctrl.Undo();
         }
-
         private void btn_reset_Click_1(object sender, EventArgs e)
         {
             Ctrl.SetupGame(DefaultFileName);
         }
-        public void SetDefaultFileName(string name)
-        {
-            DefaultFileName = name;
-        }
-
     }
 }

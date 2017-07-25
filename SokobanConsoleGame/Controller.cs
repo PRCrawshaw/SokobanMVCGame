@@ -32,7 +32,6 @@ namespace SokobanGame
 
             Ctrl = this;
             Form_PlayGame = new FormPlayGame();
-            //Form_PlayGame.GameFileName = DEFAULT_FILENAME;
             SetDefaultFileName(DEFAULT_FILENAME);
 
         }
@@ -40,8 +39,6 @@ namespace SokobanGame
         // Game play methods
         public void SetupGame(string fileName)
         {
-            //if (Form_PlayGame == null)
-            //    Form_PlayGame = new FormPlayGame();
             EventArgs e = new EventArgs();
             Form_PlayGame.ClearGameGrid(e);
             Form_PlayGame.AddController(Ctrl);
@@ -92,7 +89,6 @@ namespace SokobanGame
             }
             return image;
         }
-
         public void Load(string fileName)
         {
             if (!Game.Load(fileName))
@@ -144,7 +140,6 @@ namespace SokobanGame
                     GridWidth * (pos.Column),
                     Game.LevelGrid[pos.Row, pos.Column]);
             }
-            //From_PlayGame.SetButtonHighlight();
         }
         public void Undo()
         {
@@ -160,6 +155,7 @@ namespace SokobanGame
                 Form_PlayGame.SetNotification("Hit reset if you wish to reload the game.");
             }
         }
+        
         // Get Level methods
         public void GetLevels()
         {
@@ -171,10 +167,8 @@ namespace SokobanGame
                 fileList[i] = fileListWithPath[i].Substring(fileListWithPath[i].LastIndexOf('\\') + 1);
             }
             frm_Levels.SetupItemList(fileList);
-            //frm_Levels.Location = new Point(40, 40);
             if (frm_Levels.ShowDialog() == DialogResult.OK)
             {
-                Form_PlayGame.GameFileName = frm_Levels.Filename;
                 SetDefaultFileName(frm_Levels.Filename);
                 SetupGame(frm_Levels.Filename);
             }
@@ -195,11 +189,8 @@ namespace SokobanGame
         public void SetupDesignForm()
         {
             Form_DesignGame.AddController(Ctrl);
-
             Form_DesignGame.Show();
-            //Form_DesignGame.PlacePieces(Game);
         }
-
         public void SetupDesigner(int rows, int cols)
         {
             InitializeDesignLevel(rows, cols);
