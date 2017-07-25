@@ -19,8 +19,12 @@ namespace SokobanConsoleGame
         protected const int STARTY = 40;
         protected const int GAP = 0;
         private int GridSize = 40;
+        private string DefaultFileName;
 
-        private string GameFileName { get; set; }
+
+        public string GameFileName {
+            get;
+            set; }
         public bool PlayingGame { get; set; }
 
 
@@ -118,7 +122,6 @@ namespace SokobanConsoleGame
             return image;
         }
 
-
         public void SetMoves(int moves)
         {
             lbl_MoveCountNo.Text = moves.ToString();
@@ -132,16 +135,10 @@ namespace SokobanConsoleGame
 
         public void ClearGameGrid(EventArgs e)
         {
-            this.Graphics.Clear(FormMain.ActiveForm.BackColor);
-            this.CreateGraphics().Clear(FormMain.ActiveForm.BackColor);
+            this.Graphics.Clear(FormPlayGame.ActiveForm.BackColor);
+            this.CreateGraphics().Clear(FormPlayGame.ActiveForm.BackColor);
         }
-
-        private void btn_reset_Click(object sender, EventArgs e)
-        {
-            ClearGameGrid(e);
-            Ctrl.SetupGame(GameFileName);
-        }
-
+   
         private void btn_GameClose_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -151,5 +148,15 @@ namespace SokobanConsoleGame
         {
             Ctrl.Undo();
         }
+
+        private void btn_reset_Click_1(object sender, EventArgs e)
+        {
+            Ctrl.SetupGame(DefaultFileName);
+        }
+        public void SetDefaultFileName(string name)
+        {
+            DefaultFileName = name;
+        }
+
     }
 }

@@ -11,9 +11,9 @@ namespace SokobanGame
         //bool PlayingGame { get; set; }
         // game and design buttons and images
         //void CreateLevelGridImage(int row, int col, Parts part);
-        void CreateLevelGridButton(int row, int col, Parts part);
-        void SetIntialHighlightArea();
-        void CreateSelectTypeButtons();
+        //void CreateLevelGridButton(int row, int col, Parts part);
+        //void SetIntialHighlightArea();
+        //void CreateSelectTypeButtons();
         //void SetButtonHighlight();
         // set text fields
         //void SetMoves(int moves);
@@ -21,10 +21,10 @@ namespace SokobanGame
         void SetDefaultFileName(string v);
         // Visibility Toggles
         //void ToggleMoveCountVisibility(bool v);
-        void ToggleChooseDesignerSizeVisibility(bool v);
+        //void ToggleChooseDesignerSizeVisibility(bool v);
         //void ToogleNotificationVisiablity(bool v);
-        void ToogleGameButtonsVisiablity(bool v);
+        //void ToogleGameButtonsVisiablity(bool v);
         //void ClearGameGrid(EventArgs e);
-        void ClearDesignArea();
+        //void ClearDesignArea();
     }
 }

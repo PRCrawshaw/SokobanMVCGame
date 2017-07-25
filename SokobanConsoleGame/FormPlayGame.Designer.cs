@@ -38,7 +38,7 @@
             // 
             // btn_Undo
             // 
-            this.btn_Undo.Location = new System.Drawing.Point(24, 271);
+            this.btn_Undo.Location = new System.Drawing.Point(27, 146);
             this.btn_Undo.Name = "btn_Undo";
             this.btn_Undo.Size = new System.Drawing.Size(183, 67);
             this.btn_Undo.TabIndex = 10;
@@ -75,17 +75,18 @@
             // 
             // btn_reset
             // 
-            this.btn_reset.Location = new System.Drawing.Point(24, 179);
+            this.btn_reset.Location = new System.Drawing.Point(27, 54);
             this.btn_reset.Name = "btn_reset";
             this.btn_reset.Size = new System.Drawing.Size(183, 67);
             this.btn_reset.TabIndex = 6;
             this.btn_reset.TabStop = false;
             this.btn_reset.Text = "Reset";
             this.btn_reset.UseVisualStyleBackColor = true;
+            this.btn_reset.Click += new System.EventHandler(this.btn_reset_Click_1);
             // 
             // btn_GameClose
             // 
-            this.btn_GameClose.Location = new System.Drawing.Point(24, 360);
+            this.btn_GameClose.Location = new System.Drawing.Point(27, 235);
             this.btn_GameClose.Name = "btn_GameClose";
             this.btn_GameClose.Size = new System.Drawing.Size(183, 67);
             this.btn_GameClose.TabIndex = 11;
@@ -99,14 +100,17 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1413, 998);
+            this.ControlBox = false;
             this.Controls.Add(this.btn_GameClose);
             this.Controls.Add(this.btn_Undo);
             this.Controls.Add(this.lbl_Notification);
             this.Controls.Add(this.lbl_MoveCountNo);
             this.Controls.Add(this.lbl_MoveCount);
             this.Controls.Add(this.btn_reset);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormPlayGame";
-            this.Text = "FormPlayGame";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -16,6 +16,7 @@ namespace SokobanGame
         Game Game;
         iView View;
         FormPlayGame Form_PlayGame = new FormPlayGame();
+        FormDesignGame Form_DesignGame = new FormDesignGame();
         Controller Ctrl;
         private int redrawCount = 0;
         protected const int JITTER_REDRAW = 10;
@@ -28,30 +29,32 @@ namespace SokobanGame
         {
             Game = game;
             View = view;
-            View.SetDefaultFileName(DEFAULT_FILENAME);
+
             Ctrl = this;
-            FormPlayGame Form_PlayGame = new FormPlayGame();
+            Form_PlayGame = new FormPlayGame();
+            //Form_PlayGame.GameFileName = DEFAULT_FILENAME;
+            SetDefaultFileName(DEFAULT_FILENAME);
 
         }
         
         // Game play methods
         public void SetupGame(string fileName)
         {
-            if (Form_PlayGame == null)
-                Form_PlayGame = new FormPlayGame();
+            //if (Form_PlayGame == null)
+            //    Form_PlayGame = new FormPlayGame();
+            EventArgs e = new EventArgs();
+            Form_PlayGame.ClearGameGrid(e);
             Form_PlayGame.AddController(Ctrl);
             if (!Game.Load(fileName))
             {
                 MessageBox.Show(
                 "This is not a valid file",
                 "Invalid Game", MessageBoxButtons.OK);
-                View.SetDefaultFileName(DEFAULT_FILENAME);
+                SetDefaultFileName(DEFAULT_FILENAME);
                 Game.Load(DEFAULT_FILENAME);
             }
             Form_PlayGame.SetMoves(0);
             Form_PlayGame.PlayingGame = true;
-            //Form_PlayGame.ToggleMoveCountVisibility(true);
-            //Form_PlayGame.ToogleNotificationVisiablity(true);
             Form_PlayGame.SetNotification("");
 
             isFinished = false;
@@ -171,7 +174,8 @@ namespace SokobanGame
             //frm_Levels.Location = new Point(40, 40);
             if (frm_Levels.ShowDialog() == DialogResult.OK)
             {
-                View.SetDefaultFileName(frm_Levels.Filename);
+                Form_PlayGame.GameFileName = frm_Levels.Filename;
+                SetDefaultFileName(frm_Levels.Filename);
                 SetupGame(frm_Levels.Filename);
             }
             frm_Levels.Dispose();
@@ -184,13 +188,22 @@ namespace SokobanGame
         public void SetDefaultFileName(string filename)
         {
             View.SetDefaultFileName(filename);
+            Form_PlayGame.SetDefaultFileName(filename);
         }
 
         // Designer methods
+        public void SetupDesignForm()
+        {
+            Form_DesignGame.AddController(Ctrl);
+
+            Form_DesignGame.Show();
+            //Form_DesignGame.PlacePieces(Game);
+        }
+
         public void SetupDesigner(int rows, int cols)
         {
             InitializeDesignLevel(rows, cols);
-            View.SetIntialHighlightArea();
+            Form_DesignGame.SetIntialHighlightArea();
             int GridWidth = 40;
             for (int r = 1; r <= rows; r++)
             {
@@ -203,11 +216,11 @@ namespace SokobanGame
                         DesignLevel[r-1, c-1] = Parts.Wall;
                     }
                     else part = Parts.Empty;
-                    View.CreateLevelGridButton(
+                    Form_DesignGame.CreateLevelGridButton(
                         GridWidth * (r - 1), GridWidth * (c - 1), part);
                 }
             }
-            View.CreateSelectTypeButtons();
+            Form_DesignGame.CreateSelectTypeButtons();
         }
         private void InitializeDesignLevel(int rows, int cols)
         {
@@ -280,9 +293,9 @@ namespace SokobanGame
         }
         private void ToggleDesignButtons()
         {
-            View.ToggleChooseDesignerSizeVisibility(false);
-            View.ToogleGameButtonsVisiablity(true);
-            View.ClearDesignArea();
+            Form_DesignGame.ToggleChooseDesignerSizeVisibility(false);
+            //Form_DesignGame.ToogleGameButtonsVisiablity(true);
+            Form_DesignGame.ClearDesignArea();
 
         }
         private bool DisplayYesNoMessageBox(string message, string caption)
@@ -313,7 +326,7 @@ namespace SokobanGame
                     DesignGameString += "\n";
             }
             DesignGameString = Regex.Replace(DesignGameString, "-", " ");
-            Console.WriteLine("DesignLevel: " + DesignGameString);
+            //Console.WriteLine("DesignLevel: " + DesignGameString);
         }
         public string ShowGetFilenameDialogBox()
         {

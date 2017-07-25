@@ -54,6 +54,12 @@
     <Compile Include="FileSaveNameDialogue.Designer.cs">
       <DependentUpon>FileSaveNameDialogue.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormDesignGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDesignGame.Designer.cs">
+      <DependentUpon>FormDesignGame.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormLevels.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +103,9 @@
   <ItemGroup>
     <EmbeddedResource Include="FileSaveNameDialogue.resx">
       <DependentUpon>FileSaveNameDialogue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDesignGame.resx">
+      <DependentUpon>FormDesignGame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLevels.resx">
       <DependentUpon>FormLevels.cs</DependentUpon>
