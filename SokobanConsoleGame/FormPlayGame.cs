@@ -58,7 +58,11 @@ namespace SokobanConsoleGame
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
-
+        // prevent the arrow keys from changing the button focus
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            return false;
+        }
         public void CreateLevelGridImage(int row, int col, Parts part)
         {
             int rectCol = col + STARTX;
@@ -81,7 +85,6 @@ namespace SokobanConsoleGame
                         GridWidth * (r - 1), GridWidth * (c - 1), game.LevelGrid[r - 1, c - 1]);
                 }
             }
-            //View.SetButtonHighlight();
         }
         public Image GetMyPartImage(Parts part)
         {
@@ -118,7 +121,6 @@ namespace SokobanConsoleGame
 
         public void SetMoves(int moves)
         {
-            ToggleMoveCountVisibility(true);
             lbl_MoveCountNo.Text = moves.ToString();
         }
         public void SetNotification(string message)
@@ -126,16 +128,6 @@ namespace SokobanConsoleGame
             lbl_Notification.Visible = true;
             lbl_Notification.Text = message;
             //SetButtonHighlight();
-        }
-
-        public void ToggleMoveCountVisibility(bool toggle)
-        {
-            lbl_MoveCount.Visible = toggle;
-            lbl_MoveCountNo.Visible = toggle;
-        }
-        public void ToogleNotificationVisiablity(bool toggle)
-        {
-            lbl_Notification.Visible = toggle;
         }
 
         public void ClearGameGrid(EventArgs e)
@@ -149,10 +141,15 @@ namespace SokobanConsoleGame
             ClearGameGrid(e);
             Ctrl.SetupGame(GameFileName);
         }
-        private void btn_Undo_Click(object sender, EventArgs e)
+
+        private void btn_GameClose_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void btn_Undo_Click_1(object sender, EventArgs e)
         {
             Ctrl.Undo();
         }
-
     }
 }

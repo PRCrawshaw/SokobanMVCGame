@@ -37,6 +37,8 @@ namespace SokobanGame
         // Game play methods
         public void SetupGame(string fileName)
         {
+            if (Form_PlayGame == null)
+                Form_PlayGame = new FormPlayGame();
             Form_PlayGame.AddController(Ctrl);
             if (!Game.Load(fileName))
             {
@@ -48,9 +50,9 @@ namespace SokobanGame
             }
             Form_PlayGame.SetMoves(0);
             Form_PlayGame.PlayingGame = true;
-            Form_PlayGame.ToggleMoveCountVisibility(true);
-            Form_PlayGame.ToogleNotificationVisiablity(true);
-            Form_PlayGame.SetNotification("???");
+            //Form_PlayGame.ToggleMoveCountVisibility(true);
+            //Form_PlayGame.ToogleNotificationVisiablity(true);
+            Form_PlayGame.SetNotification("");
 
             isFinished = false;
             Form_PlayGame.Show();
@@ -97,19 +99,6 @@ namespace SokobanGame
                     "Invalid Game", MessageBoxButtons.OK);
             }
         }
-        //private void PlacePieces()
-        //{
-        //    int GridWidth = 40;
-        //    for (int r = 1; r <= Game.RowCount; r++)
-        //    {
-        //        for (int c = 1; c <= Game.ColCount; c++)
-        //        {
-        //            Form_PlayGame.CreateLevelGridImage(
-        //                GridWidth * (r - 1), GridWidth * (c - 1), Game.LevelGrid[r - 1, c - 1]);
-        //        }
-        //    }
-        //    //View.SetButtonHighlight();
-        //}
         public void Move(Direction direction)
         {
             if (Game.Move(direction) && !isFinished)
@@ -125,7 +114,7 @@ namespace SokobanGame
                     PlaceMovedPieces(); // places new changed pieces on top of old pieces
                     redrawCount++;
                 }
-                Form_PlayGame.SetNotification("Done Something");
+                Form_PlayGame.SetNotification("");
                 if (Game.isFinished())
                 {
                     isFinished = true;
