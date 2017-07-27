@@ -33,7 +33,6 @@ namespace SokobanGame
             Ctrl = this;
             Form_PlayGame = new FormPlayGame();
             SetDefaultFileName(DEFAULT_FILENAME);
-
         }
         
         // Game play methods

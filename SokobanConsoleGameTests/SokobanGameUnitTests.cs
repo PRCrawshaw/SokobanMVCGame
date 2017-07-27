@@ -43,6 +43,8 @@ namespace SokobanGame.Tests
         [TestMethod]
         public void TestFile03ReadFromAFile()
         {
+            // note Levels directory must be in the debug directory
+            //     ~\SokobanConsoleGame\SokobanConsoleGame\SokobanConsoleGameTests\bin\Debug\Levels
             string input = "#.@ $     \n##########";
             string expected = "#.@ $     \n##########";
             string fileName = "TestFile02.txt";
