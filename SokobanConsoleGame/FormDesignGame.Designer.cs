@@ -144,7 +144,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1551, 1314);
+            this.ClientSize = new System.Drawing.Size(1585, 1142);
             this.ControlBox = false;
             this.Controls.Add(this.lbl_Notification);
             this.Controls.Add(this.btn_QuitDesign);
