@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 
 namespace SokobanGame
 {
@@ -61,7 +61,7 @@ namespace SokobanGame
         }
         public string Save(string filename, string text)
         {
-            if (!File.Exists(filename))
+            if (CheckIfOkToWriteToFileName(filename))
             {
                 text = convertString(text, ConversionType.compress);
                 using (StreamWriter writer = new StreamWriter(filename))
@@ -71,6 +71,25 @@ namespace SokobanGame
                 }
             }
             else return "Overwrite existing file?";
+        }
+        private bool CheckIfOkToWriteToFileName(string filename)
+        {
+            bool response = false;
+            if (File.Exists(filename))
+            {
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result;
+                result = MessageBox.Show("Do you want to overwrite the existing file",
+                    "Caution Overwriting File", buttons, MessageBoxIcon.Warning);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    response = true;
+                }
+            }
+            else
+                response = true;
+            return response;
+
         }
         private string convertString(string input, ConversionType type)
         {

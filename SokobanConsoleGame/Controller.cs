@@ -21,6 +21,7 @@ namespace SokobanGame
         private int redrawCount = 0;
         protected const int JITTER_REDRAW = 10;
         public const string DEFAULT_FILENAME = "Level1.txt";
+        private string DesignLevelFileName = "";
         public bool isFinished = false;
         public Parts[,] DesignLevel = new Parts[1,1];
         private string DesignGameString;
@@ -221,9 +222,9 @@ namespace SokobanGame
         public void LoadExistingLevelDesign()
         {
             ToggleDesignButtons(false);
-            string fileName = GetLevels();
+            DesignLevelFileName = GetLevels();
             Game existingGame = new Game(new Filer(new Converter()));
-            existingGame.Load(fileName);
+            existingGame.Load(DesignLevelFileName);
             int rows = existingGame.RowCount;
             int cols = existingGame.ColCount;
             InitializeDesignLevel(rows, cols);
@@ -259,7 +260,7 @@ namespace SokobanGame
 
         public bool SaveDesign()
         {
-            string filename = ShowGetFilenameDialogBox();
+            string filename = ShowGetFilenameDialogBox(DesignLevelFileName);
             if (filename != "Cancelled" && filename != "")
             {
                 if (filename.Substring(Math.Max(0, filename.Length - 4)) != ".txt")
@@ -319,8 +320,10 @@ namespace SokobanGame
         {
             Form_DesignGame.ToggleChooseDesignerSizeVisibility(toggle);
             if (!toggle)
+            {
                 Form_DesignGame.ClearDesignArea();
-
+                DesignLevelFileName = "";
+            }
         }
         private bool DisplayYesNoMessageBox(string message, string caption)
         {
@@ -352,10 +355,10 @@ namespace SokobanGame
             DesignGameString = Regex.Replace(DesignGameString, "-", " ");
             //Console.WriteLine("DesignLevel: " + DesignGameString);
         }
-        public string ShowGetFilenameDialogBox()
+        public string ShowGetFilenameDialogBox(string fileName)
         {
             FileSaveNameDialogue FilenameDialogue = new FileSaveNameDialogue();
-            string fileName = "";
+            FilenameDialogue.SetName(fileName);
             if (FilenameDialogue.ShowDialog() == DialogResult.OK)
             {
                 // Read the contents of testDialog's TextBox.

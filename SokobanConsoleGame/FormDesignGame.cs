@@ -13,7 +13,6 @@ namespace SokobanConsoleGame
 {
     public partial class FormDesignGame : Form
     {
-
         public Controller Ctrl;
         protected const int STARTX = 120;
         protected const int STARTY = 40;
@@ -83,44 +82,6 @@ namespace SokobanConsoleGame
                 nextXPos += 50;
             }
         }
-
-
-        public void ToggleChooseDesignerSizeVisibility(bool toggle)
-        {
-            lbl_NoCols.Visible = toggle;
-            lbl_NoRows.Visible = toggle;
-            nup_Cols.Visible = toggle;
-            nup_Rows.Visible = toggle;
-            btn_StartDesign.Visible = toggle;
-        }
-
-        private void btn_StartDesign_Click(object sender, EventArgs e)
-        {
-            ToggleChooseDesignerSizeVisibility(false);
-            Ctrl.SetupNewDesigner(Convert.ToInt32(nup_Rows.Value), Convert.ToInt32(nup_Cols.Value));
-        }
-
-        private void btn_SaveDesign_Click(object sender, EventArgs e)
-        {
-            if (Ctrl.CheckDesignBeforeSave())
-            {
-                if (Ctrl.SaveDesign())
-                {
-                    ClearDesignArea();
-                    this.Hide();
-                }
-            }
-            else SetNotification("Must have: One Player, Equal Number of Goals and Boxes\n" +
-            "and be surrounded by Walls");
-
-        }
-
-        private void btn_QuitDesign_Click(object sender, EventArgs e)
-        {
-            Ctrl.QuitDesign();
-            SetNotification("");
-            this.Hide();
-        }
         public void ClearDesignArea()
         {
             ToggleChooseDesignerSizeVisibility(false);
@@ -147,8 +108,41 @@ namespace SokobanConsoleGame
             }
             HighlightPartType(Color.FromArgb(255, 242, 242, 242));
         }
-
+        public void ToggleChooseDesignerSizeVisibility(bool toggle)
+        {
+            lbl_NoCols.Visible = toggle;
+            lbl_NoRows.Visible = toggle;
+            nup_Cols.Visible = toggle;
+            nup_Rows.Visible = toggle;
+            btn_StartDesign.Visible = toggle;
+        }
+        
         // button clicks
+        private void btn_StartDesign_Click(object sender, EventArgs e)
+        {
+            ToggleChooseDesignerSizeVisibility(false);
+            Ctrl.SetupNewDesigner(Convert.ToInt32(nup_Rows.Value), Convert.ToInt32(nup_Cols.Value));
+        }
+        private void btn_SaveDesign_Click(object sender, EventArgs e)
+        {
+            if (Ctrl.CheckDesignBeforeSave())
+            {
+                if (Ctrl.SaveDesign())
+                {
+                    ClearDesignArea();
+                    this.Hide();
+                }
+            }
+            else SetNotification("Must have: One Player, Equal Number of Goals and Boxes\n" +
+            "and be surrounded by Walls");
+
+        }
+        private void btn_QuitDesign_Click(object sender, EventArgs e)
+        {
+            Ctrl.QuitDesign();
+            SetNotification("");
+            this.Hide();
+        }
         private void Design_buttonClick(object sender, EventArgs e)
         {
             Button clickedButton = (Button)sender;
@@ -166,7 +160,6 @@ namespace SokobanConsoleGame
             HighlightY = clickedButton.Location.Y;
             HighlightPartType(Color.Red);
         }
-
         private void btn_LoadLevel_Click(object sender, EventArgs e)
         {
             Ctrl.LoadExistingLevelDesign();
