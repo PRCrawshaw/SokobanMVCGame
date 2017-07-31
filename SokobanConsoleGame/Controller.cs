@@ -24,6 +24,7 @@ namespace SokobanGame
         public bool isFinished = false;
         public Parts[,] DesignLevel = new Parts[1,1];
         private string DesignGameString;
+        private int GridWidth = 40;
 
         public Controller(Game game, iView view)
         {
@@ -119,7 +120,9 @@ namespace SokobanGame
                     if (DisplayYesNoMessageBox(
                         "You have won. Do you wish to load another level?", "Game Over"))
                     {
-                        GetLevels();
+                        string fileName = GetLevels();
+                        if (fileName != "")
+                            SetupGame(fileName);
                     }
                 }
             }
@@ -156,9 +159,10 @@ namespace SokobanGame
         }
         
         // Get Level methods
-        public void GetLevels()
+        public string GetLevels()
         {
             FormLevels frm_Levels = new FormLevels();
+            string fileName = "";
             string[] fileListWithPath = GetFileList();
             string[] fileList = new string[fileListWithPath.Length];
             for (int i = 0; i < fileListWithPath.Length; i++)
@@ -168,11 +172,12 @@ namespace SokobanGame
             frm_Levels.SetupItemList(fileList);
             if (frm_Levels.ShowDialog() == DialogResult.OK)
             {
+                fileName = frm_Levels.Filename;
                 SetDefaultFileName(frm_Levels.Filename);
-                SetupGame(frm_Levels.Filename);
+                //SetupGame(frm_Levels.Filename);
             }
             frm_Levels.Dispose();
-
+            return fileName;
         }
         public string[] GetFileList()
         {
@@ -189,13 +194,13 @@ namespace SokobanGame
         {
             Form_DesignGame.AddController(Ctrl);
             ToggleDesignButtons(true);
+            Form_DesignGame.Height = 600;
             Form_DesignGame.Show();
         }
-        public void SetupDesigner(int rows, int cols)
+        public void SetupNewDesigner(int rows, int cols)
         {
             InitializeDesignLevel(rows, cols);
             Form_DesignGame.SetIntialHighlightArea();
-            int GridWidth = 40;
             for (int r = 1; r <= rows; r++)
             {
                 for (int c = 1; c <= cols; c++)
@@ -213,6 +218,27 @@ namespace SokobanGame
             }
             Form_DesignGame.CreateSelectTypeButtons();
         }
+        public void LoadExistingLevelDesign()
+        {
+            ToggleDesignButtons(false);
+            string fileName = GetLevels();
+            Game existingGame = new Game(new Filer(new Converter()));
+            existingGame.Load(fileName);
+            int rows = existingGame.RowCount;
+            int cols = existingGame.ColCount;
+            InitializeDesignLevel(rows, cols);
+            for (int r = 1; r <= rows; r++)
+            {
+                for (int c = 1; c <= cols; c++)
+                {
+                    DesignLevel[r - 1, c - 1] = existingGame.LevelGrid[r - 1, c - 1];
+                    Form_DesignGame.CreateLevelGridButton(
+                        GridWidth * (r - 1), GridWidth * (c - 1), existingGame.WhatsAt(r-1,c-1));
+                }
+            }
+            Form_DesignGame.SetIntialHighlightArea();
+            Form_DesignGame.CreateSelectTypeButtons();
+        }
         private void InitializeDesignLevel(int rows, int cols)
         {
             DesignLevel = new Parts[rows, cols];
@@ -224,6 +250,13 @@ namespace SokobanGame
                 }
             }
         }
+        private bool CheckIfOutsideEdge(int r, int c, int rows, int cols)
+        {
+            if (r == 1 || r == rows || c == 1 || c == cols)
+                return true;
+            else return false;
+        }
+
         public bool SaveDesign()
         {
             string filename = ShowGetFilenameDialogBox();
@@ -334,12 +367,6 @@ namespace SokobanGame
             }
             FilenameDialogue.Dispose();
             return fileName;
-        }
-        private bool CheckIfOutsideEdge(int r, int c, int rows, int cols)
-        {
-            if (r == 1 || r == rows || c == 1 || c == cols)
-                return true;
-            else return false;
         }
     }
 }

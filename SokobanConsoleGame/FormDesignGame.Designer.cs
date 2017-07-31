@@ -36,13 +36,14 @@
             this.nup_Rows = new System.Windows.Forms.NumericUpDown();
             this.nup_Cols = new System.Windows.Forms.NumericUpDown();
             this.lbl_Notification = new System.Windows.Forms.Label();
+            this.btn_LoadLevel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nup_Rows)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nup_Cols)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_QuitDesign
             // 
-            this.btn_QuitDesign.Location = new System.Drawing.Point(22, 172);
+            this.btn_QuitDesign.Location = new System.Drawing.Point(33, 258);
             this.btn_QuitDesign.Name = "btn_QuitDesign";
             this.btn_QuitDesign.Size = new System.Drawing.Size(183, 67);
             this.btn_QuitDesign.TabIndex = 22;
@@ -52,7 +53,7 @@
             // 
             // btn_SaveDesign
             // 
-            this.btn_SaveDesign.Location = new System.Drawing.Point(22, 79);
+            this.btn_SaveDesign.Location = new System.Drawing.Point(33, 168);
             this.btn_SaveDesign.Name = "btn_SaveDesign";
             this.btn_SaveDesign.Size = new System.Drawing.Size(183, 67);
             this.btn_SaveDesign.TabIndex = 21;
@@ -140,12 +141,24 @@
             this.lbl_Notification.Size = new System.Drawing.Size(0, 25);
             this.lbl_Notification.TabIndex = 23;
             // 
+            // btn_LoadLevel
+            // 
+            this.btn_LoadLevel.Location = new System.Drawing.Point(33, 79);
+            this.btn_LoadLevel.Name = "btn_LoadLevel";
+            this.btn_LoadLevel.Size = new System.Drawing.Size(183, 67);
+            this.btn_LoadLevel.TabIndex = 24;
+            this.btn_LoadLevel.Text = "Load Level";
+            this.btn_LoadLevel.UseVisualStyleBackColor = true;
+            this.btn_LoadLevel.Click += new System.EventHandler(this.btn_LoadLevel_Click);
+            // 
             // FormDesignGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1576, 1189);
             this.ControlBox = false;
+            this.Controls.Add(this.btn_LoadLevel);
             this.Controls.Add(this.lbl_Notification);
             this.Controls.Add(this.btn_QuitDesign);
             this.Controls.Add(this.btn_SaveDesign);
@@ -177,5 +190,6 @@
         private System.Windows.Forms.NumericUpDown nup_Rows;
         private System.Windows.Forms.NumericUpDown nup_Cols;
         private System.Windows.Forms.Label lbl_Notification;
+        private System.Windows.Forms.Button btn_LoadLevel;
     }
 }

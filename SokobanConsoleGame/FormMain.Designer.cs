@@ -33,6 +33,7 @@ namespace SokobanGame
             this.btn_start = new System.Windows.Forms.Button();
             this.btn_GetLevels = new System.Windows.Forms.Button();
             this.btn_Design = new System.Windows.Forms.Button();
+            this.btn_Quit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_start
@@ -65,11 +66,22 @@ namespace SokobanGame
             this.btn_Design.UseVisualStyleBackColor = true;
             this.btn_Design.Click += new System.EventHandler(this.btn_Design_Click);
             // 
+            // btn_Quit
+            // 
+            this.btn_Quit.Location = new System.Drawing.Point(42, 484);
+            this.btn_Quit.Name = "btn_Quit";
+            this.btn_Quit.Size = new System.Drawing.Size(183, 61);
+            this.btn_Quit.TabIndex = 9;
+            this.btn_Quit.Text = "Quit";
+            this.btn_Quit.UseVisualStyleBackColor = true;
+            this.btn_Quit.Click += new System.EventHandler(this.btn_Quit_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1438, 1013);
+            this.Controls.Add(this.btn_Quit);
             this.Controls.Add(this.btn_Design);
             this.Controls.Add(this.btn_GetLevels);
             this.Controls.Add(this.btn_start);
@@ -85,5 +97,6 @@ namespace SokobanGame
         private System.Windows.Forms.Button btn_start;
         private System.Windows.Forms.Button btn_GetLevels;
         private System.Windows.Forms.Button btn_Design;
+        private System.Windows.Forms.Button btn_Quit;
     }
 }

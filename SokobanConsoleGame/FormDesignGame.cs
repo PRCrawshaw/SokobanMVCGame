@@ -97,7 +97,7 @@ namespace SokobanConsoleGame
         private void btn_StartDesign_Click(object sender, EventArgs e)
         {
             ToggleChooseDesignerSizeVisibility(false);
-            Ctrl.SetupDesigner(Convert.ToInt32(nup_Rows.Value), Convert.ToInt32(nup_Cols.Value));
+            Ctrl.SetupNewDesigner(Convert.ToInt32(nup_Rows.Value), Convert.ToInt32(nup_Cols.Value));
         }
 
         private void btn_SaveDesign_Click(object sender, EventArgs e)
@@ -123,11 +123,8 @@ namespace SokobanConsoleGame
         }
         public void ClearDesignArea()
         {
-            //ToogleGameButtonsVisiablity(true);
             ToggleChooseDesignerSizeVisibility(false);
             DeleteDesignButtons();
-            //SetNotification("");
-            //btn_QuitDesign.Visible = false;
         }
         private void DeleteDesignButtons()
         {
@@ -170,5 +167,9 @@ namespace SokobanConsoleGame
             HighlightPartType(Color.Red);
         }
 
+        private void btn_LoadLevel_Click(object sender, EventArgs e)
+        {
+            Ctrl.LoadExistingLevelDesign();
+        }
     }
 }

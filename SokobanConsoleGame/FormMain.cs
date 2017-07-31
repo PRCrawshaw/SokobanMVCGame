@@ -30,28 +30,29 @@ namespace SokobanGame
             Ctrl = ctrl;
         }
 
-        // set text fields
+        // set text field
         public void SetDefaultFileName(string name)
         {
             DefaultFileName = name;
         }
+        // buttons
         private void start_button_Click_1(object sender, EventArgs e)
         {
             Ctrl.SetupGame(DefaultFileName);
         }
         private void btn_GetLevels_Click(object sender, EventArgs e)
         {
-            Ctrl.GetLevels();
+            string fileName = Ctrl.GetLevels();
+            if (fileName != "")
+                Ctrl.SetupGame(fileName);
         }
-      
-        // Designer buttons
         private void btn_Design_Click(object sender, EventArgs e)
         {
             Ctrl.SetupDesignForm();
         }
-        private void btn_QuitDesign_Click(object sender, EventArgs e)
+        private void btn_Quit_Click(object sender, EventArgs e)
         {
-            Ctrl.QuitDesign();
+            this.Dispose();
         }
     }
 }
