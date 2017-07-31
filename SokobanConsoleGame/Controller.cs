@@ -188,6 +188,7 @@ namespace SokobanGame
         public void SetupDesignForm()
         {
             Form_DesignGame.AddController(Ctrl);
+            ToggleDesignButtons(true);
             Form_DesignGame.Show();
         }
         public void SetupDesigner(int rows, int cols)
@@ -274,18 +275,18 @@ namespace SokobanGame
                 }
                 else
                 {
-                    ToggleDesignButtons();
+                    ToggleDesignButtons(false);
                 }
             }
             else
-                ToggleDesignButtons();
+                ToggleDesignButtons(false);
 
         }
-        private void ToggleDesignButtons()
+        private void ToggleDesignButtons(bool toggle)
         {
-            Form_DesignGame.ToggleChooseDesignerSizeVisibility(false);
-            //Form_DesignGame.ToogleGameButtonsVisiablity(true);
-            Form_DesignGame.ClearDesignArea();
+            Form_DesignGame.ToggleChooseDesignerSizeVisibility(toggle);
+            if (!toggle)
+                Form_DesignGame.ClearDesignArea();
 
         }
         private bool DisplayYesNoMessageBox(string message, string caption)

@@ -92,7 +92,7 @@
             // 
             this.nup_Rows.Location = new System.Drawing.Point(463, 79);
             this.nup_Rows.Maximum = new decimal(new int[] {
-            20,
+            14,
             0,
             0,
             0});
@@ -114,7 +114,7 @@
             // 
             this.nup_Cols.Location = new System.Drawing.Point(463, 126);
             this.nup_Cols.Maximum = new decimal(new int[] {
-            20,
+            14,
             0,
             0,
             0});
@@ -144,7 +144,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1281, 924);
+            this.ClientSize = new System.Drawing.Size(1551, 1314);
             this.ControlBox = false;
             this.Controls.Add(this.lbl_Notification);
             this.Controls.Add(this.btn_QuitDesign);
@@ -155,9 +155,11 @@
             this.Controls.Add(this.nup_Rows);
             this.Controls.Add(this.nup_Cols);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Location = new System.Drawing.Point(120, 120);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormDesignGame";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             ((System.ComponentModel.ISupportInitialize)(this.nup_Rows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nup_Cols)).EndInit();
             this.ResumeLayout(false);

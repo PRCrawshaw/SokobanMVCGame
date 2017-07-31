@@ -73,7 +73,9 @@ namespace SokobanGame
             this.Controls.Add(this.btn_Design);
             this.Controls.Add(this.btn_GetLevels);
             this.Controls.Add(this.btn_start);
+            this.Location = new System.Drawing.Point(120, 120);
             this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Sokoban";
             this.ResumeLayout(false);
 
