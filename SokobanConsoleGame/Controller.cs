@@ -20,7 +20,7 @@ namespace SokobanGame
         Controller Ctrl;
         private int redrawCount = 0;
         protected const int JITTER_REDRAW = 10;
-        public const string DEFAULT_FILENAME = "Level1.txt";
+        public const string DEFAULT_FILENAME = "levels/Level1.txt";
         private string DesignLevelFileName = "";
         public bool isFinished = false;
         public Parts[,] DesignLevel = new Parts[1,1];
