@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SokobanConsoleGame
+namespace SokobanGame
 {
     public interface iSaver
     {
-        void Save(string filename, iFileable callMeBackforDetails);
+        string Save(string filename, string text);
     }
 }

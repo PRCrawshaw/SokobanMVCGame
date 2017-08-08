@@ -8,37 +8,68 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SokobanConsoleGame
+namespace SokobanGame
 {
-    public class Game : IGame, iFileable
+    public class Game : iGame, iFileable
     {
-        Filer Filer;
-        private Parts[,] LevelGrid;
-        private int RowCount;
-        private int ColCount;
-        private Stack MoveStack = new Stack();
-        public Position PlayerPos;
+        public Filer Filer;
+        public Parts[,] LevelGrid;
+        public Stack MoveStack = new Stack();
+        public Position[] ChangedPositions = new Position[3];
+        protected const int OLDPOS = 0;
+        protected const int NEWPOS = 1;
+        protected const int BESIDENEWPOS = 2;
+        
+        // Getter, Setters
+        public Position PlayerPos { get; set; }
+        public int RowCount { get; set; }
+        public int ColCount { get; set; }
         public string LevelString{ get; set; }
         public int MoveCount { get; set; }
+        
+        // Methods
         public Game(Filer filer)
         {
             Filer = filer;
         }
-        public bool Load(string newLevel)
+        public bool Load(string fileName)
+        {
+            string newLevel = Filer.Load(fileName);
+            if (newLevel != "File does not exist")
+            {
+                if (CheckStringValidGameString(newLevel))
+                {
+                    MoveCount = 0;
+                    MoveStack.Clear();
+                    LevelString = newLevel;
+                    setupGrid();
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool LoadLevel(string newLevel)
         {
             if (CheckStringValidGameString(newLevel))
             {
+                MoveCount = 0;
+                MoveStack.Clear();
                 LevelString = newLevel;
                 setupGrid();
                 return true;
             }
             return false;
         }
+        public string[] GetFileList()
+        {
+            return Filer.GetFileList();
+        }
         public bool CheckStringValidGameString(string newLevel)
         {
             if (!Filer.CheckLineLengths(newLevel) ||
                 !Filer.CheckPlayersGoalsBlocks(newLevel) ||
-                !Filer.Converter.checkValidString(newLevel))
+                !Filer.Converter.checkValidString(newLevel) ||
+                !Filer.CheckWallsOnEdges(newLevel))
             {
                 return false;
             }
@@ -95,47 +126,57 @@ namespace SokobanConsoleGame
         }
         public bool Move(Direction moveDirection)
         {
+            //Console.WriteLine("Move Player: " + moveDirection);
             bool moved = false;
-            Position newPos = GetNewPos(moveDirection, PlayerPos);
-            Position besideNewPos = GetNewPos(moveDirection, newPos);
-            Parts newPosPart = GetMovable(newPos);
-            if (newPosPart == Parts.Empty)
+            ChangedPositions[OLDPOS] = PlayerPos;
+            ChangedPositions[NEWPOS] = GetNewPos(moveDirection, PlayerPos); 
+            Parts newPosPart = GetMovable(ChangedPositions[NEWPOS]);
+            if (newPosPart == Parts.Empty || newPosPart == Parts.Goal)
             {
-                MovePlayer(newPos, moveDirection);
+                MovePlayer(newPosPart);
                 moved = true;
             }
             else if (newPosPart != Parts.Wall)
             {
-                Parts besideNewPossPart = GetMovable(besideNewPos);
+                ChangedPositions[BESIDENEWPOS] = GetNewPos(moveDirection, ChangedPositions[NEWPOS]);
+                Parts besideNewPossPart = GetMovable(ChangedPositions[BESIDENEWPOS]);
                 if (besideNewPossPart != Parts.Wall &&
                     besideNewPossPart != Parts.Block)
                 {
-                    MoveBlock(besideNewPos);
-                    MovePlayer(newPos, moveDirection);
+                    MoveBlock();
+                    MovePlayer(newPosPart);
                     moved = true;
                 }
             }
             return moved;
         }
-        private void MoveBlock(Position pos)
+        private void MoveBlock()
         {
+            Position pos = ChangedPositions[BESIDENEWPOS];
             if (GetMovable(pos) == Parts.Goal)
                 LevelGrid[pos.Row, pos.Column] = Parts.BlockOnGoal;
             else LevelGrid[pos.Row, pos.Column] = Parts.Block;
         }
-        private void MovePlayer(Position newPos, Direction moveDirection)
+        private void MovePlayer(Parts newPosPart)
         {
-            LevelGrid[PlayerPos.Row, PlayerPos.Column] = Parts.Empty;
-            LevelGrid[newPos.Row, newPos.Column] = Parts.Player;
+            Parts oldposPart = LevelGrid[PlayerPos.Row, PlayerPos.Column];
+            Position newPos = ChangedPositions[NEWPOS];
+            if (oldposPart == Parts.Player || oldposPart == Parts.Block)
+                LevelGrid[PlayerPos.Row, PlayerPos.Column] = Parts.Empty;
+            else LevelGrid[PlayerPos.Row, PlayerPos.Column] = Parts.Goal;
+
+            if (newPosPart == Parts.Empty || newPosPart == Parts.Block)
+                LevelGrid[newPos.Row, newPos.Column] = Parts.Player;
+            else LevelGrid[newPos.Row, newPos.Column] = Parts.PlayerOnGoal;
+
             PlayerPos = newPos;
-            //Parts[,] savedState = DeepCopy(LevelGrid); // i.e. not a reference
-            MoveStack.Push(DeepCopy(LevelGrid));
+            MoveStack.Push(DeepCopy(LevelGrid)); // i.e. not a reference
             MoveCount++;
 
         }
         public static T DeepCopy<T>(T other)
         {
-            // gets a copy of the object not a reference to the object
+            // returns a copy of the object not a reference to the object
             using (MemoryStream ms = new MemoryStream())
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -171,35 +212,80 @@ namespace SokobanConsoleGame
         }
         public void Undo()
         {
-            if (MoveStack.Count > 0)
+            //Console.WriteLine("Before undo");
+            //Console.WriteLine("MoveStack count: " + MoveStack.Count);
+            //OutputStack();
+            if (MoveStack.Count > 1)
             {
                 MoveStack.Pop(); // remove last move
-                LevelGrid = (Parts[,])MoveStack.Peek(); // get move before last move
+                LevelGrid = DeepCopy((Parts[,])MoveStack.Peek()); // get move before last move
+                ResetPlayerPos();
+                MoveCount--;
             }
-        }
-        public Direction GetReverseDirection(Direction lastDirection)
-        {
-            Direction reversedDirection = Direction.Up;
-            switch (lastDirection)
+            else
             {
-                case Direction.Down:
-                    reversedDirection = Direction.Up;
-                    break;
-                case Direction.Up:
-                    reversedDirection = Direction.Down;
-                    break;
-                case Direction.Right:
-                    reversedDirection = Direction.Left;
-                    break;
-                case Direction.Left:
-                    reversedDirection = Direction.Right;
-                    break;
-                default:
-                    break;
+                MoveStack.Clear();
+                setupGrid();
+                MoveCount--;
             }
-            return reversedDirection;
+            //Console.WriteLine("after undo");
+            //Console.WriteLine("MoveStack count: " + MoveStack.Count);
+            //OutputStack();
+        }
+        private void ResetPlayerPos()
+        {
+            for (int r=0; r<RowCount; r++)
+            {   
+                for (int c=0; c<ColCount; c++)
+                {
+                    if (LevelGrid[r, c] == Parts.Player)
+                    {
+                        PlayerPos = new Position(r, c);
+                        break;
+                    }                       
+                }                
+            }
         }
         public int GetRowCount() { return RowCount; }
         public int GetColumnCount() { return ColCount; }
+        //private void OutputLevelGrid()
+        //{
+        //    string textGrid = "";
+        //    for (int r = 0; r < RowCount; r++)
+        //    {
+        //        for (int c = 0; c < ColCount; c++)
+        //        {
+        //            char partLetter = (char)LevelGrid[r, c];
+        //        textGrid += partLetter;
+        //        }
+        //    textGrid += "|";
+        //    }
+        //    textGrid += "\n";
+        //    Console.WriteLine("LevelGrid: " + textGrid);
+
+        //}
+        //private void OutputStack()
+        //{
+        //    string stack = "";
+        //    Stack stackCopy = DeepCopy(MoveStack);
+        //    Console.WriteLine("stackCopy count: " + stackCopy.Count);
+        //    int stackCount = stackCopy.Count;
+        //    for (int i=0; i<stackCount; i++)
+        //    {
+        //        Parts[,] part = (Parts[,])stackCopy.Pop();
+        //        for (int r=0; r < RowCount; r++)
+        //        {
+        //            for (int c=0; c < ColCount; c++)
+        //            {                      
+        //                char partLetter = (char)part[r, c];
+        //                stack += partLetter;
+        //            }
+        //            stack += "|";
+        //        }
+        //        stack += "end line\n";
+        //    }
+        //    Console.WriteLine(stack);
+
+        //}
     }
 }

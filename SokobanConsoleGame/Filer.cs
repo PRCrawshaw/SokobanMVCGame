@@ -5,27 +5,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SokobanConsoleGame
+
+namespace SokobanGame
 {
     public enum ConversionType { expand, compress};
-    public class Filer : iFiler, iLoader, iSaver, iChecker     
+    public class Filer : iFiler, iLoader, iSaver, iChecker
     {
-        protected iLoader Loader;
-        protected iSaver Saver;
         public Converter Converter;
-        protected iChecker Checker;
-        public int NoPlayers{ get; set; }
+        protected const string EXTENSION = @".txt";
+        protected const string DIR = @"levels\";
+
+        // Getter, Setters
+        public int NoPlayers { get; set; }
         public int NoGoals { get; set; }
         public int NoBoxes { get; set; }
-        public Filer(iLoader loader, iSaver saver, Converter converter, iChecker checker) 
+
+        // Constructor
+        public Filer(Converter converter)
         {
-            Loader = loader;
-            Saver = saver;
             Converter = converter;
-            Checker = checker;
+        }
+
+        // Load and save methods
+        public string[] GetFileList()
+        {
+            string[] txtfiles = Directory.GetFiles(DIR, "*.txt");
+            return txtfiles;
         }
         public string Load(string filename)
         {
+            if (!filename.Contains("Levels")) // used for unit tests
+                filename = DIR + filename;
             if (File.Exists(filename))
             {
                 var fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
@@ -48,15 +58,6 @@ namespace SokobanConsoleGame
                 }
             }
             else return "File does not exist";
-        }
-        public void Save(string filename, iFileable callMeBackforDetails)
-        {
-            //    using (StreamWriter writer = new StreamWriter("important.txt"))
-            //        {
-            //            writer.Write("Word ");
-            //            writer.WriteLine("word 2");
-            //            writer.WriteLine("Line");
-            //        }
         }
         public string Save(string filename, string text)
         {
@@ -85,6 +86,8 @@ namespace SokobanConsoleGame
             }
             return input;
         }
+
+        // Checker methods
         public bool PreExpandingCheck(string input)
         {
             string temp = Converter.ExpandObjects(input);
@@ -100,7 +103,7 @@ namespace SokobanConsoleGame
         {
             string[] lines = input.Split('\n');
             int lineLength = lines[0].Length;
-            for (int i=0; i<lines.Length; i++)
+            for (int i = 0; i < lines.Length; i++)
             {
                 if (lineLength != lines[i].Length)
                 {
@@ -130,15 +133,70 @@ namespace SokobanConsoleGame
         }
         private bool CheckGoalsAgainstPlayers(string input)
         {
-            int goalCount = input.Count(f => f == '.');
-            goalCount += input.Count(f => f == '*');
-            int boxCount = input.Count(f => f == '$');
-            boxCount += input.Count(f => f == '*');
+            int goalCount = input.Count(f => f == '.'); // goal
+            goalCount += input.Count(f => f == '*'); // box on goal
+            goalCount += input.Count(f => f == '+'); // player on goal
+            int boxCount = input.Count(f => f == '$'); // box
+            boxCount += input.Count(f => f == '*'); // box on goal
             this.NoGoals = goalCount;
             this.NoBoxes = boxCount;
             if (boxCount == goalCount && boxCount > 0)
                 return true;
             else return false;
+        }
+        public bool CheckWallsOnEdges(string input)
+        {
+            Converter.Compress(input);
+            bool firstRowOk = false;
+            bool lastRowOK = false;
+            bool middleLinesOk = true;
+            string[] compressedLines = Converter.Compressed.Split('|');
+            string[] inputLines = input.Split('\n');
+
+            string lastLine = compressedLines[compressedLines.Length - 1];
+            string firstLine = compressedLines[0];
+            firstRowOk = CheckFirstLastLineEdges(firstLine);
+            lastRowOK = CheckFirstLastLineEdges(lastLine);
+
+            middleLinesOk = CheckMiddleRowEdges(inputLines, compressedLines);
+            if (lastRowOK && firstRowOk && middleLinesOk)
+                return true;
+            else return false;
+        }
+        private bool CheckFirstLastLineEdges(string line)
+        {
+            int n;
+            if (line != String.Empty)
+            {
+                if (line.EndsWith("#") && int.TryParse((line.TrimEnd('#')), out n))
+                    return true;
+            }
+            return false;
+        }
+        private bool CheckMiddleRowEdges(string[] inputLines, string[] compressedLines)
+        {
+            int length = inputLines[0].Length;
+            int noOfLines = compressedLines.Length - 1;
+            bool result = true;
+            // add trailing spaces
+            for (int j = 0; j < inputLines.Length; j++)
+            {
+                if (inputLines[j][length - 1] == ' ')
+                {
+                    // find out how many spaces TODO
+                    compressedLines[j] += "-";
+                }
+            }
+            // start on second line end on second to last line
+            for (int i = 1; i < noOfLines; i++)
+            {
+                if (!compressedLines[i].StartsWith("#")
+                    || !compressedLines[i].EndsWith("#"))
+                {
+                    result = false;
+                }
+            }
+            return result;
         }
     }
 }
