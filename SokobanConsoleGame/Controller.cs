@@ -40,6 +40,8 @@ namespace SokobanGame
         // Game play methods
         public void SetupGame(string fileName)
         {
+            Form_PlayGame.Left = 300;
+            Form_PlayGame.Top = 300;
             EventArgs e = new EventArgs();
             Form_PlayGame.ClearGameGrid(e);
             Form_PlayGame.AddController(Ctrl);
@@ -51,6 +53,9 @@ namespace SokobanGame
                 SetDefaultFileName(DEFAULT_FILENAME);
                 Game.Load(DEFAULT_FILENAME);
             }
+            Form_PlayGame.Height = Game.RowCount * GridWidth + 60;
+            Form_PlayGame.Width = Game.ColCount * GridWidth + 140 + 120;
+            Form_PlayGame.SetSaveResumeButtonPosition(Game.ColCount * GridWidth + 140);
             Form_PlayGame.SetMoves(0);
             Form_PlayGame.PlayingGame = true;
             Form_PlayGame.SetNotification("");
@@ -158,7 +163,16 @@ namespace SokobanGame
                 Form_PlayGame.SetNotification("Hit reset if you wish to reload the game.");
             }
         }
-        
+        public void SaveState()
+        {
+            Game.SaveState();
+        }    
+        public void ResumeState()
+        {
+            Game.ResumeGame();
+            Form_PlayGame.SetMoves(Game.MoveCount);
+            Form_PlayGame.PlacePieces(Game);
+        }  
         // Get Level methods
         public string GetLevels()
         {
@@ -201,7 +215,6 @@ namespace SokobanGame
         public void SetupNewDesigner(int rows, int cols)
         {
             InitializeDesignLevel(rows, cols);
-            Form_DesignGame.SetIntialHighlightArea();
             for (int r = 1; r <= rows; r++)
             {
                 for (int c = 1; c <= cols; c++)
@@ -218,6 +231,7 @@ namespace SokobanGame
                 }
             }
             Form_DesignGame.CreateSelectTypeButtons();
+            Form_DesignGame.SetIntialHighlightArea();
         }
         public void LoadExistingLevelDesign()
         {
@@ -242,6 +256,8 @@ namespace SokobanGame
         }
         private void InitializeDesignLevel(int rows, int cols)
         {
+            Form_DesignGame.Height = Game.RowCount * GridWidth + 60;
+            Form_DesignGame.Width = Game.ColCount * GridWidth + 140;
             DesignLevel = new Parts[rows, cols];
             for (int r = 0; r < rows; r++)
             {

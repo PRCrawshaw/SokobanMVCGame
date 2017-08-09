@@ -25,11 +25,17 @@ namespace SokobanConsoleGame
         public FormPlayGame()
         {
             InitializeComponent();
+            this.Height = 620;
             Graphics = this.CreateGraphics();
         }
         public void AddController(Controller ctrl)
         {
             Ctrl = ctrl;
+        }
+        public void SetSaveResumeButtonPosition(int position)
+        {
+            btn_Save.Left = position;
+            btn_Resume.Left = position;
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -71,17 +77,6 @@ namespace SokobanConsoleGame
             DefaultFileName = name;
         }
         // Game board methods
-        public void CreateLevelGridImage(int row, int col, Parts part)
-        {
-            int rectCol = col + STARTX;
-            int rectRow = row + STARTY;
-            Pen pen = new Pen(Color.FromArgb(255, 42, 42, 42));
-            Graphics.DrawRectangle(pen, new Rectangle(
-                rectCol, rectRow, GridSize + GAP, GridSize + GAP));
-            Rectangle inner = new Rectangle(rectCol + GAP, rectRow + GAP, 40, 40);
-            Graphics.FillRectangle(Brushes.LightGray, inner);
-            Graphics.DrawImage(GetMyPartImage(part), inner);
-        }
         public void PlacePieces(Game game)
         {
             int GridWidth = 40;
@@ -94,6 +89,18 @@ namespace SokobanConsoleGame
                 }
             }
         }
+        public void CreateLevelGridImage(int row, int col, Parts part)
+        {
+            int rectCol = col + STARTX;
+            int rectRow = row + STARTY;
+            Pen pen = new Pen(Color.FromArgb(255, 42, 42, 42));
+            Graphics.DrawRectangle(pen, new Rectangle(
+                rectCol, rectRow, GridSize + GAP, GridSize + GAP));
+            Rectangle inner = new Rectangle(rectCol + GAP, rectRow + GAP, 40, 40);
+            Graphics.FillRectangle(Brushes.LightGray, inner);
+            Graphics.DrawImage(GetMyPartImage(part), inner);
+        }
+
         public Image GetMyPartImage(Parts part)
         {
             Image image = Image.FromFile("Empty.png"); // default image
@@ -146,6 +153,14 @@ namespace SokobanConsoleGame
         private void btn_reset_Click_1(object sender, EventArgs e)
         {
             Ctrl.SetupGame(DefaultFileName);
+        }
+        private void btn_Save_Click(object sender, EventArgs e)
+        {
+            Ctrl.SaveState();
+        }
+        private void btn_Resume_Click(object sender, EventArgs e)
+        {
+            Ctrl.ResumeState();
         }
     }
 }

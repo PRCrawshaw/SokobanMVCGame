@@ -15,6 +15,8 @@ namespace SokobanGame
         public Filer Filer;
         public Parts[,] LevelGrid;
         public Stack MoveStack = new Stack();
+        public Stack SavedStack = new Stack();
+        protected int SavedMoveCount;
         public Position[] ChangedPositions = new Position[3];
         protected const int OLDPOS = 0;
         protected const int NEWPOS = 1;
@@ -94,6 +96,7 @@ namespace SokobanGame
                 }
             }
             // set original state
+            SavedStack.Push(DeepCopy(LevelGrid));
             MoveStack.Push(DeepCopy(LevelGrid));
         }
         public Parts GetMovable(Position pos)
@@ -172,7 +175,18 @@ namespace SokobanGame
             PlayerPos = newPos;
             MoveStack.Push(DeepCopy(LevelGrid)); // i.e. not a reference
             MoveCount++;
-
+        }
+        public void SaveState()
+        {
+            SavedStack = DeepCopy(MoveStack);
+            SavedMoveCount = MoveCount;
+        }
+        public void ResumeGame()
+        {
+            MoveStack = DeepCopy(SavedStack);
+            LevelGrid = DeepCopy((Parts[,])SavedStack.Peek());
+            MoveCount = SavedMoveCount;
+            ResetPlayerPos();
         }
         public static T DeepCopy<T>(T other)
         {
@@ -212,9 +226,6 @@ namespace SokobanGame
         }
         public void Undo()
         {
-            //Console.WriteLine("Before undo");
-            //Console.WriteLine("MoveStack count: " + MoveStack.Count);
-            //OutputStack();
             if (MoveStack.Count > 1)
             {
                 MoveStack.Pop(); // remove last move
@@ -228,9 +239,6 @@ namespace SokobanGame
                 setupGrid();
                 MoveCount--;
             }
-            //Console.WriteLine("after undo");
-            //Console.WriteLine("MoveStack count: " + MoveStack.Count);
-            //OutputStack();
         }
         private void ResetPlayerPos()
         {
