@@ -24,7 +24,7 @@ This is the fourth iteration.
     (note. There is also checking to ensure there are blocks on all the outside walls however this can be overridden should a more complicated pattern with indented outside walls be desired)
     * Saving a designed game to the levels directory
  
- This is the fourth iteration (Using Multiple Forms branch).
-   * It builds upon the third iteration but seperates out the Game Play, Level Design, and Level Selection into three different views/forms
+ This iteration (Using Multiple Forms branch).
+   * Builds upon the third iteration but seperates out the Game Play, Level Design, and Level Selection into three different views/forms
   
 The game is 'as is where is'. Feel free to use it but be aware there are and will be bugs it is after all just an exercise not a fully functioning program.
