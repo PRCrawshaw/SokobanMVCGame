@@ -1,5 +1,5 @@
 # SokobanMVCGame
-# Philippa Crawshaw, July 2017
+# Pippa Crawshaw, July 2017
 
 This repository is for the game of Sokoban. The purpose of the game is for the player to push the blocks onto the goals. 
 
